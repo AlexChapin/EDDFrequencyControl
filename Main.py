@@ -96,26 +96,20 @@ def radiochangefreq1():
     global activefrequency1
     active = "Active Selection: "
     if str(selectionnumber.get()) == "1":
-        selection = setting1name
         activeamplitude1 = setting1amp
         activefrequency1 = setting1freq
     if str(selectionnumber.get()) == "2":
-        selection = setting2name
         activeamplitude1 = setting2amp
         activefrequency1 = setting2freq
     if str(selectionnumber.get()) == "3":
-        selection = setting3name
         activeamplitude1 = setting3amp
         activefrequency1 = setting3freq
     if str(selectionnumber.get()) == "4":
-        selection = setting4name
         activeamplitude1 = setting4amp
         activefrequency1 = setting4freq
     if str(selectionnumber.get()) == "5":
-        selection = setting5name
         activeamplitude1 = setting5amp
         activefrequency1 = setting5freq
-    activelabel.config(text=active + selection)
     updatefrequency1()
 
 def radiochangefreq2():
@@ -133,32 +127,26 @@ def radiochangefreq2():
     global activefrequency1
     active = "Active Selection: "
     if str(selectionnumber.get()) == "1":
-            selection = setting1name
-            activeamplitude1 = setting1amp
-            activefrequency1 = setting1freq
+        activeamplitude1 = setting1amp
+        activefrequency1 = setting1freq
     if str(selectionnumber.get()) == "2":
-        selection = setting2name
         activeamplitude1 = setting2amp
         activefrequency1 = setting2freq
     if str(selectionnumber.get()) == "3":
-        selection = setting3name
         activeamplitude1 = setting3amp
         activefrequency1 = setting3freq
     if str(selectionnumber.get()) == "4":
-        selection = setting4name
         activeamplitude1 = setting4amp
         activefrequency1 = setting4freq
     if str(selectionnumber.get()) == "5":
-        selection = setting5name
         activeamplitude1 = setting5amp
         activefrequency1 = setting5freq
-    activelabel.config(text=active + selection)
     updatefrequency2()
 
 #Create Root GUI
 root = Tk()
 root.title("Frequency Generator v1.0.0a")
-root.geometry("1280x810")
+root.geometry("1140x810")
 root.configure(background="#0084bd")
 root.resizable(False, False)
 
@@ -175,18 +163,25 @@ labeltitle = Label(
     fg=textcolor,
 )
 labeltitle.config(anchor=CENTER)
-labeltitle.grid(column=10,row=0)
+labeltitle.grid(column=5,row=0)
 
+image = Image.open("ICElogo.png")
+newsize= (425,334)
+resizedimage = image.resize(newsize)
+logo = ImageTk.PhotoImage(resizedimage)
+logolabel = Label(root, image=logo)
+logolabel.grid(column=5,row=2,rowspan=8)
 
-# logo = ImageTk.PhotoImage(Image.open(""))
+#Create Active Label
+activelabel1 = Label(
+    root, font=("Century", 20), background=backgroundcolor, fg=textcolor
+)
 
 freq1label = Label(text="Set Frequency 1",font=("Century", 20), background=backgroundcolor, fg=textcolor)
 freq1label.grid(column=0,row=1)
-#Create Active Label
-activelabel = Label(
-    root, font=("Century", 20), background=backgroundcolor, fg=textcolor
-)
-#activelabel.pack(anchor=W)
+
+freq2label = Label(text="Set Frequency 2",font=("Century", 20), background=backgroundcolor, fg=textcolor)
+freq2label.grid(column=10,row=1)
 
 
 #Create Selection Buttons
@@ -260,7 +255,7 @@ R1 = Radiobutton(
     background=backgroundcolor,
     fg=textcolor,
 )
-R1.grid(column=11,row=2)
+R1.grid(column=10,row=2)
 R2 = Radiobutton(
     root,
     text=setting2name,
@@ -271,7 +266,7 @@ R2 = Radiobutton(
     background=backgroundcolor,
     fg=textcolor,
 )
-#R2.pack(anchor=N)
+R2.grid(column=10,row=3)
 R3 = Radiobutton(
     root,
     text=setting3name,
@@ -282,7 +277,7 @@ R3 = Radiobutton(
     background=backgroundcolor,
     fg=textcolor,
 )
-#R3.pack(anchor=E)
+R3.grid(column=10,row=4)
 R4 = Radiobutton(
     root,
     text=setting4name,
@@ -293,7 +288,7 @@ R4 = Radiobutton(
     background=backgroundcolor,
     fg=textcolor,
 )
-#R4.pack(anchor=E)
+R4.grid(column=10,row=5)
 R5 = Radiobutton(
     root,
     text=setting5name,
@@ -304,7 +299,7 @@ R5 = Radiobutton(
     background=backgroundcolor,
     fg=textcolor,
 )
-#R5.pack(anchor=E)
+R5.grid(column=10,row=6)
 
 
 customfrequency = Variable
