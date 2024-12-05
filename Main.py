@@ -74,11 +74,15 @@ def updatefrequency1():
     global activeamplitude1
     global activefrequency1
     sinewave1.stop()
+    try:
+        decibles = 10 * np.log2(activeamplitude1)
+    except:
+        decibles = 0
     sinewave1 = SineWave(
         pitch=1,
         pitch_per_second=1000000000,
         decibels_per_second=1,
-        decibels=10 * np.log2(activeamplitude1),
+        decibels=decibles,
     )
     time.sleep(0.03)
     sinewave1.set_frequency(activefrequency1)
@@ -110,12 +114,20 @@ def updatefrequency2():
 def stopall():
     global activefrequency1
     global activefrequency2
+    global activeamplitude1
+    global activeamplitude2
     global customfrequency
     global customamplitude
+    global customfrequency2
+    global customamplitude2
     activefrequency1 = 0
     activefrequency2 = 0
+    activeamplitude1 = 0
+    activeamplitude2 = 0
     updatefrequency1()
     updatefrequency2()
+    responsetosubmitlabel.config(text="")
+    responsetosubmitlabel2.config(text="")
     R11.deselect()
     R21.deselect()
     R31.deselect()
@@ -133,24 +145,83 @@ def applycustom1():
     global customamplitude
     global activeamplitude1
     global activefrequency1
-    private1 = customfrequency.get()
-    private2 = customamplitude.get()
-    print("custom frequency applied")
-    test = private1 + 1
-    test = private2 + 1
-    print(test)
-    activeamplitude1 = float(private1)
-    activefrequency1 = float(private2)
-    updatefrequency1()
-    customfrequency = 0
-    customamplitude = 0
+    private1 = DoubleVar()
+    private2 = DoubleVar()
+    responsetosubmitlabel.config(text="", background=backgroundcolor)
+    responsetosubmitlabel2.config(text="")
+    validentry = BooleanVar(value=True)
+    try:
+        private1.set(customfrequency.get())
+        private2.set(customamplitude.get() / 100)
 
-        
+    except Exception:
+        validentry.set(value=False)
+        responsetosubmitlabel.config(text="Invalid Entry!", background="Yellow")
+        print("SET FREQ1 STRING ERROR")
+        return
+    if private1.get() < 1:
+        responsetosubmitlabel.config(text="Frequency Too Low!")
+        validentry.set(value=False)
 
+    if private1.get() > 20000:
+        responsetosubmitlabel.config(text="Frequency Too High!")
+        validentry.set(value=False)
+
+    if private2.get() <= 0:
+        responsetosubmitlabel2.config(text="Amplitude Too Low!")
+        validentry.set(value=False)
+
+    if private2.get() > 1:
+        responsetosubmitlabel2.config(text="Amplitude Too High!")
+        validentry.set(value=False)
+
+    if validentry.get():
+        activefrequency1 = float(private1.get())
+        activeamplitude1 = float(private2.get())
+        responsetosubmitlabel.config(text="Frequency Applied!")
+        updatefrequency1()
 
 
 def applycustom2():
-    print("custom frequency applied")
+    global customfrequency2
+    global customamplitude2
+    global activeamplitude2
+    global activefrequency2
+    private1 = DoubleVar()
+    private2 = DoubleVar()
+    responsetosubmitlabel3.config(text="", background=backgroundcolor)
+    responsetosubmitlabel4.config(text="")
+    validentry = BooleanVar(value=True)
+    try:
+        private1.set(customfrequency2.get())
+        private2.set(customamplitude2.get() / 100)
+
+    except Exception:
+        validentry.set(value=False)
+        responsetosubmitlabel3.config(text="Invalid Entry!", background="Yellow")
+        print("SET FREQ2 STRING ERROR")
+        return
+    if private1.get() < 1:
+        responsetosubmitlabel3.config(text="Frequency Too Low!")
+        validentry.set(value=False)
+
+    if private1.get() > 20000:
+        responsetosubmitlabel3.config(text="Frequency Too High!")
+        validentry.set(value=False)
+
+    if private2.get() <= 0:
+        responsetosubmitlabel4.config(text="Amplitude Too Low!")
+        validentry.set(value=False)
+
+    if private2.get() > 1:
+        responsetosubmitlabel4.config(text="Amplitude Too High!")
+        validentry.set(value=False)
+
+    if validentry.get():
+        activefrequency2 = float(private1.get())
+        activeamplitude2 = float(private2.get())
+        responsetosubmitlabel3.config(text="Frequency Applied!")
+        updatefrequency2()
 
 
 def radiochangefreq1():
@@ -220,10 +291,10 @@ def radiochangefreq2():
 root = Tk()
 root.title("Frequency Generator v1.0.0a")
 root.geometry("1220x810")
-root.configure(background="#0084bd")
+root.configure(background="#F084bd")
 root.resizable(False, False)
 
-# Create SineWave Option
+# Create SineWave Objects
 sinewave1 = SineWave(
     pitch=1, pitch_per_second=1000000000, decibels_per_second=1, decibels=0
 )
@@ -416,6 +487,7 @@ customfrequency2 = DoubleVar()
 customamplitude2 = DoubleVar()
 
 px40frame = Frame(root, width=40, height=40, background=backgroundcolor)
+px10frame = Frame(root, width=10, height=10, background=backgroundcolor)
 px5frame = Frame(root, width=5, height=5, background=backgroundcolor)
 customtitlelabel = Label(
     root,
@@ -470,7 +542,7 @@ cfrequencyentry = Entry(
 )
 cfrequencyentry2 = Entry(
     root,
-    textvariable=customfrequency,
+    textvariable=customfrequency2,
     font=("Century", 20),
     background=backgroundcolor,
     fg=textcolor,
@@ -485,19 +557,6 @@ camplitudeentry = Entry(
 camplitudeentry2 = Entry(
     root,
     textvariable=customamplitude2,
-    font=("Century", 20),
-    background=backgroundcolor,
-    fg=textcolor,
-)
-customfeedback1 = Label(
-root,
-    font=("Century", 20),
-    background=backgroundcolor,
-    fg=textcolor,
-)
-
-customfeedback2 = Label(
-root,
     font=("Century", 20),
     background=backgroundcolor,
     fg=textcolor,
@@ -526,9 +585,21 @@ stopallbutton = Button(
     background=backgroundcolor,
     fg=textcolor,
 )
+responsetosubmitlabel = Label(
+    root, font=("Century", 20), background=backgroundcolor, fg=textcolor
+)
+responsetosubmitlabel2 = Label(
+    root, font=("Century", 20), background=backgroundcolor, fg=textcolor
+)
+responsetosubmitlabel3 = Label(
+    root, font=("Century", 20), background=backgroundcolor, fg=textcolor
+)
+responsetosubmitlabel4 = Label(
+    root, font=("Century", 20), background=backgroundcolor, fg=textcolor
+)
 
 stopallbutton.grid(column=5, row=11)
-px5frame.grid(column=5,row=10)
+px5frame.grid(column=5, row=10)
 px40frame.grid(column=0, row=10)
 customtitlelabel.grid(column=0, row=11)
 px40frame.grid(column=10, row=10)
@@ -539,29 +610,26 @@ cfrequencyentry.grid(column=0, row=13)
 cfrequencyentry2.grid(column=10, row=13)
 customfreqlabel.grid(column=1, row=13)
 customfreqlabel2.grid(column=11, row=13)
-px5frame.grid(column=0, row=13)
-px5frame.grid(column=10, row=13)
-customamplabel.grid(column=0,row=14)
-customamplabel2.grid(column=10,row=14)
-camplitudeentry.grid(column=0,row=15)
-camplitudeentry2.grid(column=10,row=15)
-customamplabel.grid(column=1,row=15)
-customamplabel2.grid(column=11,row=15)
-px5frame.grid(column=0, row=16)
-px5frame.grid(column=10, row=16)
-submitbutton.grid(column=0,row=17)
-submitbutton2.grid(column=10,row=17)
-px5frame.grid(column=0, row=18)
-px5frame.grid(column=10, row=18)
-customfeedback1.grid(column=0, row=19)
-customfeedback2.grid(column=10, row=19)
+px10frame.grid(column=0, row=14)
+px10frame.grid(column=10, row=14)
+customamplabel.grid(column=0, row=15)
+customamplabel2.grid(column=10, row=15)
+camplitudeentry.grid(column=0, row=16)
+camplitudeentry2.grid(column=10, row=16)
+customamplabel.grid(column=1, row=16)
+customamplabel2.grid(column=11, row=16)
+px10frame.grid(column=0, row=17)
+px10frame.grid(column=10, row=17)
+submitbutton.grid(column=0, row=18)
+submitbutton2.grid(column=10, row=18)
+px5frame.grid(column=0, row=19)
+px5frame.grid(column=10, row=19)
+responsetosubmitlabel.grid(column=0, row=20)
+responsetosubmitlabel2.grid(column=0, row=21)
+responsetosubmitlabel3.grid(column=10, row=20)
+responsetosubmitlabel4.grid(column=10, row=21)
 
 
-responsetosubmitlabel = Label(
-    root, font=("Century", 20), background=backgroundcolor, fg=textcolor
-)
-
-# submitbutton.pack(anchor=S)
 updatefrequency1()
 updatefrequency2()
 root.mainloop()
