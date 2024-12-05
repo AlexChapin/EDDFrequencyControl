@@ -74,10 +74,10 @@ def updatefrequency1():
     global activeamplitude1
     global activefrequency1
     sinewave1.stop()
-    try:
+    if activeamplitude1 == 0:
+        decibles = 0 
+    else:
         decibles = 10 * np.log2(activeamplitude1)
-    except:
-        decibles = 0
     sinewave1 = SineWave(
         pitch=1,
         pitch_per_second=1000000000,
@@ -97,11 +97,15 @@ def updatefrequency2():
     global activeamplitude2
     global activefrequency2
     sinewave2.stop()
+    if activeamplitude2 == 0:
+        decibles = 0 
+    else:
+        decibles = 10 * np.log2(activeamplitude2)
     sinewave2 = SineWave(
         pitch=1,
         pitch_per_second=1000000000,
         decibels_per_second=1,
-        decibels=10 * np.log2(activeamplitude2),
+        decibels=decibles,
     )
     time.sleep(0.03)
     sinewave2.set_frequency(activefrequency2)
@@ -153,7 +157,6 @@ def applycustom1():
     try:
         private1.set(customfrequency.get())
         private2.set(customamplitude.get() / 100)
-
     except Exception:
         validentry.set(value=False)
         responsetosubmitlabel.config(text="Invalid Entry!", background="Yellow")
@@ -291,7 +294,7 @@ def radiochangefreq2():
 root = Tk()
 root.title("Frequency Generator v1.0.0a")
 root.geometry("1220x810")
-root.configure(background="#F084bd")
+root.configure(background=backgroundcolor)
 root.resizable(False, False)
 
 # Create SineWave Objects
