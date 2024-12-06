@@ -44,6 +44,9 @@ setting4amp2 = 1
 setting5freq2 = 500
 setting5amp2 = 1
 
+# Version Number:
+version = "v1.0.0"
+
 # Establish Setting Names
 setting1name = str(setting1freq) + " Hz / " + str(setting1amp * 100) + "% Amplitude"
 setting2name = str(setting2freq) + " Hz / " + str(setting2amp * 100) + "% Amplitude"
@@ -65,6 +68,9 @@ activeamplitude2 = startupamp2
 
 
 # GUI Global Settings
+font = "Century"
+smallfontsize = 20
+titlefontsize = 35
 backgroundcolor = "#0084bd"
 textcolor = "black"
 
@@ -301,7 +307,7 @@ def radiochangefreq2():
 
 # Create Root GUI
 root = Tk()
-root.title("Frequency Generator v1.0.0a")
+root.title("Frequency Generator "+version)
 root.geometry("1220x770")
 root.configure(background=backgroundcolor)
 root.resizable(False, False)
@@ -338,7 +344,7 @@ R11 = Radiobutton(
     variable=selectionnumber,
     value=1,
     command=radiochangefreq1,
-    font=("Century", 20),
+    font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
 )
@@ -348,7 +354,7 @@ R21 = Radiobutton(
     variable=selectionnumber,
     value=2,
     command=radiochangefreq1,
-    font=("Century", 20),
+    font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
 )
@@ -358,7 +364,7 @@ R31 = Radiobutton(
     variable=selectionnumber,
     value=3,
     command=radiochangefreq1,
-    font=("Century", 20),
+    font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
 )
@@ -368,7 +374,7 @@ R41 = Radiobutton(
     variable=selectionnumber,
     value=4,
     command=radiochangefreq1,
-    font=("Century", 20),
+    font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
 )
@@ -378,7 +384,7 @@ R51 = Radiobutton(
     variable=selectionnumber,
     value=5,
     command=radiochangefreq1,
-    font=("Century", 20),
+    font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
 )
@@ -391,7 +397,7 @@ R12 = Radiobutton(
     variable=selectionnumber2,
     value=1,
     command=radiochangefreq2,
-    font=("Century", 20),
+    font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
 )
@@ -401,7 +407,7 @@ R22 = Radiobutton(
     variable=selectionnumber2,
     value=2,
     command=radiochangefreq2,
-    font=("Century", 20),
+    font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
 )
@@ -411,7 +417,7 @@ R32 = Radiobutton(
     variable=selectionnumber2,
     value=3,
     command=radiochangefreq2,
-    font=("Century", 20),
+    font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
 )
@@ -421,7 +427,7 @@ R42 = Radiobutton(
     variable=selectionnumber2,
     value=4,
     command=radiochangefreq2,
-    font=("Century", 20),
+    font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
 )
@@ -431,7 +437,7 @@ R52 = Radiobutton(
     variable=selectionnumber2,
     value=5,
     command=radiochangefreq2,
-    font=("Century", 20),
+    font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
 )
@@ -452,7 +458,7 @@ R52.grid(column=10, row=6)
 labeltitle = Label(
     root,
     text="Frequency Generator",
-    font=("Century", 35),
+    font=("font", titlefontsize),
     background=backgroundcolor,
     fg=textcolor,
 )
@@ -460,96 +466,96 @@ labeltitle.config(anchor=CENTER)
 freq1label = Label(
     root,
     text="Set Frequency 1",
-    font=("Century", 20),
+    font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
 )
 freq2label = Label(
     root,
     text="Set Frequency 2",
-    font=("Century", 20),
+    font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
 )
 dispfreqlabel1 = Label(
-    root, font=("Century", 20), background=backgroundcolor, fg=textcolor
+    root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
 )
 dispamplabel1 = Label(
-    root, font=("Century", 20), background=backgroundcolor, fg=textcolor
+    root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
 )
 dispfreqlabel2 = Label(
-    root, font=("Century", 20), background=backgroundcolor, fg=textcolor
+    root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
 )
 dispamplabel2 = Label(
-    root, font=("Century", 20), background=backgroundcolor, fg=textcolor
+    root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
 )
 customtitlelabel = Label(
     root,
     text="Set a Custom Frequency",
-    font=("Century", 20),
+    font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
 )
 customtitlelabel2 = Label(
     root,
     text="Set a Custom Frequency",
-    font=("Century", 20),
+    font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
 )
 customfreqlabel = Label(
     root,
     text="Hz",
-    font=("Century", 20),
+    font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
 )
 customfreqlabel2 = Label(
     root,
     text="Hz",
-    font=("Century", 20),
+    font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
 )
 customamplabel = Label(
     root,
     text="%",
-    font=("Century", 20),
+    font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
 )
 customamplabel2 = Label(
     root,
     text="%",
-    font=("Century", 20),
+    font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
 )
 cfrequencyentry = Entry(
     root,
     textvariable=customfrequency,
-    font=("Century", 20),
+    font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
 )
 cfrequencyentry2 = Entry(
     root,
     textvariable=customfrequency2,
-    font=("Century", 20),
+    font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
 )
 camplitudeentry = Entry(
     root,
     textvariable=customamplitude,
-    font=("Century", 20),
+    font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
 )
 camplitudeentry2 = Entry(
     root,
     textvariable=customamplitude2,
-    font=("Century", 20),
+    font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
 )
@@ -557,7 +563,7 @@ submitbutton = Button(
     root,
     command=applycustom1,
     text="Apply Custom Frequency",
-    font=("Century", 20),
+    font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
 )
@@ -565,29 +571,29 @@ submitbutton2 = Button(
     root,
     command=applycustom2,
     text="Apply Custom Frequency",
-    font=("Century", 20),
+    font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
 )
 stopallbutton = Button(
     root,
     text="Stop Both Frequencies",
-    font=("Century", 20),
+    font=("font", smallfontsize),
     command=stopall,
     background=backgroundcolor,
     fg=textcolor,
 )
 responsetosubmitlabel = Label(
-    root, font=("Century", 20), background=backgroundcolor, fg=textcolor
+    root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
 )
 responsetosubmitlabel2 = Label(
-    root, font=("Century", 20), background=backgroundcolor, fg=textcolor
+    root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
 )
 responsetosubmitlabel3 = Label(
-    root, font=("Century", 20), background=backgroundcolor, fg=textcolor
+    root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
 )
 responsetosubmitlabel4 = Label(
-    root, font=("Century", 20), background=backgroundcolor, fg=textcolor
+    root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
 )
 
 # Create Spacing Elements
