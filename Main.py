@@ -5,6 +5,9 @@ import numpy as np
 import warnings
 import time
 
+# BE CAREFUL CHANGING THESE!!! 
+# DON'T SET FREQUENCY TO < 1 or > 20000
+# DON'T SET AMPLITUDE TO > 100
 # Default Frequency On Startup
 startupfreq1 = 0
 startupamp1 = 0.5
