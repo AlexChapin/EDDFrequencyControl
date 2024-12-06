@@ -74,9 +74,8 @@ activeamplitude2 = startupamp2
 font = "Century"
 smallfontsize = 20
 titlefontsize = 35
-backgroundcolor = "#0084bd"
-textcolor = "black"
-
+backgroundcolor = "#09142B"
+textcolor = "#E4F4F5"
 
 # Updates Frequency To Active Frequency / Amplitude
 def updatefrequency1():
@@ -166,7 +165,7 @@ def applycustom1():
     global activefrequency1
     private1 = DoubleVar()
     private2 = DoubleVar()
-    responsetosubmitlabel.config(text="", background=backgroundcolor)
+    responsetosubmitlabel.config(text="", background=backgroundcolor, foreground=textcolor)
     responsetosubmitlabel2.config(text="")
     validentry = BooleanVar(value=True)
     try:
@@ -174,7 +173,7 @@ def applycustom1():
         private2.set(customamplitude.get() / 100)
     except Exception:
         validentry.set(value=False)
-        responsetosubmitlabel.config(text="Invalid Entry!", background="Yellow")
+        responsetosubmitlabel.config(text="Invalid Entry!", background="Yellow", foreground="Black")
         print("SET FREQ1 STRING ERROR")
         return
 
@@ -209,7 +208,7 @@ def applycustom2():
     global activefrequency2
     private1 = DoubleVar()
     private2 = DoubleVar()
-    responsetosubmitlabel3.config(text="", background=backgroundcolor)
+    responsetosubmitlabel3.config(text="", background=backgroundcolor, foreground=textcolor)
     responsetosubmitlabel4.config(text="")
     validentry = BooleanVar(value=True)
     try:
@@ -217,7 +216,7 @@ def applycustom2():
         private2.set(customamplitude2.get() / 100)
     except Exception:
         validentry.set(value=False)
-        responsetosubmitlabel3.config(text="Invalid Entry!", background="Yellow")
+        responsetosubmitlabel3.config(text="Invalid Entry!", background="Yellow",foreground="Black")
         print("SET FREQ2 STRING ERROR")
         return
     if private1.get() < 1:
@@ -334,7 +333,7 @@ image = Image.open("ICElogo.png")
 newsize = (425, 334)
 resizedimage = image.resize(newsize)
 logo = ImageTk.PhotoImage(resizedimage)
-logolabel = Label(root, image=logo)
+logolabel = Label(root, image=logo, border=0)
 # Place Logo Block
 logolabel.grid(column=5, row=2, rowspan=8)
 
@@ -463,7 +462,7 @@ labeltitle = Label(
     text="Frequency Generator",
     font=("font", titlefontsize),
     background=backgroundcolor,
-    fg=textcolor,
+    fg="#5C87CB",
 )
 labeltitle.config(anchor=CENTER)
 freq1label = Label(
@@ -539,28 +538,48 @@ cfrequencyentry = Entry(
     textvariable=customfrequency,
     font=("font", smallfontsize),
     background=backgroundcolor,
+    insertbackground=textcolor,
+    justify="right",
     fg=textcolor,
+    borderwidth=0,
+    highlightcolor=textcolor,
+    highlightthickness=2
 )
 cfrequencyentry2 = Entry(
     root,
     textvariable=customfrequency2,
     font=("font", smallfontsize),
     background=backgroundcolor,
+    insertbackground=textcolor,
+    justify="right",
     fg=textcolor,
+    borderwidth=0,
+    highlightcolor=textcolor,
+    highlightthickness=2
 )
 camplitudeentry = Entry(
     root,
     textvariable=customamplitude,
     font=("font", smallfontsize),
     background=backgroundcolor,
+    insertbackground=textcolor,
+    justify="right",
     fg=textcolor,
+    borderwidth=0,
+    highlightcolor=textcolor,
+    highlightthickness=2
 )
 camplitudeentry2 = Entry(
     root,
     textvariable=customamplitude2,
     font=("font", smallfontsize),
     background=backgroundcolor,
+    insertbackground=textcolor,
+    justify="right",
     fg=textcolor,
+    borderwidth=0,
+    highlightcolor=textcolor,
+    highlightthickness=2
 )
 submitbutton = Button(
     root,
