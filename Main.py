@@ -1,8 +1,9 @@
 from tkinter import *
 from PIL import ImageTk, Image
 from pysinewave import SineWave
-import time
 import numpy as np
+import warnings
+import time
 
 # Default Frequency On Startup
 startupfreq1 = 0
@@ -12,7 +13,7 @@ startupfreq2 = 0
 startupamp2 = 0.5
 
 # Frequency 1 Settings
-setting1freq = 35
+setting1freq = 100
 setting1amp = 1
 
 setting2freq = 200
@@ -42,8 +43,8 @@ setting4amp2 = 1
 
 setting5freq2 = 500
 setting5amp2 = 1
-# SineWave Init Configs
 
+# Establish Setting Names
 setting1name = str(setting1freq) + " Hz / " + str(setting1amp * 100) + "% Amplitude"
 setting2name = str(setting2freq) + " Hz / " + str(setting2amp * 100) + "% Amplitude"
 setting3name = str(setting3freq) + " Hz / " + str(setting3amp * 100) + "% Amplitude"
@@ -56,6 +57,7 @@ setting3name2 = str(setting3freq2) + " Hz / " + str(setting3amp2 * 100) + "% Amp
 setting4name2 = str(setting4freq2) + " Hz / " + str(setting4amp2 * 100) + "% Amplitude"
 setting5name2 = str(setting5freq2) + " Hz / " + str(setting5amp2 * 100) + "% Amplitude"
 
+# Set Initial Frequencies
 activefrequency1 = startupfreq1
 activeamplitude1 = startupamp1
 activefrequency2 = startupfreq2
@@ -66,16 +68,15 @@ activeamplitude2 = startupamp2
 backgroundcolor = "#0084bd"
 textcolor = "black"
 
-interrupt = False
 
-
+# Updates Frequency To Active Frequency / Amplitude
 def updatefrequency1():
     global sinewave1
     global activeamplitude1
     global activefrequency1
     sinewave1.stop()
     if activeamplitude1 == 0:
-        decibles = 0 
+        decibles = 0
     else:
         decibles = 10 * np.log2(activeamplitude1)
     sinewave1 = SineWave(
@@ -84,6 +85,7 @@ def updatefrequency1():
         decibels_per_second=1,
         decibels=decibles,
     )
+
     time.sleep(0.03)
     sinewave1.set_frequency(activefrequency1)
     time.sleep(0.03)
@@ -92,13 +94,14 @@ def updatefrequency1():
     dispamplabel1.config(text="Amplitude: " + str(activeamplitude1 * 100) + "%")
 
 
+# Updates Frequency To Active Frequency / Amplitude
 def updatefrequency2():
     global sinewave2
     global activeamplitude2
     global activefrequency2
     sinewave2.stop()
     if activeamplitude2 == 0:
-        decibles = 0 
+        decibles = 0
     else:
         decibles = 10 * np.log2(activeamplitude2)
     sinewave2 = SineWave(
@@ -107,6 +110,7 @@ def updatefrequency2():
         decibels_per_second=1,
         decibels=decibles,
     )
+
     time.sleep(0.03)
     sinewave2.set_frequency(activefrequency2)
     time.sleep(0.03)
@@ -115,6 +119,7 @@ def updatefrequency2():
     dispamplabel2.config(text="Amplitude: " + str(activeamplitude2 * 100) + "%")
 
 
+# Stops All Frequencies, Deselects Buttons, Resets Variables
 def stopall():
     global activefrequency1
     global activefrequency2
@@ -144,6 +149,7 @@ def stopall():
     R52.deselect()
 
 
+# Applies Custom Frequency Information
 def applycustom1():
     global customfrequency
     global customamplitude
@@ -162,6 +168,7 @@ def applycustom1():
         responsetosubmitlabel.config(text="Invalid Entry!", background="Yellow")
         print("SET FREQ1 STRING ERROR")
         return
+
     if private1.get() < 1:
         responsetosubmitlabel.config(text="Frequency Too Low!")
         validentry.set(value=False)
@@ -185,6 +192,7 @@ def applycustom1():
         updatefrequency1()
 
 
+# Applies Custom Frequency Information
 def applycustom2():
     global customfrequency2
     global customamplitude2
@@ -198,7 +206,6 @@ def applycustom2():
     try:
         private1.set(customfrequency2.get())
         private2.set(customamplitude2.get() / 100)
-
     except Exception:
         validentry.set(value=False)
         responsetosubmitlabel3.config(text="Invalid Entry!", background="Yellow")
@@ -227,6 +234,7 @@ def applycustom2():
         updatefrequency2()
 
 
+# Sets Active Frequency / Amplitude to Radiobutton Selection
 def radiochangefreq1():
     global setting1amp
     global setting1freq
@@ -258,6 +266,7 @@ def radiochangefreq1():
     updatefrequency1()
 
 
+# Sets Active Frequency / Amplitude to Radiobutton Selection
 def radiochangefreq2():
     global setting1amp2
     global setting1freq2
@@ -293,7 +302,7 @@ def radiochangefreq2():
 # Create Root GUI
 root = Tk()
 root.title("Frequency Generator v1.0.0a")
-root.geometry("1220x810")
+root.geometry("1220x770")
 root.configure(background=backgroundcolor)
 root.resizable(False, False)
 
@@ -305,67 +314,21 @@ sinewave2 = SineWave(
     pitch=1, pitch_per_second=1000000000, decibels_per_second=1, decibels=0
 )
 
-# Create Title Label
-labeltitle = Label(
-    root,
-    text="Frequency Generator",
-    font=("Century", 35),
-    background=backgroundcolor,
-    fg=textcolor,
-)
-labeltitle.config(anchor=CENTER)
-labeltitle.grid(column=5, row=0)
+# Define Custom Frequencies
+customfrequency = DoubleVar()
+customamplitude = DoubleVar()
+customfrequency2 = DoubleVar()
+customamplitude2 = DoubleVar()
 
+# Create Logo Block
 image = Image.open("ICElogo.png")
 newsize = (425, 334)
 resizedimage = image.resize(newsize)
 logo = ImageTk.PhotoImage(resizedimage)
 logolabel = Label(root, image=logo)
+# Place Logo Block
 logolabel.grid(column=5, row=2, rowspan=8)
 
-# Create Active Label
-activelabel1 = Label(
-    root, font=("Century", 20), background=backgroundcolor, fg=textcolor
-)
-
-freq1label = Label(
-    root,
-    text="Set Frequency 1",
-    font=("Century", 20),
-    background=backgroundcolor,
-    fg=textcolor,
-)
-freq1label.grid(column=0, row=1)
-
-freq2label = Label(
-    root,
-    text="Set Frequency 2",
-    font=("Century", 20),
-    background=backgroundcolor,
-    fg=textcolor,
-)
-freq2label.grid(column=10, row=1)
-
-dispfreqlabel1 = Label(
-    root, font=("Century", 20), background=backgroundcolor, fg=textcolor
-)
-dispfreqlabel1.grid(column=0, row=8)
-
-dispamplabel1 = Label(
-    root, font=("Century", 20), background=backgroundcolor, fg=textcolor
-)
-dispamplabel1.grid(column=0, row=9)
-
-
-dispfreqlabel2 = Label(
-    root, font=("Century", 20), background=backgroundcolor, fg=textcolor
-)
-dispfreqlabel2.grid(column=10, row=8)
-
-dispamplabel2 = Label(
-    root, font=("Century", 20), background=backgroundcolor, fg=textcolor
-)
-dispamplabel2.grid(column=10, row=9)
 # Create Selection Buttons
 presets = Radiobutton(root)
 selectionnumber = IntVar()
@@ -379,7 +342,6 @@ R11 = Radiobutton(
     background=backgroundcolor,
     fg=textcolor,
 )
-R11.grid(column=0, row=2, ipadx=5)
 R21 = Radiobutton(
     root,
     text=setting2name,
@@ -390,7 +352,6 @@ R21 = Radiobutton(
     background=backgroundcolor,
     fg=textcolor,
 )
-R21.grid(column=0, row=3)
 R31 = Radiobutton(
     root,
     text=setting3name,
@@ -401,7 +362,6 @@ R31 = Radiobutton(
     background=backgroundcolor,
     fg=textcolor,
 )
-R31.grid(column=0, row=4)
 R41 = Radiobutton(
     root,
     text=setting4name,
@@ -412,7 +372,6 @@ R41 = Radiobutton(
     background=backgroundcolor,
     fg=textcolor,
 )
-R41.grid(column=0, row=5)
 R51 = Radiobutton(
     root,
     text=setting5name,
@@ -423,7 +382,6 @@ R51 = Radiobutton(
     background=backgroundcolor,
     fg=textcolor,
 )
-R51.grid(column=0, row=6)
 
 presets2 = Radiobutton(root)
 selectionnumber2 = IntVar()
@@ -437,7 +395,6 @@ R12 = Radiobutton(
     background=backgroundcolor,
     fg=textcolor,
 )
-R12.grid(column=10, row=2)
 R22 = Radiobutton(
     root,
     text=setting2name2,
@@ -448,7 +405,6 @@ R22 = Radiobutton(
     background=backgroundcolor,
     fg=textcolor,
 )
-R22.grid(column=10, row=3)
 R32 = Radiobutton(
     root,
     text=setting3name2,
@@ -459,7 +415,6 @@ R32 = Radiobutton(
     background=backgroundcolor,
     fg=textcolor,
 )
-R32.grid(column=10, row=4)
 R42 = Radiobutton(
     root,
     text=setting4name2,
@@ -470,7 +425,6 @@ R42 = Radiobutton(
     background=backgroundcolor,
     fg=textcolor,
 )
-R42.grid(column=10, row=5)
 R52 = Radiobutton(
     root,
     text=setting5name2,
@@ -481,17 +435,54 @@ R52 = Radiobutton(
     background=backgroundcolor,
     fg=textcolor,
 )
+
+# Place Selection Buttons
+R11.grid(column=0, row=2)
+R21.grid(column=0, row=3)
+R31.grid(column=0, row=4)
+R41.grid(column=0, row=5)
+R51.grid(column=0, row=6)
+R12.grid(column=10, row=2)
+R22.grid(column=10, row=3)
+R32.grid(column=10, row=4)
+R42.grid(column=10, row=5)
 R52.grid(column=10, row=6)
 
-
-customfrequency = DoubleVar()
-customamplitude = DoubleVar()
-customfrequency2 = DoubleVar()
-customamplitude2 = DoubleVar()
-
-px40frame = Frame(root, width=40, height=40, background=backgroundcolor)
-px10frame = Frame(root, width=10, height=10, background=backgroundcolor)
-px5frame = Frame(root, width=5, height=5, background=backgroundcolor)
+# Create Labels / Entries
+labeltitle = Label(
+    root,
+    text="Frequency Generator",
+    font=("Century", 35),
+    background=backgroundcolor,
+    fg=textcolor,
+)
+labeltitle.config(anchor=CENTER)
+freq1label = Label(
+    root,
+    text="Set Frequency 1",
+    font=("Century", 20),
+    background=backgroundcolor,
+    fg=textcolor,
+)
+freq2label = Label(
+    root,
+    text="Set Frequency 2",
+    font=("Century", 20),
+    background=backgroundcolor,
+    fg=textcolor,
+)
+dispfreqlabel1 = Label(
+    root, font=("Century", 20), background=backgroundcolor, fg=textcolor
+)
+dispamplabel1 = Label(
+    root, font=("Century", 20), background=backgroundcolor, fg=textcolor
+)
+dispfreqlabel2 = Label(
+    root, font=("Century", 20), background=backgroundcolor, fg=textcolor
+)
+dispamplabel2 = Label(
+    root, font=("Century", 20), background=backgroundcolor, fg=textcolor
+)
 customtitlelabel = Label(
     root,
     text="Set a Custom Frequency",
@@ -513,7 +504,6 @@ customfreqlabel = Label(
     background=backgroundcolor,
     fg=textcolor,
 )
-
 customfreqlabel2 = Label(
     root,
     text="Hz",
@@ -521,7 +511,6 @@ customfreqlabel2 = Label(
     background=backgroundcolor,
     fg=textcolor,
 )
-
 customamplabel = Label(
     root,
     text="%",
@@ -601,6 +590,19 @@ responsetosubmitlabel4 = Label(
     root, font=("Century", 20), background=backgroundcolor, fg=textcolor
 )
 
+# Create Spacing Elements
+px40frame = Frame(root, width=40, height=40, background=backgroundcolor)
+px10frame = Frame(root, width=10, height=10, background=backgroundcolor)
+px5frame = Frame(root, width=5, height=5, background=backgroundcolor)
+
+# Place Above Label, Entries, Spacing Elements
+labeltitle.grid(column=5, row=0)
+freq1label.grid(column=0, row=1)
+freq2label.grid(column=10, row=1)
+dispfreqlabel1.grid(column=0, row=8)
+dispamplabel1.grid(column=0, row=9)
+dispfreqlabel2.grid(column=10, row=8)
+dispamplabel2.grid(column=10, row=9)
 stopallbutton.grid(column=5, row=11)
 px5frame.grid(column=5, row=10)
 px40frame.grid(column=0, row=10)
@@ -632,7 +634,11 @@ responsetosubmitlabel2.grid(column=0, row=21)
 responsetosubmitlabel3.grid(column=10, row=20)
 responsetosubmitlabel4.grid(column=10, row=21)
 
+warnings.filterwarnings("ignore", category=RuntimeWarning)
 
+# Start Initial Frequencies
 updatefrequency1()
 updatefrequency2()
+
+# Begin GUI Loop
 root.mainloop()
