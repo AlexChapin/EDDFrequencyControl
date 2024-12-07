@@ -48,7 +48,7 @@ setting5freq2 = 500
 setting5amp2 = 1
 
 # Version Number:
-version = "v1.0.0"
+version = "v1.0.1"
 
 # Establish Setting Names
 setting1name = str(setting1freq) + " Hz / " + str(setting1amp * 100) + "% Amplitude"
@@ -186,7 +186,7 @@ def applycustom1():
         responsetosubmitlabel.config(text="Frequency Too High!")
         validentry.set(value=False)
 
-    if private2.get() <= 0:
+    if private2.get() < 0:
         responsetosubmitlabel2.config(text="Amplitude Too Low!")
         validentry.set(value=False)
 
@@ -228,7 +228,7 @@ def applycustom2():
         responsetosubmitlabel3.config(text="Frequency Too High!")
         validentry.set(value=False)
 
-    if private2.get() <= 0:
+    if private2.get() < 0:
         responsetosubmitlabel4.config(text="Amplitude Too Low!")
         validentry.set(value=False)
 
