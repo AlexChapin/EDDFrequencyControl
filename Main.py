@@ -76,6 +76,7 @@ smallfontsize = 20
 titlefontsize = 35
 backgroundcolor = "#09142B"
 textcolor = "#E4F4F5"
+titletextcolor = "#5C87CB"
 
 # Updates Frequency To Active Frequency / Amplitude
 def updatefrequency1():
@@ -462,7 +463,7 @@ labeltitle = Label(
     text="Frequency Generator",
     font=("font", titlefontsize),
     background=backgroundcolor,
-    fg="#5C87CB",
+    fg=titletextcolor,
 )
 labeltitle.config(anchor=CENTER)
 freq1label = Label(
@@ -470,14 +471,14 @@ freq1label = Label(
     text="Set Frequency 1",
     font=("font", smallfontsize),
     background=backgroundcolor,
-    fg=textcolor,
+    fg=titletextcolor,
 )
 freq2label = Label(
     root,
     text="Set Frequency 2",
     font=("font", smallfontsize),
     background=backgroundcolor,
-    fg=textcolor,
+    fg=titletextcolor,
 )
 dispfreqlabel1 = Label(
     root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
