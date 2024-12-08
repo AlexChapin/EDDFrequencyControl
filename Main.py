@@ -85,7 +85,7 @@ def updatefrequency1():
     global activefrequency1
     sinewave1.stop()
     if activeamplitude1 == 0:
-        decibles = 0
+        decibles = -100
     else:
         decibles = 10 * np.log2(activeamplitude1)
     sinewave1 = SineWave(
@@ -99,8 +99,8 @@ def updatefrequency1():
     sinewave1.set_frequency(activefrequency1)
     time.sleep(0.03)
     sinewave1.play()
-    dispfreqlabel1.config(text="Frequency: " + str(activefrequency1) + " Hz")
-    dispamplabel1.config(text="Amplitude: " + str(activeamplitude1 * 100) + "%")
+    dispfreqlabel1.config(text="Frequency: " + str(round(activefrequency1,5)) + " Hz")
+    dispamplabel1.config(text="Amplitude: " + str(round(activeamplitude1 * 100,3)) + "%")
 
 
 # Updates Frequency To Active Frequency / Amplitude
@@ -110,7 +110,7 @@ def updatefrequency2():
     global activefrequency2
     sinewave2.stop()
     if activeamplitude2 == 0:
-        decibles = 0
+        decibles = -100
     else:
         decibles = 10 * np.log2(activeamplitude2)
     sinewave2 = SineWave(
@@ -124,8 +124,8 @@ def updatefrequency2():
     sinewave2.set_frequency(activefrequency2)
     time.sleep(0.03)
     sinewave2.play()
-    dispfreqlabel2.config(text="Frequency: " + str(activefrequency2) + " Hz")
-    dispamplabel2.config(text="Amplitude: " + str(activeamplitude2 * 100) + "%")
+    dispfreqlabel2.config(text="Frequency: " + str(round(activefrequency2,5)) + " Hz")
+    dispamplabel2.config(text="Amplitude: " + str(round(activeamplitude2 * 100,3)) + "%")
 
 
 # Stops All Frequencies, Deselects Buttons, Resets Variables
