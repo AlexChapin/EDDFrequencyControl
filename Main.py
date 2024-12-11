@@ -4,64 +4,89 @@ from pysinewave import SineWave
 import numpy as np
 import warnings
 import time
+import sys
 
-# BE CAREFUL CHANGING THESE!!! 
-# DON'T SET FREQUENCY TO < 1 or > 20000
-# DON'T SET AMPLITUDE TO > 100
 # Default Frequency On Startup
-startupfreq1 = 0
-startupamp1 = 0.5
+startupfreq1 = 1
+startupamp1 = 0
 
-startupfreq2 = 0
-startupamp2 = 0.5
+startupfreq2 = 1
+startupamp2 = 0
 
 # Frequency 1 Settings
-setting1freq = 100
-setting1amp = 1
+setting1freq = 35
+setting1amp = 65
 
 setting2freq = 200
-setting2amp = 1
+setting2amp = 100
 
 setting3freq = 300
-setting3amp = 1
+setting3amp = 100
 
 setting4freq = 400
-setting4amp = 1
+setting4amp = 100
 
 setting5freq = 500
-setting5amp = 1
+setting5amp = 100
 
 # Frequency 2 Settings
-setting1freq2 = 100
-setting1amp2 = 1
+setting1freq2 = 10
+setting1amp2 = 60
 
 setting2freq2 = 200
-setting2amp2 = 1
+setting2amp2 = 100
 
 setting3freq2 = 300
-setting3amp2 = 1
+setting3amp2 = 100
 
 setting4freq2 = 400
-setting4amp2 = 1
+setting4amp2 = 100
 
 setting5freq2 = 500
-setting5amp2 = 1
+setting5amp2 = 100
+
+
+
+frequencies = [startupfreq1, startupfreq2, setting1freq, setting2freq, setting3freq, setting4freq, setting5freq, setting1freq2, setting2freq2, setting3freq2, setting4freq2, setting5freq2]
+amplitudes = [startupamp1, startupamp2, setting1amp, setting2amp, setting3amp, setting4amp, setting5amp, setting1amp2, setting2amp2, setting3amp2, setting4amp2, setting5amp2]
+
+i=0
+while i < len(frequencies):
+    if frequencies[i] > 20000 or frequencies[i] <1:
+        exitcode = 10
+        name = [k for k,v in globals().items() if id(v) == id(frequencies[i])][0]
+        print("Error In Variable:" + name)
+        print(f'{frequencies[i]}' + " Is Out Of Bounds For Frequency")
+        print("Process Exited With Exit Code:" + f'{exitcode}')
+        sys.exit(exitcode)
+    i += 1
+
+i=0
+while i < len(amplitudes):
+    if amplitudes[i] > 100 or amplitudes[i] < 0:
+        exitcode = 11
+        name = [k for k,v in globals().items() if id(v) == id(amplitudes[i])][0]
+        print("Error In Variable:" + name)
+        print(f'{amplitudes[i]}' + " Is Out Of Bounds For Amplitude")
+        print("Process Exited With Exit Code:" + f'{exitcode}')
+        sys.exit(exitcode)
+    i += 1
 
 # Version Number:
 version = "v1.0.1"
 
 # Establish Setting Names
-setting1name = str(setting1freq) + " Hz / " + str(setting1amp * 100) + "% Amplitude"
-setting2name = str(setting2freq) + " Hz / " + str(setting2amp * 100) + "% Amplitude"
-setting3name = str(setting3freq) + " Hz / " + str(setting3amp * 100) + "% Amplitude"
-setting4name = str(setting4freq) + " Hz / " + str(setting4amp * 100) + "% Amplitude"
-setting5name = str(setting5freq) + " Hz / " + str(setting5amp * 100) + "% Amplitude"
+setting1name = str(round(setting1freq,2)) + " Hz / " + str(round(setting1amp,2)) + "% Amplitude"
+setting2name = str(round(setting2freq,2)) + " Hz / " + str(round(setting2amp,2)) + "% Amplitude"
+setting3name = str(round(setting3freq,2)) + " Hz / " + str(round(setting3amp,2)) + "% Amplitude"
+setting4name = str(round(setting4freq,2)) + " Hz / " + str(round(setting4amp,2)) + "% Amplitude"
+setting5name = str(round(setting5freq,2)) + " Hz / " + str(round(setting5amp,2)) + "% Amplitude"
 
-setting1name2 = str(setting1freq2) + " Hz / " + str(setting1amp2 * 100) + "% Amplitude"
-setting2name2 = str(setting2freq2) + " Hz / " + str(setting2amp2 * 100) + "% Amplitude"
-setting3name2 = str(setting3freq2) + " Hz / " + str(setting3amp2 * 100) + "% Amplitude"
-setting4name2 = str(setting4freq2) + " Hz / " + str(setting4amp2 * 100) + "% Amplitude"
-setting5name2 = str(setting5freq2) + " Hz / " + str(setting5amp2 * 100) + "% Amplitude"
+setting1name2 = str(round(setting1freq2,2)) + " Hz / " + str(round(setting1amp2,2)) + "% Amplitude"
+setting2name2 = str(round(setting2freq2,2)) + " Hz / " + str(round(setting2amp2,2)) + "% Amplitude"
+setting3name2 = str(round(setting3freq2,2)) + " Hz / " + str(round(setting3amp2,2)) + "% Amplitude"
+setting4name2 = str(round(setting4freq2,2)) + " Hz / " + str(round(setting4amp2,2)) + "% Amplitude"
+setting5name2 = str(round(setting5freq2,2)) + " Hz / " + str(round(setting5amp2,2)) + "% Amplitude"
 
 # Set Initial Frequencies
 activefrequency1 = startupfreq1
@@ -87,7 +112,7 @@ def updatefrequency1():
     if activeamplitude1 == 0:
         decibles = -100
     else:
-        decibles = 10 * np.log2(activeamplitude1)
+        decibles = 10 * np.log2(activeamplitude1/100)
     sinewave1 = SineWave(
         pitch=1,
         pitch_per_second=1000000000,
@@ -100,7 +125,7 @@ def updatefrequency1():
     time.sleep(0.03)
     sinewave1.play()
     dispfreqlabel1.config(text="Frequency: " + str(round(activefrequency1,5)) + " Hz")
-    dispamplabel1.config(text="Amplitude: " + str(round(activeamplitude1 * 100,3)) + "%")
+    dispamplabel1.config(text="Amplitude: " + str(round(activeamplitude1,3)) + "%")
 
 
 # Updates Frequency To Active Frequency / Amplitude
@@ -112,7 +137,7 @@ def updatefrequency2():
     if activeamplitude2 == 0:
         decibles = -100
     else:
-        decibles = 10 * np.log2(activeamplitude2)
+        decibles = 10 * np.log2(activeamplitude2/100)
     sinewave2 = SineWave(
         pitch=1,
         pitch_per_second=1000000000,
@@ -125,7 +150,7 @@ def updatefrequency2():
     time.sleep(0.03)
     sinewave2.play()
     dispfreqlabel2.config(text="Frequency: " + str(round(activefrequency2,5)) + " Hz")
-    dispamplabel2.config(text="Amplitude: " + str(round(activeamplitude2 * 100,3)) + "%")
+    dispamplabel2.config(text="Amplitude: " + str(round(activeamplitude2,3)) + "%")
 
 
 # Stops All Frequencies, Deselects Buttons, Resets Variables
@@ -171,7 +196,7 @@ def applycustom1():
     validentry = BooleanVar(value=True)
     try:
         private1.set(customfrequency.get())
-        private2.set(customamplitude.get() / 100)
+        private2.set(customamplitude.get())
     except Exception:
         validentry.set(value=False)
         responsetosubmitlabel.config(text="Invalid Entry!", background="Yellow", foreground="Black")
@@ -190,7 +215,7 @@ def applycustom1():
         responsetosubmitlabel2.config(text="Amplitude Too Low!")
         validentry.set(value=False)
 
-    if private2.get() > 1:
+    if private2.get() > 100:
         responsetosubmitlabel2.config(text="Amplitude Too High!")
         validentry.set(value=False)
 
@@ -214,7 +239,7 @@ def applycustom2():
     validentry = BooleanVar(value=True)
     try:
         private1.set(customfrequency2.get())
-        private2.set(customamplitude2.get() / 100)
+        private2.set(customamplitude2.get())
     except Exception:
         validentry.set(value=False)
         responsetosubmitlabel3.config(text="Invalid Entry!", background="Yellow",foreground="Black")
@@ -232,7 +257,7 @@ def applycustom2():
         responsetosubmitlabel4.config(text="Amplitude Too Low!")
         validentry.set(value=False)
 
-    if private2.get() > 1:
+    if private2.get() > 100:
         responsetosubmitlabel4.config(text="Amplitude Too High!")
         validentry.set(value=False)
 
@@ -350,6 +375,7 @@ R11 = Radiobutton(
     font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
+    selectcolor=backgroundcolor
 )
 R21 = Radiobutton(
     root,
@@ -360,6 +386,7 @@ R21 = Radiobutton(
     font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
+    selectcolor=backgroundcolor
 )
 R31 = Radiobutton(
     root,
@@ -370,6 +397,7 @@ R31 = Radiobutton(
     font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
+    selectcolor=backgroundcolor
 )
 R41 = Radiobutton(
     root,
@@ -380,6 +408,7 @@ R41 = Radiobutton(
     font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
+    selectcolor=backgroundcolor
 )
 R51 = Radiobutton(
     root,
@@ -390,6 +419,7 @@ R51 = Radiobutton(
     font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
+    selectcolor=backgroundcolor
 )
 
 presets2 = Radiobutton(root)
@@ -403,6 +433,7 @@ R12 = Radiobutton(
     font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
+    selectcolor=backgroundcolor
 )
 R22 = Radiobutton(
     root,
@@ -413,6 +444,7 @@ R22 = Radiobutton(
     font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
+    selectcolor=backgroundcolor
 )
 R32 = Radiobutton(
     root,
@@ -423,6 +455,7 @@ R32 = Radiobutton(
     font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
+    selectcolor=backgroundcolor
 )
 R42 = Radiobutton(
     root,
@@ -433,6 +466,7 @@ R42 = Radiobutton(
     font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
+    selectcolor=backgroundcolor
 )
 R52 = Radiobutton(
     root,
@@ -443,7 +477,8 @@ R52 = Radiobutton(
     font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
-)
+    selectcolor=backgroundcolor
+    )
 
 # Place Selection Buttons
 R11.grid(column=0, row=2)
