@@ -52,22 +52,38 @@ amplitudes = [startupamp1, startupamp2, setting1amp, setting2amp, setting3amp, s
 
 i=0
 while i < len(frequencies):
-    if frequencies[i] > 20000 or frequencies[i] <1:
-        exitcode = 10
-        name = [k for k,v in globals().items() if id(v) == id(frequencies[i])][0]
-        print("Error In Variable:" + name)
-        print(f'{frequencies[i]}' + " Is Out Of Bounds For Frequency")
+    try:
+        if frequencies[i] > 20000 or frequencies[i] <1:
+            exitcode = 10
+            name = [k for k,v in globals().items() if id(v) == id(frequencies[i])][0]
+            print("Error In Variable:" + name)
+            print(f'{frequencies[i]}' + " Is Out Of Bounds For Frequency")
+            print("Process Exited With Exit Code:" + f'{exitcode}')
+            sys.exit(exitcode)
+    except Exception:
+        exitcode = 15
+        name = [k for k,v in globals().items() if id(v) == id(amplitudes[i])][0]
+        print("Error in Variable:" + name)
+        print("Non Numerical Inputs Not Acceptable for Type Float")
         print("Process Exited With Exit Code:" + f'{exitcode}')
         sys.exit(exitcode)
     i += 1
 
 i=0
 while i < len(amplitudes):
-    if amplitudes[i] > 100 or amplitudes[i] < 0:
-        exitcode = 11
+    try:
+        if amplitudes[i] > 100 or amplitudes[i] < 0:
+            exitcode = 11
+            name = [k for k,v in globals().items() if id(v) == id(amplitudes[i])][0]
+            print("Error In Variable:" + name)
+            print(f'{amplitudes[i]}' + " Is Out Of Bounds For Amplitude")
+            print("Process Exited With Exit Code:" + f'{exitcode}')
+            sys.exit(exitcode)
+    except Exception:
+        exitcode = 15
         name = [k for k,v in globals().items() if id(v) == id(amplitudes[i])][0]
-        print("Error In Variable:" + name)
-        print(f'{amplitudes[i]}' + " Is Out Of Bounds For Amplitude")
+        print("Error in Variable:" + name)
+        print("Non Numerical Inputs Not Acceptable for Type Float")
         print("Process Exited With Exit Code:" + f'{exitcode}')
         sys.exit(exitcode)
     i += 1
