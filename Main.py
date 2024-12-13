@@ -1,10 +1,10 @@
-from tkinter import *
-from PIL import ImageTk, Image
-from pysinewave import SineWave
 import numpy as np
 import warnings
 import time
-import sys
+import sys 
+from tkinter import *
+from PIL import ImageTk, Image
+from pysinewave import SineWave
 
 # Default Frequency On Startup
 startupfreq1 = 1
@@ -355,6 +355,8 @@ root.title("Frequency Generator "+version)
 root.geometry("1220x770")
 root.configure(background=backgroundcolor)
 root.resizable(False, False)
+root.iconbitmap("ICERootLogo.ico")
+
 
 # Create SineWave Objects
 sinewave1 = SineWave(
