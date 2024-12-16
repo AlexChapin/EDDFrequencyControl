@@ -7,10 +7,10 @@ from PIL import ImageTk, Image
 from pysinewave import SineWave
 
 # Default Frequency On Startup
-startupfreq1 = 0
+startupfreq1 = 1
 startupamp1 = 0
 
-startupfreq2 = 0
+startupfreq2 = 1
 startupamp2 = 0
 
 # Frequency 1 Settings
