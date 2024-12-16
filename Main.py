@@ -1,16 +1,16 @@
 import numpy as np
 import warnings
 import time
-import sys 
+import sys
 from tkinter import *
 from PIL import ImageTk, Image
 from pysinewave import SineWave
 
 # Default Frequency On Startup
-startupfreq1 = 1
+startupfreq1 = 0
 startupamp1 = 0
 
-startupfreq2 = 1
+startupfreq2 = 0
 startupamp2 = 0
 
 # Frequency 1 Settings
@@ -61,7 +61,7 @@ while i < len(frequencies):
             print("Process Exited With Exit Code:" + f'{exitcode}')
             sys.exit(exitcode)
     except Exception:
-        exitcode = 15
+        exitcode = 11
         name = [k for k,v in globals().items() if id(v) == id(amplitudes[i])][0]
         print("Error in Variable:" + name)
         print("Non Numerical Inputs Not Acceptable for Type Float")
@@ -73,14 +73,14 @@ i=0
 while i < len(amplitudes):
     try:
         if amplitudes[i] > 100 or amplitudes[i] < 0:
-            exitcode = 11
+            exitcode = 12
             name = [k for k,v in globals().items() if id(v) == id(amplitudes[i])][0]
             print("Error In Variable:" + name)
             print(f'{amplitudes[i]}' + " Is Out Of Bounds For Amplitude")
             print("Process Exited With Exit Code:" + f'{exitcode}')
             sys.exit(exitcode)
     except Exception:
-        exitcode = 15
+        exitcode = 13
         name = [k for k,v in globals().items() if id(v) == id(amplitudes[i])][0]
         print("Error in Variable:" + name)
         print("Non Numerical Inputs Not Acceptable for Type Float")
