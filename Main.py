@@ -89,7 +89,7 @@ while i < len(amplitudes):
     i += 1
 
 # Version Number:
-version = "v1.0.1"
+version = "v1.0.2"
 
 # Establish Setting Names
 setting1name = str(round(setting1freq,2)) + " Hz / " + str(round(setting1amp,2)) + "% Amplitude"

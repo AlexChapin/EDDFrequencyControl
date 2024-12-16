@@ -50,7 +50,7 @@ Exit Codes:
 ## Authors
 
 Alex Chapin
-ex. [@AlexChapin](https://github.com/AlexChapin)
+[@AlexChapin](https://github.com/AlexChapin)
 
 ## Version History
 
