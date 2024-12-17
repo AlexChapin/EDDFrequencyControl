@@ -45,8 +45,11 @@ If the program will not run check the console for errors due to setting presets 
 Exit Codes:
 
 10 -> Preset Frequency Set Incorrectly
+
 11 -> Preset Frequency Set To Non-Numerical Value
+
 12 -> Preset Amplitude Set Incorrectly
+
 13 -> Preset Amplitude Set To Non-Numerical Value
 
 ## Authors
