@@ -46,45 +46,73 @@ setting5freq2 = 500
 setting5amp2 = 100
 
 
+# Stores Custom Frequencies and Amplitudes to Lists for Checks
+frequencies = [
+    startupfreq1,
+    startupfreq2,
+    setting1freq,
+    setting2freq,
+    setting3freq,
+    setting4freq,
+    setting5freq,
+    setting1freq2,
+    setting2freq2,
+    setting3freq2,
+    setting4freq2,
+    setting5freq2,
+]
+amplitudes = [
+    startupamp1,
+    startupamp2,
+    setting1amp,
+    setting2amp,
+    setting3amp,
+    setting4amp,
+    setting5amp,
+    setting1amp2,
+    setting2amp2,
+    setting3amp2,
+    setting4amp2,
+    setting5amp2,
+]
 
-frequencies = [startupfreq1, startupfreq2, setting1freq, setting2freq, setting3freq, setting4freq, setting5freq, setting1freq2, setting2freq2, setting3freq2, setting4freq2, setting5freq2]
-amplitudes = [startupamp1, startupamp2, setting1amp, setting2amp, setting3amp, setting4amp, setting5amp, setting1amp2, setting2amp2, setting3amp2, setting4amp2, setting5amp2]
-
-i=0
+i = 0
+# Checks to Ensure Custom Frequencies are Within Valid Ranges
 while i < len(frequencies):
     try:
-        if frequencies[i] > 20000 or frequencies[i] <1:
+        if frequencies[i] > 20000 or frequencies[i] < 1:
             exitcode = 10
-            name = [k for k,v in globals().items() if id(v) == id(frequencies[i])][0]
+            name = [k for k, v in globals().items() if id(v) == id(frequencies[i])][0]
             print("Error In Variable:" + name)
-            print(f'{frequencies[i]}' + " Is Out Of Bounds For Frequency")
-            print("Process Exited With Exit Code:" + f'{exitcode}')
+            print(f"{frequencies[i]}" + " Is Out Of Bounds For Frequency")
+            print("Process Exited With Exit Code:" + f"{exitcode}")
             sys.exit(exitcode)
     except Exception:
         exitcode = 11
-        name = [k for k,v in globals().items() if id(v) == id(amplitudes[i])][0]
+        name = [k for k, v in globals().items() if id(v) == id(amplitudes[i])][0]
         print("Error in Variable:" + name)
         print("Non Numerical Inputs Not Acceptable for Type Float")
-        print("Process Exited With Exit Code:" + f'{exitcode}')
+        print("Process Exited With Exit Code:" + f"{exitcode}")
         sys.exit(exitcode)
     i += 1
 
-i=0
+i = 0
+# Checks to Ensure Custom Amplitudes are Within Valid Ranges
 while i < len(amplitudes):
     try:
         if amplitudes[i] > 100 or amplitudes[i] < 0:
             exitcode = 12
-            name = [k for k,v in globals().items() if id(v) == id(amplitudes[i])][0]
+            name = [k for k, v in globals().items() if id(v) == id(amplitudes[i])][0]
             print("Error In Variable:" + name)
-            print(f'{amplitudes[i]}' + " Is Out Of Bounds For Amplitude")
-            print("Process Exited With Exit Code:" + f'{exitcode}')
+            print(f"{amplitudes[i]}" + " Is Out Of Bounds For Amplitude")
+            print("Process Exited With Exit Code:" + f"{exitcode}")
             sys.exit(exitcode)
     except Exception:
         exitcode = 13
-        name = [k for k,v in globals().items() if id(v) == id(amplitudes[i])][0]
+        name = [k for k, v in globals().items() if id(v) == id(amplitudes[i])][0]
         print("Error in Variable:" + name)
         print("Non Numerical Inputs Not Acceptable for Type Float")
-        print("Process Exited With Exit Code:" + f'{exitcode}')
+        print("Process Exited With Exit Code:" + f"{exitcode}")
         sys.exit(exitcode)
     i += 1
 
@@ -92,17 +120,52 @@ while i < len(amplitudes):
 version = "v1.0.2"
 
 # Establish Setting Names
-setting1name = str(round(setting1freq,2)) + " Hz / " + str(round(setting1amp,2)) + "% Amplitude"
-setting2name = str(round(setting2freq,2)) + " Hz / " + str(round(setting2amp,2)) + "% Amplitude"
-setting3name = str(round(setting3freq,2)) + " Hz / " + str(round(setting3amp,2)) + "% Amplitude"
-setting4name = str(round(setting4freq,2)) + " Hz / " + str(round(setting4amp,2)) + "% Amplitude"
-setting5name = str(round(setting5freq,2)) + " Hz / " + str(round(setting5amp,2)) + "% Amplitude"
+setting1name = (
+    str(round(setting1freq, 2)) + " Hz / " + str(round(setting1amp, 2)) + "% Amplitude"
+)
+setting2name = (
+    str(round(setting2freq, 2)) + " Hz / " + str(round(setting2amp, 2)) + "% Amplitude"
+)
+setting3name = (
+    str(round(setting3freq, 2)) + " Hz / " + str(round(setting3amp, 2)) + "% Amplitude"
+)
+setting4name = (
+    str(round(setting4freq, 2)) + " Hz / " + str(round(setting4amp, 2)) + "% Amplitude"
+)
+setting5name = (
+    str(round(setting5freq, 2)) + " Hz / " + str(round(setting5amp, 2)) + "% Amplitude"
+)
 
-setting1name2 = str(round(setting1freq2,2)) + " Hz / " + str(round(setting1amp2,2)) + "% Amplitude"
-setting2name2 = str(round(setting2freq2,2)) + " Hz / " + str(round(setting2amp2,2)) + "% Amplitude"
-setting3name2 = str(round(setting3freq2,2)) + " Hz / " + str(round(setting3amp2,2)) + "% Amplitude"
-setting4name2 = str(round(setting4freq2,2)) + " Hz / " + str(round(setting4amp2,2)) + "% Amplitude"
-setting5name2 = str(round(setting5freq2,2)) + " Hz / " + str(round(setting5amp2,2)) + "% Amplitude"
+setting1name2 = (
+    str(round(setting1freq2, 2))
+    + " Hz / "
+    + str(round(setting1amp2, 2))
+    + "% Amplitude"
+)
+setting2name2 = (
+    str(round(setting2freq2, 2))
+    + " Hz / "
+    + str(round(setting2amp2, 2))
+    + "% Amplitude"
+)
+setting3name2 = (
+    str(round(setting3freq2, 2))
+    + " Hz / "
+    + str(round(setting3amp2, 2))
+    + "% Amplitude"
+)
+setting4name2 = (
+    str(round(setting4freq2, 2))
+    + " Hz / "
+    + str(round(setting4amp2, 2))
+    + "% Amplitude"
+)
+setting5name2 = (
+    str(round(setting5freq2, 2))
+    + " Hz / "
+    + str(round(setting5amp2, 2))
+    + "% Amplitude"
+)
 
 # Set Initial Frequencies
 activefrequency1 = startupfreq1
@@ -119,6 +182,7 @@ backgroundcolor = "#09142B"
 textcolor = "#E4F4F5"
 titletextcolor = "#5C87CB"
 
+
 # Updates Frequency To Active Frequency / Amplitude
 def updatefrequency1():
     global sinewave1
@@ -128,7 +192,7 @@ def updatefrequency1():
     if activeamplitude1 == 0:
         decibles = -100
     else:
-        decibles = 10 * np.log2(activeamplitude1/100)
+        decibles = 10 * np.log2(activeamplitude1 / 100)
     sinewave1 = SineWave(
         pitch=1,
         pitch_per_second=1000000000,
@@ -140,8 +204,8 @@ def updatefrequency1():
     sinewave1.set_frequency(activefrequency1)
     time.sleep(0.03)
     sinewave1.play()
-    dispfreqlabel1.config(text="Frequency: " + str(round(activefrequency1,5)) + " Hz")
-    dispamplabel1.config(text="Amplitude: " + str(round(activeamplitude1,3)) + "%")
+    dispfreqlabel1.config(text="Frequency: " + str(round(activefrequency1, 5)) + " Hz")
+    dispamplabel1.config(text="Amplitude: " + str(round(activeamplitude1, 3)) + "%")
 
 
 # Updates Frequency To Active Frequency / Amplitude
@@ -153,7 +217,7 @@ def updatefrequency2():
     if activeamplitude2 == 0:
         decibles = -100
     else:
-        decibles = 10 * np.log2(activeamplitude2/100)
+        decibles = 10 * np.log2(activeamplitude2 / 100)
     sinewave2 = SineWave(
         pitch=1,
         pitch_per_second=1000000000,
@@ -165,8 +229,8 @@ def updatefrequency2():
     sinewave2.set_frequency(activefrequency2)
     time.sleep(0.03)
     sinewave2.play()
-    dispfreqlabel2.config(text="Frequency: " + str(round(activefrequency2,5)) + " Hz")
-    dispamplabel2.config(text="Amplitude: " + str(round(activeamplitude2,3)) + "%")
+    dispfreqlabel2.config(text="Frequency: " + str(round(activefrequency2, 5)) + " Hz")
+    dispamplabel2.config(text="Amplitude: " + str(round(activeamplitude2, 3)) + "%")
 
 
 # Stops All Frequencies, Deselects Buttons, Resets Variables
@@ -207,7 +271,9 @@ def applycustom1():
     global activefrequency1
     private1 = DoubleVar()
     private2 = DoubleVar()
-    responsetosubmitlabel.config(text="", background=backgroundcolor, foreground=textcolor)
+    responsetosubmitlabel.config(
+        text="", background=backgroundcolor, foreground=textcolor
+    )
     responsetosubmitlabel2.config(text="")
     validentry = BooleanVar(value=True)
     try:
@@ -215,7 +281,9 @@ def applycustom1():
         private2.set(customamplitude.get())
     except Exception:
         validentry.set(value=False)
-        responsetosubmitlabel.config(text="Invalid Entry!", background="Yellow", foreground="Black")
+        responsetosubmitlabel.config(
+            text="Invalid Entry!", background="Yellow", foreground="Black"
+        )
         print("SET FREQ1 STRING ERROR")
         return
 
@@ -250,7 +318,9 @@ def applycustom2():
     global activefrequency2
     private1 = DoubleVar()
     private2 = DoubleVar()
-    responsetosubmitlabel3.config(text="", background=backgroundcolor, foreground=textcolor)
+    responsetosubmitlabel3.config(
+        text="", background=backgroundcolor, foreground=textcolor
+    )
     responsetosubmitlabel4.config(text="")
     validentry = BooleanVar(value=True)
     try:
@@ -258,7 +328,9 @@ def applycustom2():
         private2.set(customamplitude2.get())
     except Exception:
         validentry.set(value=False)
-        responsetosubmitlabel3.config(text="Invalid Entry!", background="Yellow",foreground="Black")
+        responsetosubmitlabel3.config(
+            text="Invalid Entry!", background="Yellow", foreground="Black"
+        )
         print("SET FREQ2 STRING ERROR")
         return
     if private1.get() < 1:
@@ -351,7 +423,7 @@ def radiochangefreq2():
 
 # Create Root GUI
 root = Tk()
-root.title("Frequency Generator "+version)
+root.title("Frequency Generator " + version)
 root.geometry("1220x770")
 root.configure(background=backgroundcolor)
 root.resizable(False, False)
@@ -393,7 +465,7 @@ R11 = Radiobutton(
     font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
-    selectcolor=backgroundcolor
+    selectcolor=backgroundcolor,
 )
 R21 = Radiobutton(
     root,
@@ -404,7 +476,7 @@ R21 = Radiobutton(
     font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
-    selectcolor=backgroundcolor
+    selectcolor=backgroundcolor,
 )
 R31 = Radiobutton(
     root,
@@ -415,7 +487,7 @@ R31 = Radiobutton(
     font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
-    selectcolor=backgroundcolor
+    selectcolor=backgroundcolor,
 )
 R41 = Radiobutton(
     root,
@@ -426,7 +498,7 @@ R41 = Radiobutton(
     font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
-    selectcolor=backgroundcolor
+    selectcolor=backgroundcolor,
 )
 R51 = Radiobutton(
     root,
@@ -437,7 +509,7 @@ R51 = Radiobutton(
     font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
-    selectcolor=backgroundcolor
+    selectcolor=backgroundcolor,
 )
 
 presets2 = Radiobutton(root)
@@ -451,7 +523,7 @@ R12 = Radiobutton(
     font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
-    selectcolor=backgroundcolor
+    selectcolor=backgroundcolor,
 )
 R22 = Radiobutton(
     root,
@@ -462,7 +534,7 @@ R22 = Radiobutton(
     font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
-    selectcolor=backgroundcolor
+    selectcolor=backgroundcolor,
 )
 R32 = Radiobutton(
     root,
@@ -473,7 +545,7 @@ R32 = Radiobutton(
     font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
-    selectcolor=backgroundcolor
+    selectcolor=backgroundcolor,
 )
 R42 = Radiobutton(
     root,
@@ -484,7 +556,7 @@ R42 = Radiobutton(
     font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
-    selectcolor=backgroundcolor
+    selectcolor=backgroundcolor,
 )
 R52 = Radiobutton(
     root,
@@ -495,8 +567,8 @@ R52 = Radiobutton(
     font=("font", smallfontsize),
     background=backgroundcolor,
     fg=textcolor,
-    selectcolor=backgroundcolor
-    )
+    selectcolor=backgroundcolor,
+)
 
 # Place Selection Buttons
 R11.grid(column=0, row=2)
@@ -597,7 +669,7 @@ cfrequencyentry = Entry(
     fg=textcolor,
     borderwidth=0,
     highlightcolor=textcolor,
-    highlightthickness=2
+    highlightthickness=2,
 )
 cfrequencyentry2 = Entry(
     root,
@@ -609,7 +681,7 @@ cfrequencyentry2 = Entry(
     fg=textcolor,
     borderwidth=0,
     highlightcolor=textcolor,
-    highlightthickness=2
+    highlightthickness=2,
 )
 camplitudeentry = Entry(
     root,
@@ -621,7 +693,7 @@ camplitudeentry = Entry(
     fg=textcolor,
     borderwidth=0,
     highlightcolor=textcolor,
-    highlightthickness=2
+    highlightthickness=2,
 )
 camplitudeentry2 = Entry(
     root,
@@ -633,7 +705,7 @@ camplitudeentry2 = Entry(
     fg=textcolor,
     borderwidth=0,
     highlightcolor=textcolor,
-    highlightthickness=2
+    highlightthickness=2,
 )
 submitbutton = Button(
     root,
