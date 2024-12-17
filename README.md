@@ -41,7 +41,9 @@ Accepts any Frequency Value From 1 Hz and 20000 Hz
 Accepts any Amplitude Value from 0 % to 100 %
 
 If the program will not run check the console for errors due to setting presets incorrectly.
+
 Exit Codes:
+
 10 -> Preset Frequency Set Incorrectly
 11 -> Preset Frequency Set To Non-Numerical Value
 12 -> Preset Amplitude Set Incorrectly
