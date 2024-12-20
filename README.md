@@ -4,7 +4,7 @@ Simple application to create a tone and play it from system speakers.
 
 ## Description
 
-Plays two frequencies concurrently. Allows setting of 5 Presets at the top of the Main.py file. Also has custom frequency inputs for each frequencies.
+Plays two frequencies concurrently through system speakers. Allows setting of 5 preset frequencies along with inputs for custom on the fly frequency generation.
 
 ### Dependencies
 
@@ -28,7 +28,7 @@ Pip install requirements.txt
 
 ### Executing program
 
-* To Execute the program simply run Main.py
+* To execute the program simply run Main.py
 
 Windows:
 ```

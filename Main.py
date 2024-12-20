@@ -89,7 +89,7 @@ while i < len(frequencies):
             sys.exit(exitcode)
     except Exception:
         exitcode = 11
-        name = [k for k, v in globals().items() if id(v) == id(amplitudes[i])][0]
+        name = [k for k, v in globals().items() if id(v) == id(frequencies[i])][0]
         print("Error in Variable:" + name)
         print("Non Numerical Inputs Not Acceptable for Type Float")
         print("Process Exited With Exit Code:" + f"{exitcode}")
