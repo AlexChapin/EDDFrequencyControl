@@ -45,6 +45,12 @@ setting4amp2 = 100
 setting5freq2 = 500
 setting5amp2 = 100
 
+# Initial Sweep Rates
+fastsweeprate1 = 1000000000
+fastsweeprate2 = 1000000000
+
+slowsweeprate1 = 2
+slowsweeprate2 = 2
 
 # Stores Custom Frequencies and Amplitudes to Lists for Checks
 frequencies = [
@@ -176,6 +182,7 @@ activeamplitude2 = startupamp2
 
 # GUI Global Settings
 font = "Century"
+tinyfontsize = 15
 smallfontsize = 20
 titlefontsize = 35
 backgroundcolor = "#09142B"
@@ -188,24 +195,29 @@ def updatefrequency1():
     global sinewave1
     global activeamplitude1
     global activefrequency1
-    sinewave1.stop()
+    global sweeprate1
+    global prevfreq1
     if activeamplitude1 == 0:
         decibles = -100
     else:
         decibles = 10 * np.log2(activeamplitude1 / 100)
-    sinewave1 = SineWave(
-        pitch=1,
-        pitch_per_second=1000000000,
-        decibels_per_second=1,
-        decibels=decibles,
-    )
-
-    time.sleep(0.03)
-    sinewave1.set_frequency(activefrequency1)
-    time.sleep(0.03)
-    sinewave1.play()
+    if sweepfreq1.get():
+        sinewave1.stop()
+        pitch1 = 12*np.log2(prevfreq1/440) + 9
+        sinewave1 = SineWave(pitch=pitch1,pitch_per_second=sweeprate1, decibels_per_second=100000000, decibels=decibles)
+        sinewave1.set_frequency(activefrequency1)
+        sinewave1.play()
+        
+    else:
+        sinewave1.stop()
+        sinewave1 = SineWave(pitch=1,pitch_per_second=100000000,decibels_per_second=100000000,decibels=decibles)
+        time.sleep(0.03)
+        sinewave1.set_frequency(activefrequency1)
+        time.sleep(0.03)
+        sinewave1.play()
     dispfreqlabel1.config(text="Frequency: " + str(round(activefrequency1, 5)) + " Hz")
     dispamplabel1.config(text="Amplitude: " + str(round(activeamplitude1, 3)) + "%")
+    prevfreq1 = activefrequency1
 
 
 # Updates Frequency To Active Frequency / Amplitude
@@ -213,24 +225,29 @@ def updatefrequency2():
     global sinewave2
     global activeamplitude2
     global activefrequency2
-    sinewave2.stop()
+    global sweeprate2
+    global prevfreq2
     if activeamplitude2 == 0:
         decibles = -100
     else:
         decibles = 10 * np.log2(activeamplitude2 / 100)
-    sinewave2 = SineWave(
-        pitch=1,
-        pitch_per_second=1000000000,
-        decibels_per_second=1,
-        decibels=decibles,
-    )
-
-    time.sleep(0.03)
-    sinewave2.set_frequency(activefrequency2)
-    time.sleep(0.03)
-    sinewave2.play()
+    if sweepfreq2.get():
+        sinewave2.stop()
+        pitch2 = 12*np.log2(prevfreq2/440) + 9
+        sinewave2 = SineWave(pitch=pitch2,pitch_per_second=sweeprate2, decibels_per_second=100000000, decibels=decibles)
+        sinewave2.set_frequency(activefrequency2)
+        sinewave2.play()
+        
+    else:
+        sinewave2.stop()
+        sinewave2 = SineWave(pitch=1,pitch_per_second=100000000,decibels_per_second=100000000,decibels=decibles)
+        time.sleep(0.03)
+        sinewave2.set_frequency(activefrequency2)
+        time.sleep(0.03)
+        sinewave2.play()
     dispfreqlabel2.config(text="Frequency: " + str(round(activefrequency2, 5)) + " Hz")
     dispamplabel2.config(text="Amplitude: " + str(round(activeamplitude2, 3)) + "%")
+    prevfreq2 = activefrequency2
 
 
 # Stops All Frequencies, Deselects Buttons, Resets Variables
@@ -262,6 +279,23 @@ def stopall():
     R42.deselect()
     R52.deselect()
 
+def togglesweeprate1():
+    global sweepfreq1
+    global sweeprate1
+    if sweepfreq1.get():
+        sweeprate1 = slowsweeprate1
+    else:
+        sweeprate1 = fastsweeprate1
+        updatefrequency1()
+
+def togglesweeprate2():
+    global sweepfreq2
+    global sweeprate2
+    if sweepfreq2.get():
+        sweeprate2 = slowsweeprate2
+    else:
+        sweeprate2 = fastsweeprate2
+        updatefrequency2()    
 
 # Applies Custom Frequency Information
 def applycustom1():
@@ -402,7 +436,6 @@ def radiochangefreq2():
     global setting5freq2
     global activeamplitude2
     global activefrequency2
-    active = "Active Selection: "
     if str(selectionnumber2.get()) == "1":
         activeamplitude2 = setting1amp2
         activefrequency2 = setting1freq2
@@ -432,10 +465,10 @@ root.iconbitmap("ICERootLogo.ico")
 
 # Create SineWave Objects
 sinewave1 = SineWave(
-    pitch=1, pitch_per_second=1000000000, decibels_per_second=1, decibels=0
+    pitch=1, pitch_per_second=1000000000, decibels_per_second=100000000, decibels=0
 )
 sinewave2 = SineWave(
-    pitch=1, pitch_per_second=1000000000, decibels_per_second=1, decibels=0
+    pitch=1, pitch_per_second=1000000000, decibels_per_second=100000000, decibels=0
 )
 
 # Define Custom Frequencies
@@ -443,6 +476,10 @@ customfrequency = DoubleVar()
 customamplitude = DoubleVar()
 customfrequency2 = DoubleVar()
 customamplitude2 = DoubleVar()
+sweepfreq1 = BooleanVar(value=False)
+sweepfreq2 = BooleanVar(value=False)
+sweeprate1 = fastsweeprate1
+sweeprate2 = fastsweeprate2
 
 # Create Logo Block
 image = Image.open("ICElogo.png")
@@ -731,6 +768,9 @@ stopallbutton = Button(
     background=backgroundcolor,
     fg=textcolor,
 )
+sweepcheck1 = Checkbutton(root, text="Sweep", variable=sweepfreq1, command=togglesweeprate1, foreground=textcolor, background=backgroundcolor, selectcolor=backgroundcolor, font=("font", tinyfontsize))
+sweepcheck2 = Checkbutton(root, text="Sweep", variable=sweepfreq2, command=togglesweeprate2, foreground=textcolor, background=backgroundcolor, selectcolor=backgroundcolor, font=("font", tinyfontsize))
+
 responsetosubmitlabel = Label(
     root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
 )
@@ -779,14 +819,18 @@ customamplabel.grid(column=1, row=16)
 customamplabel2.grid(column=11, row=16)
 px10frame.grid(column=0, row=17)
 px10frame.grid(column=10, row=17)
-submitbutton.grid(column=0, row=18)
-submitbutton2.grid(column=10, row=18)
-px5frame.grid(column=0, row=19)
-px5frame.grid(column=10, row=19)
-responsetosubmitlabel.grid(column=0, row=20)
-responsetosubmitlabel2.grid(column=0, row=21)
-responsetosubmitlabel3.grid(column=10, row=20)
-responsetosubmitlabel4.grid(column=10, row=21)
+sweepcheck1.grid(column=0, row=18)
+sweepcheck2.grid(column=10, row=18)
+px10frame.grid(column=0, row=19)
+px10frame.grid(column=10, row=19)
+submitbutton.grid(column=0, row=20)
+submitbutton2.grid(column=10, row=20)
+px5frame.grid(column=0, row=21)
+px5frame.grid(column=10, row=21)
+responsetosubmitlabel.grid(column=0, row=22)
+responsetosubmitlabel2.grid(column=0, row=23)
+responsetosubmitlabel3.grid(column=10, row=22)
+responsetosubmitlabel4.grid(column=10, row=23)
 
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 
