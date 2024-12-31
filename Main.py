@@ -2,6 +2,7 @@ import numpy as np
 import warnings
 import time
 import sys
+import tkinter as tk
 from tkinter import *
 from PIL import ImageTk, Image
 from pysinewave import SineWave
@@ -197,20 +198,31 @@ def updatefrequency1():
     global activefrequency1
     global sweeprate1
     global prevfreq1
+    print(activefrequency1)
     if activeamplitude1 == 0:
         decibles = -100
     else:
         decibles = 10 * np.log2(activeamplitude1 / 100)
     if sweepfreq1.get():
         sinewave1.stop()
-        pitch1 = 12*np.log2(prevfreq1/440) + 9
-        sinewave1 = SineWave(pitch=pitch1,pitch_per_second=sweeprate1, decibels_per_second=100000000, decibels=decibles)
+        pitch1 = 12 * np.log2(prevfreq1 / 440) + 9
+        sinewave1 = SineWave(
+            pitch=pitch1,
+            pitch_per_second=sweeprate1,
+            decibels_per_second=100000000,
+            decibels=decibles,
+        )
         sinewave1.set_frequency(activefrequency1)
         sinewave1.play()
-        
+
     else:
         sinewave1.stop()
-        sinewave1 = SineWave(pitch=1,pitch_per_second=100000000,decibels_per_second=100000000,decibels=decibles)
+        sinewave1 = SineWave(
+            pitch=1,
+            pitch_per_second=100000000,
+            decibels_per_second=100000000,
+            decibels=decibles,
+        )
         time.sleep(0.03)
         sinewave1.set_frequency(activefrequency1)
         time.sleep(0.03)
@@ -233,14 +245,24 @@ def updatefrequency2():
         decibles = 10 * np.log2(activeamplitude2 / 100)
     if sweepfreq2.get():
         sinewave2.stop()
-        pitch2 = 12*np.log2(prevfreq2/440) + 9
-        sinewave2 = SineWave(pitch=pitch2,pitch_per_second=sweeprate2, decibels_per_second=100000000, decibels=decibles)
+        pitch2 = 12 * np.log2(prevfreq2 / 440) + 9
+        sinewave2 = SineWave(
+            pitch=pitch2,
+            pitch_per_second=sweeprate2,
+            decibels_per_second=100000000,
+            decibels=decibles,
+        )
         sinewave2.set_frequency(activefrequency2)
         sinewave2.play()
-        
+
     else:
         sinewave2.stop()
-        sinewave2 = SineWave(pitch=1,pitch_per_second=100000000,decibels_per_second=100000000,decibels=decibles)
+        sinewave2 = SineWave(
+            pitch=1,
+            pitch_per_second=100000000,
+            decibels_per_second=100000000,
+            decibels=decibles,
+        )
         time.sleep(0.03)
         sinewave2.set_frequency(activefrequency2)
         time.sleep(0.03)
@@ -279,6 +301,7 @@ def stopall():
     R42.deselect()
     R52.deselect()
 
+
 def togglesweeprate1():
     global sweepfreq1
     global sweeprate1
@@ -288,6 +311,7 @@ def togglesweeprate1():
         sweeprate1 = fastsweeprate1
         updatefrequency1()
 
+
 def togglesweeprate2():
     global sweepfreq2
     global sweeprate2
@@ -295,7 +319,8 @@ def togglesweeprate2():
         sweeprate2 = slowsweeprate2
     else:
         sweeprate2 = fastsweeprate2
-        updatefrequency2()    
+        updatefrequency2()
+
 
 # Applies Custom Frequency Information
 def applycustom1():
@@ -454,6 +479,82 @@ def radiochangefreq2():
     updatefrequency2()
 
 
+def slidermenu():
+    global sliderhasrun
+    global slidermenuwindow
+    responsetoslidermenu.config(
+        text="", background=backgroundcolor, foreground=textcolor
+    )
+    if not sliderhasrun:
+        createslidermenu()
+        sliderhasrun = True
+        return
+    if hasattr(slidermenuwindow, "winfo_exists") and slidermenuwindow.winfo_exists():
+        responsetoslidermenu.config(
+            text="Window Already Open!", background="Yellow", foreground="Black"
+        )
+        return
+    else:
+        createslidermenu()
+
+
+def createslidermenu():
+    global slidermenuwindow
+    slidermenuwindow = tk.Toplevel(root)
+    slidermenuwindow.title("Frequency Sliders")
+    slidermenuwindow.geometry("800x400")
+    slidermenuwindow.configure(background=backgroundcolor)
+    slidermenuwindow.resizable(False, False)
+    slidermenuwindow.iconbitmap("ICERootLogo.ico")
+    labelfreq1 = Label(
+        slidermenuwindow,
+        text="Frequency 1",
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=titletextcolor,
+    )
+    labelfreq2 = Label(
+        slidermenuwindow,
+        text="Frequency 2",
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=titletextcolor,
+    )
+
+    slider1 = Scale(slidermenuwindow, variable=sliderfrequency1, from_=1, to=1000, orient=HORIZONTAL, length=750, command=sliderupdate1, background=backgroundcolor,fg=textcolor,
+                    )
+    slider2 = Scale(slidermenuwindow, variable=sliderfrequency2, from_=1, to=1000, orient=HORIZONTAL, length=750, command=sliderupdate2, background=backgroundcolor,fg=textcolor,
+                    )
+    
+
+    labelfreq1.grid(column=5,row=0)
+    slider1.grid(column=0, columnspan=10, row=2, padx=25)
+    labelfreq2.grid(column=5,row=4)
+    slider2.grid(column=0, columnspan=10, row=5, padx=25)
+
+
+def sliderupdate1(frequency):
+    global activefrequency1
+    global sinewave1
+    global sweepfreq1
+    if sweepfreq1.get():
+        sweepfreq1.set(False)
+        updatefrequency1()
+    activefrequency1 = sliderfrequency1.get()
+    sinewave1.set_frequency(activefrequency1)
+    dispfreqlabel1.config(text="Frequency: " + str(round(activefrequency1, 5)) + " Hz")
+
+def sliderupdate2(frequency):
+    global activefrequency2
+    global sinewave2
+    global sweepfreq2
+    if sweepfreq2.get():
+        sweepfreq2.set(False)
+        updatefrequency2()
+    activefrequency2 = sliderfrequency2.get()
+    sinewave2.set_frequency(activefrequency2)
+    dispfreqlabel2.config(text="Frequency: " + str(round(activefrequency2, 5)) + " Hz")
+
 # Create Root GUI
 root = Tk()
 root.title("Frequency Generator " + version)
@@ -462,6 +563,7 @@ root.configure(background=backgroundcolor)
 root.resizable(False, False)
 root.iconbitmap("ICERootLogo.ico")
 
+sliderhasrun = False
 
 # Create SineWave Objects
 sinewave1 = SineWave(
@@ -476,6 +578,8 @@ customfrequency = DoubleVar()
 customamplitude = DoubleVar()
 customfrequency2 = DoubleVar()
 customamplitude2 = DoubleVar()
+sliderfrequency1 = DoubleVar()
+sliderfrequency2 = DoubleVar()
 sweepfreq1 = BooleanVar(value=False)
 sweepfreq2 = BooleanVar(value=False)
 sweeprate1 = fastsweeprate1
@@ -768,8 +872,34 @@ stopallbutton = Button(
     background=backgroundcolor,
     fg=textcolor,
 )
-sweepcheck1 = Checkbutton(root, text="Sweep", variable=sweepfreq1, command=togglesweeprate1, foreground=textcolor, background=backgroundcolor, selectcolor=backgroundcolor, font=("font", tinyfontsize))
-sweepcheck2 = Checkbutton(root, text="Sweep", variable=sweepfreq2, command=togglesweeprate2, foreground=textcolor, background=backgroundcolor, selectcolor=backgroundcolor, font=("font", tinyfontsize))
+sweepcheck1 = Checkbutton(
+    root,
+    text="Sweep",
+    variable=sweepfreq1,
+    command=togglesweeprate1,
+    foreground=textcolor,
+    background=backgroundcolor,
+    selectcolor=backgroundcolor,
+    font=("font", tinyfontsize),
+)
+sweepcheck2 = Checkbutton(
+    root,
+    text="Sweep",
+    variable=sweepfreq2,
+    command=togglesweeprate2,
+    foreground=textcolor,
+    background=backgroundcolor,
+    selectcolor=backgroundcolor,
+    font=("font", tinyfontsize),
+)
+
+slidermenubutton = Button(
+    command=slidermenu,
+    text="Open Slider Menu",
+    font=("font", smallfontsize),
+    background=backgroundcolor,
+    fg=textcolor,
+)
 
 responsetosubmitlabel = Label(
     root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
@@ -781,6 +911,9 @@ responsetosubmitlabel3 = Label(
     root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
 )
 responsetosubmitlabel4 = Label(
+    root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
+)
+responsetoslidermenu = Label(
     root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
 )
 
@@ -831,6 +964,9 @@ responsetosubmitlabel.grid(column=0, row=22)
 responsetosubmitlabel2.grid(column=0, row=23)
 responsetosubmitlabel3.grid(column=10, row=22)
 responsetosubmitlabel4.grid(column=10, row=23)
+slidermenubutton.grid(column=5, row=20)
+px10frame.grid(column=5, row=21)
+responsetoslidermenu.grid(column=5, row=22)
 
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 
