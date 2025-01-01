@@ -135,7 +135,7 @@ while i < len(amplitudes):
     i += 1
 
 # Version Number:
-version = "v1.0.2"
+version = "v1.0.3"
 
 # Establish Setting Names
 setting1name = (
@@ -547,7 +547,9 @@ def createslidermenu():
     slidermenuwindow.resizable(False, False)
     slidermenuwindow.iconbitmap("ICERootLogo.ico")
 
-    px80frameslider = Frame(slidermenuwindow, width=80, height=80, background=backgroundcolor)
+    px80frameslider = Frame(
+        slidermenuwindow, width=80, height=80, background=backgroundcolor
+    )
 
     labelfreq1 = Label(
         slidermenuwindow,
@@ -576,20 +578,20 @@ def createslidermenu():
         fg=textcolor,
     )
     amplitudebutton1 = Button(
-    slidermenuwindow,
-    command=setamplitude1topreset,
-    text="Set Frequency 1 Amplitude to " + str(freq1buttonpreset) + "%",
-    font=("font", tinyfontsize),
-    background=backgroundcolor,
-    fg=textcolor,
+        slidermenuwindow,
+        command=setamplitude1topreset,
+        text="Set Frequency 1 Amplitude to " + str(freq1buttonpreset) + "%",
+        font=("font", tinyfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
     )
     amplitudebutton2 = Button(
-    slidermenuwindow,
-    command=setamplitude2topreset,
-    text="Set Frequency 2 Amplitude to " + str(freq2buttonpreset) + "%",
-    font=("font", tinyfontsize),
-    background=backgroundcolor,
-    fg=textcolor,
+        slidermenuwindow,
+        command=setamplitude2topreset,
+        text="Set Frequency 2 Amplitude to " + str(freq2buttonpreset) + "%",
+        font=("font", tinyfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
     )
     slider1 = Scale(
         slidermenuwindow,
@@ -615,16 +617,20 @@ def createslidermenu():
     )
 
     labelfreq1.grid(column=5, row=0, pady=5)
-    slider1.grid(column=0, columnspan=10, row=2, padx=25,pady=10)
-    activefreqlabel1.grid(column=5,row=3, pady=5)
+    slider1.grid(column=0, columnspan=10, row=2, padx=25, pady=10)
+    activefreqlabel1.grid(column=5, row=3, pady=5)
     amplitudebutton1.grid(column=5, row=4, pady=5)
     px80frameslider.grid(column=5, row=5)
-    labelfreq2.grid(column=5, row=6,pady=5)
-    slider2.grid(column=0, columnspan=10, row=8, padx=25,pady=10)
+    labelfreq2.grid(column=5, row=6, pady=5)
+    slider2.grid(column=0, columnspan=10, row=8, padx=25, pady=10)
     activefreqlabel2.grid(column=5, row=9, pady=5)
     amplitudebutton2.grid(column=5, row=10, pady=5)
-    activefreqlabel1.config(text="Frequency: " + str(round(activefrequency1, 5)) + " Hz")
-    activefreqlabel2.config(text="Frequency: " + str(round(activefrequency2, 5)) + " Hz")
+    activefreqlabel1.config(
+        text="Frequency: " + str(round(activefrequency1, 5)) + " Hz"
+    )
+    activefreqlabel2.config(
+        text="Frequency: " + str(round(activefrequency2, 5)) + " Hz"
+    )
 
 
 def sliderupdate1(frequency):
@@ -660,6 +666,7 @@ def sliderupdate2(frequency):
     dispfreqlabel2.config(text=dispfreq2)
     activefreqlabel2.config(text=dispfreq2)
 
+
 def setamplitude1topreset():
     global activeamplitude1
     global sinewave1
@@ -671,6 +678,7 @@ def setamplitude1topreset():
     sinewave1.set_volume(decibles)
     dispamplabel1.config(text="Amplitude: " + str(round(activeamplitude1, 3)) + "%")
 
+
 def setamplitude2topreset():
     global activeamplitude2
     global sinewave2
@@ -681,6 +689,7 @@ def setamplitude2topreset():
         decibles = 10 * np.log2(activeamplitude2 / 100)
     sinewave2.set_volume(decibles)
     dispamplabel2.config(text="Amplitude: " + str(round(activeamplitude2, 3)) + "%")
+
 
 # Create Root GUI
 root = Tk()
