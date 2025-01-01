@@ -15,8 +15,8 @@ startupfreq2 = 1
 startupamp2 = 0
 
 # Frequency 1 Settings
-setting1freq = 35
-setting1amp = 65
+setting1freq = 100
+setting1amp = 100
 
 setting2freq = 200
 setting2amp = 100
@@ -31,8 +31,8 @@ setting5freq = 500
 setting5amp = 100
 
 # Frequency 2 Settings
-setting1freq2 = 10
-setting1amp2 = 60
+setting1freq2 = 100
+setting1amp2 = 100
 
 setting2freq2 = 200
 setting2amp2 = 100
@@ -78,6 +78,10 @@ frequencies = [
     setting3freq2,
     setting4freq2,
     setting5freq2,
+    freq1sliderlow,
+    freq1sliderhigh,
+    freq2sliderlow,
+    freq2sliderhigh
 ]
 amplitudes = [
     startupamp1,
@@ -92,6 +96,8 @@ amplitudes = [
     setting3amp2,
     setting4amp2,
     setting5amp2,
+    freq1buttonpreset,
+    freq2buttonpreset
 ]
 
 i = 0
@@ -596,8 +602,8 @@ def createslidermenu():
     slider1 = Scale(
         slidermenuwindow,
         variable=sliderfrequency1,
-        from_=1,
-        to=1000,
+        from_=freq1sliderlow,
+        to=freq1sliderhigh,
         orient=HORIZONTAL,
         length=750,
         command=sliderupdate1,
@@ -607,8 +613,8 @@ def createslidermenu():
     slider2 = Scale(
         slidermenuwindow,
         variable=sliderfrequency2,
-        from_=1,
-        to=1000,
+        from_=freq2sliderlow,
+        to=freq2sliderhigh,
         orient=HORIZONTAL,
         length=750,
         command=sliderupdate2,
