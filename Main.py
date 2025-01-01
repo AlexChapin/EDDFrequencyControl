@@ -198,35 +198,39 @@ def updatefrequency1():
     global activefrequency1
     global sweeprate1
     global prevfreq1
-    print(activefrequency1)
+    global freqsweepistrue1
     if activeamplitude1 == 0:
         decibles = -100
     else:
         decibles = 10 * np.log2(activeamplitude1 / 100)
     if sweepfreq1.get():
-        sinewave1.stop()
-        pitch1 = 12 * np.log2(prevfreq1 / 440) + 9
-        sinewave1 = SineWave(
+        if not freqsweepistrue1:
+            sinewave1.stop()
+            pitch1 = 12 * np.log2(prevfreq1 / 440) + 9
+            sinewave1 = SineWave(
             pitch=pitch1,
             pitch_per_second=sweeprate1,
             decibels_per_second=100000000,
             decibels=decibles,
-        )
+            )
+            sinewave1.play()
+            freqsweepistrue1 = True
         sinewave1.set_frequency(activefrequency1)
-        sinewave1.play()
-
+        sinewave1.set_volume(decibles)
     else:
-        sinewave1.stop()
-        sinewave1 = SineWave(
+        if freqsweepistrue1:
+            sinewave1.stop()
+            sinewave1 = SineWave(
             pitch=1,
-            pitch_per_second=100000000,
+            pitch_per_second=fastsweeprate1,
             decibels_per_second=100000000,
             decibels=decibles,
-        )
-        time.sleep(0.03)
+            )
+            sinewave1.play()
+            freqsweepistrue1 = False
         sinewave1.set_frequency(activefrequency1)
-        time.sleep(0.03)
-        sinewave1.play()
+        sinewave1.set_volume(decibles)
+            
     dispfreqlabel1.config(text="Frequency: " + str(round(activefrequency1, 5)) + " Hz")
     dispamplabel1.config(text="Amplitude: " + str(round(activeamplitude1, 3)) + "%")
     prevfreq1 = activefrequency1
@@ -239,34 +243,39 @@ def updatefrequency2():
     global activefrequency2
     global sweeprate2
     global prevfreq2
+    global freqsweepistrue2
     if activeamplitude2 == 0:
         decibles = -100
     else:
         decibles = 10 * np.log2(activeamplitude2 / 100)
     if sweepfreq2.get():
-        sinewave2.stop()
-        pitch2 = 12 * np.log2(prevfreq2 / 440) + 9
-        sinewave2 = SineWave(
+        if not freqsweepistrue2:
+            sinewave2.stop()
+            pitch2 = 12 * np.log2(prevfreq2 / 440) + 9
+            sinewave2 = SineWave(
             pitch=pitch2,
             pitch_per_second=sweeprate2,
             decibels_per_second=100000000,
             decibels=decibles,
-        )
-        sinewave2.set_frequency(activefrequency2)
-        sinewave2.play()
-
+            )
+            sinewave2.play()
+            freqsweepistrue2 = True
+        sinewave2.set_frequency(activefrequency1)
+        sinewave2.set_volume(decibles)
     else:
-        sinewave2.stop()
-        sinewave2 = SineWave(
+        if freqsweepistrue2:
+            sinewave2.stop()
+            sinewave2 = SineWave(
             pitch=1,
-            pitch_per_second=100000000,
+            pitch_per_second=fastsweeprate2,
             decibels_per_second=100000000,
             decibels=decibles,
-        )
-        time.sleep(0.03)
+            )
+            sinewave2.play()
+            freqsweepistrue2 = False
         sinewave2.set_frequency(activefrequency2)
-        time.sleep(0.03)
-        sinewave2.play()
+        sinewave2.set_volume(decibles)
+            
     dispfreqlabel2.config(text="Frequency: " + str(round(activefrequency2, 5)) + " Hz")
     dispamplabel2.config(text="Amplitude: " + str(round(activeamplitude2, 3)) + "%")
     prevfreq2 = activefrequency2
@@ -566,12 +575,8 @@ root.iconbitmap("ICERootLogo.ico")
 sliderhasrun = False
 
 # Create SineWave Objects
-sinewave1 = SineWave(
-    pitch=1, pitch_per_second=1000000000, decibels_per_second=100000000, decibels=0
-)
-sinewave2 = SineWave(
-    pitch=1, pitch_per_second=1000000000, decibels_per_second=100000000, decibels=0
-)
+sinewave1 = SineWave()
+sinewave2 = SineWave()
 
 # Define Custom Frequencies
 customfrequency = DoubleVar()
@@ -582,6 +587,8 @@ sliderfrequency1 = DoubleVar()
 sliderfrequency2 = DoubleVar()
 sweepfreq1 = BooleanVar(value=False)
 sweepfreq2 = BooleanVar(value=False)
+freqsweepistrue1 = True
+freqsweepistrue2 = True
 sweeprate1 = fastsweeprate1
 sweeprate2 = fastsweeprate2
 
