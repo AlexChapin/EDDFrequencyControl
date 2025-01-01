@@ -46,7 +46,18 @@ setting4amp2 = 100
 setting5freq2 = 500
 setting5amp2 = 100
 
-# Initial Sweep Rates
+# Slider Settings
+freq1sliderlow = 1
+freq1sliderhigh = 1000
+
+freq2sliderlow = 1
+freq2sliderhigh = 1000
+
+freq1buttonpreset = 100
+freq2buttonpreset = 100
+
+# Sweep Rates
+# Fast Sweep Rates are Default
 fastsweeprate1 = 1000000000
 fastsweeprate2 = 1000000000
 
@@ -208,10 +219,10 @@ def updatefrequency1():
             sinewave1.stop()
             pitch1 = 12 * np.log2(prevfreq1 / 440) + 9
             sinewave1 = SineWave(
-            pitch=pitch1,
-            pitch_per_second=sweeprate1,
-            decibels_per_second=100000000,
-            decibels=decibles,
+                pitch=pitch1,
+                pitch_per_second=sweeprate1,
+                decibels_per_second=100000000,
+                decibels=decibles,
             )
             sinewave1.play()
             freqsweepistrue1 = True
@@ -221,16 +232,16 @@ def updatefrequency1():
         if freqsweepistrue1:
             sinewave1.stop()
             sinewave1 = SineWave(
-            pitch=1,
-            pitch_per_second=fastsweeprate1,
-            decibels_per_second=100000000,
-            decibels=decibles,
+                pitch=1,
+                pitch_per_second=fastsweeprate1,
+                decibels_per_second=100000000,
+                decibels=decibles,
             )
             sinewave1.play()
             freqsweepistrue1 = False
         sinewave1.set_frequency(activefrequency1)
         sinewave1.set_volume(decibles)
-            
+
     dispfreqlabel1.config(text="Frequency: " + str(round(activefrequency1, 5)) + " Hz")
     dispamplabel1.config(text="Amplitude: " + str(round(activeamplitude1, 3)) + "%")
     prevfreq1 = activefrequency1
@@ -253,10 +264,10 @@ def updatefrequency2():
             sinewave2.stop()
             pitch2 = 12 * np.log2(prevfreq2 / 440) + 9
             sinewave2 = SineWave(
-            pitch=pitch2,
-            pitch_per_second=sweeprate2,
-            decibels_per_second=100000000,
-            decibels=decibles,
+                pitch=pitch2,
+                pitch_per_second=sweeprate2,
+                decibels_per_second=100000000,
+                decibels=decibles,
             )
             sinewave2.play()
             freqsweepistrue2 = True
@@ -266,16 +277,16 @@ def updatefrequency2():
         if freqsweepistrue2:
             sinewave2.stop()
             sinewave2 = SineWave(
-            pitch=1,
-            pitch_per_second=fastsweeprate2,
-            decibels_per_second=100000000,
-            decibels=decibles,
+                pitch=1,
+                pitch_per_second=fastsweeprate2,
+                decibels_per_second=100000000,
+                decibels=decibles,
             )
             sinewave2.play()
             freqsweepistrue2 = False
         sinewave2.set_frequency(activefrequency2)
         sinewave2.set_volume(decibles)
-            
+
     dispfreqlabel2.config(text="Frequency: " + str(round(activefrequency2, 5)) + " Hz")
     dispamplabel2.config(text="Amplitude: " + str(round(activeamplitude2, 3)) + "%")
     prevfreq2 = activefrequency2
@@ -291,12 +302,30 @@ def stopall():
     global customamplitude
     global customfrequency2
     global customamplitude2
+    global sweepfreq1
+    global sweepfreq2
+    global freqsweepistrue1
+    global freqsweepistrue2
+    global hasstopped1
+    global hasstopped2
     activefrequency1 = 0
     activefrequency2 = 0
     activeamplitude1 = 0
     activeamplitude2 = 0
-    updatefrequency1()
-    updatefrequency2()
+    sinewave1.set_volume(-100)
+    sinewave2.set_volume(-100)
+    sinewave1.set_frequency(0)
+    sinewave2.set_frequency(0)
+    dispfreqlabel2.config(text="Frequency: " + str(round(activefrequency2, 5)) + " Hz")
+    dispamplabel2.config(text="Amplitude: " + str(round(activeamplitude2, 3)) + "%")
+    dispfreqlabel1.config(text="Frequency: " + str(round(activefrequency1, 5)) + " Hz")
+    dispamplabel1.config(text="Amplitude: " + str(round(activeamplitude1, 3)) + "%")
+    sweepfreq1.set(False)
+    sweepfreq2.set(False)
+    freqsweepistrue1 = True
+    freqsweepistrue2 = True
+    hasstopped1 = True
+    hasstopped2 = True
     responsetosubmitlabel.config(text="")
     responsetosubmitlabel2.config(text="")
     R11.deselect()
@@ -509,60 +538,149 @@ def slidermenu():
 
 def createslidermenu():
     global slidermenuwindow
+    global activefreqlabel1
+    global activefreqlabel2
     slidermenuwindow = tk.Toplevel(root)
     slidermenuwindow.title("Frequency Sliders")
-    slidermenuwindow.geometry("800x400")
+    slidermenuwindow.geometry("800x550")
     slidermenuwindow.configure(background=backgroundcolor)
     slidermenuwindow.resizable(False, False)
     slidermenuwindow.iconbitmap("ICERootLogo.ico")
+
+    px80frameslider = Frame(slidermenuwindow, width=80, height=80, background=backgroundcolor)
+
     labelfreq1 = Label(
         slidermenuwindow,
         text="Frequency 1",
-        font=("font", smallfontsize),
+        font=("font", titlefontsize),
         background=backgroundcolor,
         fg=titletextcolor,
     )
     labelfreq2 = Label(
         slidermenuwindow,
         text="Frequency 2",
-        font=("font", smallfontsize),
+        font=("font", titlefontsize),
         background=backgroundcolor,
         fg=titletextcolor,
     )
+    activefreqlabel1 = Label(
+        slidermenuwindow,
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
+    )
+    activefreqlabel2 = Label(
+        slidermenuwindow,
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
+    )
+    amplitudebutton1 = Button(
+    slidermenuwindow,
+    command=setamplitude1topreset,
+    text="Set Frequency 1 Amplitude to " + str(freq1buttonpreset) + "%",
+    font=("font", tinyfontsize),
+    background=backgroundcolor,
+    fg=textcolor,
+    )
+    amplitudebutton2 = Button(
+    slidermenuwindow,
+    command=setamplitude2topreset,
+    text="Set Frequency 2 Amplitude to " + str(freq2buttonpreset) + "%",
+    font=("font", tinyfontsize),
+    background=backgroundcolor,
+    fg=textcolor,
+    )
+    slider1 = Scale(
+        slidermenuwindow,
+        variable=sliderfrequency1,
+        from_=1,
+        to=1000,
+        orient=HORIZONTAL,
+        length=750,
+        command=sliderupdate1,
+        background=backgroundcolor,
+        fg=textcolor,
+    )
+    slider2 = Scale(
+        slidermenuwindow,
+        variable=sliderfrequency2,
+        from_=1,
+        to=1000,
+        orient=HORIZONTAL,
+        length=750,
+        command=sliderupdate2,
+        background=backgroundcolor,
+        fg=textcolor,
+    )
 
-    slider1 = Scale(slidermenuwindow, variable=sliderfrequency1, from_=1, to=1000, orient=HORIZONTAL, length=750, command=sliderupdate1, background=backgroundcolor,fg=textcolor,
-                    )
-    slider2 = Scale(slidermenuwindow, variable=sliderfrequency2, from_=1, to=1000, orient=HORIZONTAL, length=750, command=sliderupdate2, background=backgroundcolor,fg=textcolor,
-                    )
-    
-
-    labelfreq1.grid(column=5,row=0)
-    slider1.grid(column=0, columnspan=10, row=2, padx=25)
-    labelfreq2.grid(column=5,row=4)
-    slider2.grid(column=0, columnspan=10, row=5, padx=25)
+    labelfreq1.grid(column=5, row=0, pady=5)
+    slider1.grid(column=0, columnspan=10, row=2, padx=25,pady=10)
+    activefreqlabel1.grid(column=5,row=3, pady=5)
+    amplitudebutton1.grid(column=5, row=4, pady=5)
+    px80frameslider.grid(column=5, row=5)
+    labelfreq2.grid(column=5, row=6,pady=5)
+    slider2.grid(column=0, columnspan=10, row=8, padx=25,pady=10)
+    activefreqlabel2.grid(column=5, row=9, pady=5)
+    amplitudebutton2.grid(column=5, row=10, pady=5)
+    activefreqlabel1.config(text="Frequency: " + str(round(activefrequency1, 5)) + " Hz")
+    activefreqlabel2.config(text="Frequency: " + str(round(activefrequency2, 5)) + " Hz")
 
 
 def sliderupdate1(frequency):
     global activefrequency1
     global sinewave1
     global sweepfreq1
-    if sweepfreq1.get():
+    global activefreqlabel1
+    global hasstopped1
+    if sweepfreq1.get() or hasstopped1:
         sweepfreq1.set(False)
         updatefrequency1()
+        hasstopped1 = False
     activefrequency1 = sliderfrequency1.get()
     sinewave1.set_frequency(activefrequency1)
-    dispfreqlabel1.config(text="Frequency: " + str(round(activefrequency1, 5)) + " Hz")
+    dispfreq1 = "Frequency: " + str(round(activefrequency1, 5)) + " Hz"
+    dispfreqlabel1.config(text=dispfreq1)
+    activefreqlabel1.config(text=dispfreq1)
+
 
 def sliderupdate2(frequency):
     global activefrequency2
     global sinewave2
     global sweepfreq2
-    if sweepfreq2.get():
+    global activefreqlabel2
+    global hasstopped2
+    if sweepfreq2.get() or hasstopped2:
         sweepfreq2.set(False)
         updatefrequency2()
+        hasstopped2 = False
     activefrequency2 = sliderfrequency2.get()
     sinewave2.set_frequency(activefrequency2)
-    dispfreqlabel2.config(text="Frequency: " + str(round(activefrequency2, 5)) + " Hz")
+    dispfreq2 = "Frequency: " + str(round(activefrequency2, 5)) + " Hz"
+    dispfreqlabel2.config(text=dispfreq2)
+    activefreqlabel2.config(text=dispfreq2)
+
+def setamplitude1topreset():
+    global activeamplitude1
+    global sinewave1
+    activeamplitude1 = freq1buttonpreset
+    if activeamplitude1 == 0:
+        decibles = -100
+    else:
+        decibles = 10 * np.log2(activeamplitude1 / 100)
+    sinewave1.set_volume(decibles)
+    dispamplabel1.config(text="Amplitude: " + str(round(activeamplitude1, 3)) + "%")
+
+def setamplitude2topreset():
+    global activeamplitude2
+    global sinewave2
+    activeamplitude2 = freq2buttonpreset
+    if activeamplitude2 == 0:
+        decibles = -100
+    else:
+        decibles = 10 * np.log2(activeamplitude2 / 100)
+    sinewave2.set_volume(decibles)
+    dispamplabel2.config(text="Amplitude: " + str(round(activeamplitude2, 3)) + "%")
 
 # Create Root GUI
 root = Tk()
@@ -591,6 +709,9 @@ freqsweepistrue1 = True
 freqsweepistrue2 = True
 sweeprate1 = fastsweeprate1
 sweeprate2 = fastsweeprate2
+
+hasstopped1 = False
+hasstopped2 = False
 
 # Create Logo Block
 image = Image.open("ICElogo.png")
@@ -925,6 +1046,7 @@ responsetoslidermenu = Label(
 )
 
 # Create Spacing Elements
+px100frame = Frame(root, width=100, height=100, background=backgroundcolor)
 px40frame = Frame(root, width=40, height=40, background=backgroundcolor)
 px10frame = Frame(root, width=10, height=10, background=backgroundcolor)
 px5frame = Frame(root, width=5, height=5, background=backgroundcolor)
