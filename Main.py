@@ -1,6 +1,5 @@
 import numpy as np
 import warnings
-import time
 import sys
 import tkinter as tk
 from tkinter import *
@@ -54,7 +53,7 @@ freq2sliderlow = 1
 freq2sliderhigh = 1000
 
 # Smallest Unit That The Slider Can Change By
-scaleresolution = .5
+scaleresolution = 0.5
 
 freq1buttonpreset = 100
 freq2buttonpreset = 100
@@ -84,7 +83,7 @@ frequencies = [
     freq1sliderlow,
     freq1sliderhigh,
     freq2sliderlow,
-    freq2sliderhigh
+    freq2sliderhigh,
 ]
 amplitudes = [
     startupamp1,
@@ -100,7 +99,7 @@ amplitudes = [
     setting4amp2,
     setting5amp2,
     freq1buttonpreset,
-    freq2buttonpreset
+    freq2buttonpreset,
 ]
 
 i = 0
@@ -219,12 +218,13 @@ def updatefrequency1():
     global sweeprate1
     global prevfreq1
     global freqsweepistrue1
+    global hasstopped1
     if activeamplitude1 == 0:
         decibles = -100
     else:
         decibles = 10 * np.log2(activeamplitude1 / 100)
     if sweepfreq1.get():
-        if not freqsweepistrue1:
+        if not freqsweepistrue1 or hasstopped1:
             sinewave1.stop()
             pitch1 = 12 * np.log2(prevfreq1 / 440) + 9
             sinewave1 = SineWave(
@@ -235,10 +235,11 @@ def updatefrequency1():
             )
             sinewave1.play()
             freqsweepistrue1 = True
+            hasstopped1 = False
         sinewave1.set_frequency(activefrequency1)
         sinewave1.set_volume(decibles)
     else:
-        if freqsweepistrue1:
+        if freqsweepistrue1 or hasstopped1:
             sinewave1.stop()
             sinewave1 = SineWave(
                 pitch=1,
@@ -246,6 +247,7 @@ def updatefrequency1():
                 decibels_per_second=100000000,
                 decibels=decibles,
             )
+            hasstopped1 = False
             sinewave1.play()
             freqsweepistrue1 = False
         sinewave1.set_frequency(activefrequency1)
@@ -264,12 +266,13 @@ def updatefrequency2():
     global sweeprate2
     global prevfreq2
     global freqsweepistrue2
+    global hasstopped2
     if activeamplitude2 == 0:
         decibles = -100
     else:
         decibles = 10 * np.log2(activeamplitude2 / 100)
     if sweepfreq2.get():
-        if not freqsweepistrue2:
+        if not freqsweepistrue2 or hasstopped2:
             sinewave2.stop()
             pitch2 = 12 * np.log2(prevfreq2 / 440) + 9
             sinewave2 = SineWave(
@@ -280,10 +283,11 @@ def updatefrequency2():
             )
             sinewave2.play()
             freqsweepistrue2 = True
+            hasstopped2 = False
         sinewave2.set_frequency(activefrequency1)
         sinewave2.set_volume(decibles)
     else:
-        if freqsweepistrue2:
+        if freqsweepistrue2 or hasstopped2:
             sinewave2.stop()
             sinewave2 = SineWave(
                 pitch=1,
@@ -293,6 +297,7 @@ def updatefrequency2():
             )
             sinewave2.play()
             freqsweepistrue2 = False
+            hasstopped2 = False
         sinewave2.set_frequency(activefrequency2)
         sinewave2.set_volume(decibles)
 
@@ -337,16 +342,8 @@ def stopall():
     hasstopped2 = True
     responsetosubmitlabel.config(text="")
     responsetosubmitlabel2.config(text="")
-    R11.deselect()
-    R21.deselect()
-    R31.deselect()
-    R41.deselect()
-    R51.deselect()
-    R12.deselect()
-    R22.deselect()
-    R32.deselect()
-    R42.deselect()
-    R52.deselect()
+    DeselectButton.invoke()
+    DeselectButton2.invoke()
 
 
 def togglesweeprate1():
@@ -650,6 +647,9 @@ def sliderupdate1(frequency):
     global sweepfreq1
     global activefreqlabel1
     global hasstopped1
+    global selectionnumber
+    if selectionnumber != 0:
+        DeselectButton.invoke()
     if sweepfreq1.get() or hasstopped1:
         sweepfreq1.set(False)
         updatefrequency1()
@@ -667,6 +667,9 @@ def sliderupdate2(frequency):
     global sweepfreq2
     global activefreqlabel2
     global hasstopped2
+    global selectionnumber2
+    if selectionnumber2 != 0:
+        DeselectButton2.invoke()
     if sweepfreq2.get() or hasstopped2:
         sweepfreq2.set(False)
         updatefrequency2()
@@ -705,7 +708,7 @@ def setamplitude2topreset():
 # Create Root GUI
 root = Tk()
 root.title("Frequency Generator " + version)
-root.geometry("1220x770")
+root.geometry("1220x800")
 root.configure(background=backgroundcolor)
 root.resizable(False, False)
 root.iconbitmap("ICERootLogo.ico")
@@ -800,6 +803,11 @@ R51 = Radiobutton(
     fg=textcolor,
     selectcolor=backgroundcolor,
 )
+DeselectButton = Radiobutton(
+    root,
+    variable=selectionnumber,
+    value=0,
+)
 
 presets2 = Radiobutton(root)
 selectionnumber2 = IntVar()
@@ -857,6 +865,11 @@ R52 = Radiobutton(
     background=backgroundcolor,
     fg=textcolor,
     selectcolor=backgroundcolor,
+)
+DeselectButton2 = Radiobutton(
+    root,
+    variable=selectionnumber2,
+    value=0,
 )
 
 # Place Selection Buttons
