@@ -53,6 +53,9 @@ freq1sliderhigh = 1000
 freq2sliderlow = 1
 freq2sliderhigh = 1000
 
+# Smallest Unit That The Slider Can Change By
+scaleresolution = .5
+
 freq1buttonpreset = 100
 freq2buttonpreset = 100
 
@@ -606,6 +609,7 @@ def createslidermenu():
         to=freq1sliderhigh,
         orient=HORIZONTAL,
         length=750,
+        resolution=scaleresolution,
         command=sliderupdate1,
         background=backgroundcolor,
         fg=textcolor,
@@ -617,6 +621,7 @@ def createslidermenu():
         to=freq2sliderhigh,
         orient=HORIZONTAL,
         length=750,
+        resolution=scaleresolution,
         command=sliderupdate2,
         background=backgroundcolor,
         fg=textcolor,
