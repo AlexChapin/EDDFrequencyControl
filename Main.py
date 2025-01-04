@@ -7,10 +7,10 @@ from PIL import ImageTk, Image
 from pysinewave import SineWave
 
 # Default Frequency On Startup
-startupfreq1 = 1
+startupfreq1 = 0
 startupamp1 = 0
 
-startupfreq2 = 1
+startupfreq2 = 0
 startupamp2 = 0
 
 # Frequency 1 Settings
@@ -106,7 +106,7 @@ i = 0
 # Checks to Ensure Custom Frequencies are Within Valid Ranges
 while i < len(frequencies):
     try:
-        if frequencies[i] > 20000 or frequencies[i] < 1:
+        if frequencies[i] > 20000 or frequencies[i] < 0:
             exitcode = 10
             name = [k for k, v in globals().items() if id(v) == id(frequencies[i])][0]
             print("Error In Variable:" + name)
@@ -390,7 +390,7 @@ def applycustom1():
         print("SET FREQ1 STRING ERROR")
         return
 
-    if private1.get() < 1:
+    if private1.get() < 0:
         responsetosubmitlabel.config(text="Frequency Too Low!")
         validentry.set(value=False)
 
@@ -436,7 +436,7 @@ def applycustom2():
         )
         print("SET FREQ2 STRING ERROR")
         return
-    if private1.get() < 1:
+    if private1.get() < 0:
         responsetosubmitlabel3.config(text="Frequency Too Low!")
         validentry.set(value=False)
 
@@ -871,6 +871,7 @@ DeselectButton2 = Radiobutton(
     variable=selectionnumber2,
     value=0,
 )
+
 
 # Place Selection Buttons
 R11.grid(column=0, row=2)
