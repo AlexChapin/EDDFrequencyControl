@@ -4,7 +4,7 @@ Simple application to create a tone and play it from system speakers.
 
 ## Description
 
-Plays two frequencies concurrently through system speakers. Allows setting of 5 preset frequencies along with inputs for custom on the fly frequency generation.
+Plays two frequencies concurrently through system speakers. Allows setting of 5 preset frequencies and startup frequencies along with inputs for custom on the fly frequency generation.
 
 ### Dependencies
 
@@ -37,7 +37,7 @@ Windows:
 
 ## Help
 
-Accepts any Frequency Value From 1 Hz and 20000 Hz
+Accepts any Frequency Value From 0 Hz and 20000 Hz
 Accepts any Amplitude Value from 0 % to 100 %
 
 If the program will not run check the console for errors due to setting presets incorrectly.
@@ -59,6 +59,13 @@ Alex Chapin
 
 ## Version History
 
+* 1.0.3
+    * Added Sweep Mode
+    * Added Frequency Sliders
+    * Added Frequency Slider Menu
+    * GUI Changes
+    * Frequency Transition Changes
+    * Corrected Button Behavior
 * 1.0.2
     * Checking of Preset Values
     * Normalized Values
