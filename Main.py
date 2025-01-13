@@ -103,6 +103,12 @@ amplitudes = [
     freq2buttonpreset,
 ]
 
+if startupamp1 == 0:
+    startupamp1 = 1
+
+if startupamp2 == 0:
+    startupamp2 = 1
+    
 i = 0
 # Checks to Ensure Custom Frequencies are Within Valid Ranges
 while i < len(frequencies):
