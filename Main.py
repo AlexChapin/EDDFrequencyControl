@@ -1,3 +1,4 @@
+import time
 import numpy as np
 import warnings
 import sys
@@ -7,10 +8,10 @@ from PIL import ImageTk, Image
 from pysinewave import SineWave
 
 # Default Frequency On Startup
-startupfreq1 = 0
+startupfreq1 = 1
 startupamp1 = 0
 
-startupfreq2 = 0
+startupfreq2 = 1
 startupamp2 = 0
 
 # Frequency 1 Settings
@@ -193,12 +194,6 @@ setting5name2 = (
     + "% Amplitude"
 )
 
-# Set Initial Frequencies
-activefrequency1 = startupfreq1
-activeamplitude1 = startupamp1
-activefrequency2 = startupfreq2
-activeamplitude2 = startupamp2
-
 
 # GUI Global Settings
 font = "Century"
@@ -236,8 +231,6 @@ def updatefrequency1():
             sinewave1.play()
             freqsweepistrue1 = True
             hasstopped1 = False
-        sinewave1.set_frequency(activefrequency1)
-        sinewave1.set_volume(decibles)
     else:
         if freqsweepistrue1 or hasstopped1:
             sinewave1.stop()
@@ -250,9 +243,8 @@ def updatefrequency1():
             hasstopped1 = False
             sinewave1.play()
             freqsweepistrue1 = False
-        sinewave1.set_frequency(activefrequency1)
-        sinewave1.set_volume(decibles)
-
+    sinewave1.set_frequency(activefrequency1)
+    sinewave1.set_volume(decibles)
     dispfreqlabel1.config(text="Frequency: " + str(round(activefrequency1, 5)) + " Hz")
     dispamplabel1.config(text="Amplitude: " + str(round(activeamplitude1, 3)) + "%")
     prevfreq1 = activefrequency1
@@ -284,7 +276,7 @@ def updatefrequency2():
             sinewave2.play()
             freqsweepistrue2 = True
             hasstopped2 = False
-        sinewave2.set_frequency(activefrequency1)
+        sinewave2.set_frequency(activefrequency2)
         sinewave2.set_volume(decibles)
     else:
         if freqsweepistrue2 or hasstopped2:
@@ -733,8 +725,8 @@ freqsweepistrue2 = True
 sweeprate1 = fastsweeprate1
 sweeprate2 = fastsweeprate2
 
-hasstopped1 = False
-hasstopped2 = False
+hasstopped1 = True
+hasstopped2 = True
 
 # Create Logo Block
 image = Image.open("ICElogo.png")
@@ -1117,7 +1109,11 @@ responsetoslidermenu.grid(column=5, row=22)
 
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 
-# Start Initial Frequencies
+# Set Initial Frequencies
+activefrequency1 = startupfreq1
+activeamplitude1 = startupamp1
+activefrequency2 = startupfreq2
+activeamplitude2 = startupamp2
 updatefrequency1()
 updatefrequency2()
 
