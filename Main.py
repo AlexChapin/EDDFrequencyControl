@@ -8,10 +8,10 @@ from PIL import ImageTk, Image
 from pysinewave import SineWave
 
 # Default Frequency On Startup
-startupfreq1 = 1
+startupfreq1 = 0
 startupamp1 = 0
 
-startupfreq2 = 1
+startupfreq2 = 0
 startupamp2 = 0
 
 # Frequency 1 Settings
@@ -103,12 +103,12 @@ amplitudes = [
     freq2buttonpreset,
 ]
 
-if startupamp1 == 0:
-    startupamp1 = 1
+if startupfreq1 == 0:
+    startupfreq1 = 1
 
-if startupamp2 == 0:
-    startupamp2 = 1
-    
+if startupfreq2 == 0:
+    startupfreq2 = 1
+
 i = 0
 # Checks to Ensure Custom Frequencies are Within Valid Ranges
 while i < len(frequencies):
@@ -1107,9 +1107,9 @@ sweepcheck2.grid(column=10, row=18)
 submitbutton.grid(column=0, row=20)
 submitbutton2.grid(column=10, row=20)
 responsetosubmitlabel.grid(column=0, row=22, pady=3)
-responsetosubmitlabel2.grid(column=0, row=23,pady=3)
-responsetosubmitlabel3.grid(column=10, row=22,pady=3)
-responsetosubmitlabel4.grid(column=10, row=23,pady=3)
+responsetosubmitlabel2.grid(column=0, row=23, pady=3)
+responsetosubmitlabel3.grid(column=10, row=22, pady=3)
+responsetosubmitlabel4.grid(column=10, row=23, pady=3)
 slidermenubutton.grid(column=5, row=20)
 responsetoslidermenu.grid(column=5, row=22)
 
