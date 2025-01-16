@@ -3,6 +3,7 @@ import numpy as np
 import warnings
 import sys
 import tkinter as tk
+import platform
 from tkinter import *
 from PIL import ImageTk, Image
 from pysinewave import SineWave
@@ -545,11 +546,15 @@ def createslidermenu():
     global activefreqlabel1
     global activefreqlabel2
     slidermenuwindow = tk.Toplevel(root)
+    if platform == "Windows":
+        slidermenuwindow.iconbitmap("ICERootLogo.ico")
+        slidermenuwindow.geometry("800x550")
+    if platform == "Linux":
+        slidermenuwindow.iconphoto(True, PhotoImage(file="ICERootLogoLinux.png"))
+        slidermenuwindow.geometry("800x550")
     slidermenuwindow.title("Frequency Sliders")
-    slidermenuwindow.geometry("800x550")
     slidermenuwindow.configure(background=backgroundcolor)
     slidermenuwindow.resizable(False, False)
-    slidermenuwindow.iconbitmap("ICERootLogo.ico")
 
     px80frameslider = Frame(
         slidermenuwindow, width=80, height=80, background=backgroundcolor
@@ -704,13 +709,17 @@ def setamplitude2topreset():
 
 
 # Create Root GUI
+platform = platform.system()
 root = Tk()
+if platform == "Windows":
+    root.iconbitmap("ICERootLogo.ico")
+    root.geometry("1220x800")
+if platform == "Linux":
+    root.iconphoto(True, PhotoImage("ICERootLogoLinux.png"))
+    root.geometry("1350x800")
 root.title("Frequency Generator " + version)
-root.geometry("1220x800")
 root.configure(background=backgroundcolor)
 root.resizable(False, False)
-root.iconbitmap("ICERootLogo.ico")
-
 sliderhasrun = False
 
 # Create SineWave Objects
