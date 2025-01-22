@@ -12,7 +12,7 @@ from pysinewave import SineWave
 # True Means Enable User Inputs
 # False Means Run Preprogramed Routine
 # This Value Will Be Overwritten by Any Startup Flags
-startwithuserinput = False
+startwithuserinput = True
 
 # Default Frequency On Startup
 startupfreq1 = 0
@@ -77,18 +77,28 @@ slowsweeprate2 = 2
 # Version Number:
 version = "v1.0.3"
 
-if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        flag = sys.argv[1]
-        if flag == "-true" or flag == "-t":
-            startwithuserinput = True
-            print("Starting With User Input Flag: True")
-        if flag == "-false" or flag == "-f":
-            startwithuserinput = False
-            print("Starting With User Input Flag: False")
-    if len(sys.argv) != 2 and len(sys.argv) != 1:
-        print("Incorrect Arguments Passed!!!")
-        exit(5)
+def checkstartupflags():
+    global startwithuserinput
+    if __name__ == "__main__":
+        if len(sys.argv) == 2:
+            flag = sys.argv[1]
+            if flag == "-true" or flag == "-t":
+                startwithuserinput = True
+                print("Starting With User Input Flag: True")
+                return
+            if flag == "-false" or flag == "-f":
+                startwithuserinput = False
+                print("Starting With User Input Flag: False")
+                return
+            print("Invalid Flags!!! Use '-true' or '-false' to start with or without user input")
+            exit(6)
+            return
+        if len(sys.argv) != 2 and len(sys.argv) != 1:
+            print("Incorrect Arguments Passed!!!")
+            exit(5)
+            return
+
+checkstartupflags()
 
 if (startwithuserinput):
     # Stores Custom Frequencies and Amplitudes to Lists for Checks
