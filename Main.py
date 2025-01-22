@@ -1,4 +1,3 @@
-import time
 import numpy as np
 import warnings
 import sys
@@ -7,6 +6,13 @@ import platform
 from tkinter import *
 from PIL import ImageTk, Image
 from pysinewave import SineWave
+
+# User Input
+# Dertermines Whether to Start the Program to Accept Manual Inputs or Run a Preset Program
+# True Means Enable User Inputs
+# False Means Run Preprogramed Routine
+# This Value Will Be Overwritten by Any Startup Flags
+startwithuserinput = False
 
 # Default Frequency On Startup
 startupfreq1 = 0
@@ -68,138 +74,151 @@ fastsweeprate2 = 1000000000
 slowsweeprate1 = 2
 slowsweeprate2 = 2
 
-# Stores Custom Frequencies and Amplitudes to Lists for Checks
-frequencies = [
-    startupfreq1,
-    startupfreq2,
-    setting1freq,
-    setting2freq,
-    setting3freq,
-    setting4freq,
-    setting5freq,
-    setting1freq2,
-    setting2freq2,
-    setting3freq2,
-    setting4freq2,
-    setting5freq2,
-    freq1sliderlow,
-    freq1sliderhigh,
-    freq2sliderlow,
-    freq2sliderhigh,
-]
-amplitudes = [
-    startupamp1,
-    startupamp2,
-    setting1amp,
-    setting2amp,
-    setting3amp,
-    setting4amp,
-    setting5amp,
-    setting1amp2,
-    setting2amp2,
-    setting3amp2,
-    setting4amp2,
-    setting5amp2,
-    freq1buttonpreset,
-    freq2buttonpreset,
-]
-
-if startupfreq1 == 0:
-    startupfreq1 = 1
-
-if startupfreq2 == 0:
-    startupfreq2 = 1
-
-i = 0
-# Checks to Ensure Custom Frequencies are Within Valid Ranges
-while i < len(frequencies):
-    try:
-        if frequencies[i] > 20000 or frequencies[i] < 0:
-            exitcode = 10
-            name = [k for k, v in globals().items() if id(v) == id(frequencies[i])][0]
-            print("Error In Variable:" + name)
-            print(f"{frequencies[i]}" + " Is Out Of Bounds For Frequency")
-            print("Process Exited With Exit Code:" + f"{exitcode}")
-            sys.exit(exitcode)
-    except Exception:
-        exitcode = 11
-        name = [k for k, v in globals().items() if id(v) == id(frequencies[i])][0]
-        print("Error in Variable:" + name)
-        print("Non Numerical Inputs Not Acceptable for Type Float")
-        print("Process Exited With Exit Code:" + f"{exitcode}")
-        sys.exit(exitcode)
-    i += 1
-
-i = 0
-# Checks to Ensure Custom Amplitudes are Within Valid Ranges
-while i < len(amplitudes):
-    try:
-        if amplitudes[i] > 100 or amplitudes[i] < 0:
-            exitcode = 12
-            name = [k for k, v in globals().items() if id(v) == id(amplitudes[i])][0]
-            print("Error In Variable:" + name)
-            print(f"{amplitudes[i]}" + " Is Out Of Bounds For Amplitude")
-            print("Process Exited With Exit Code:" + f"{exitcode}")
-            sys.exit(exitcode)
-    except Exception:
-        exitcode = 13
-        name = [k for k, v in globals().items() if id(v) == id(amplitudes[i])][0]
-        print("Error in Variable:" + name)
-        print("Non Numerical Inputs Not Acceptable for Type Float")
-        print("Process Exited With Exit Code:" + f"{exitcode}")
-        sys.exit(exitcode)
-    i += 1
-
 # Version Number:
 version = "v1.0.3"
 
-# Establish Setting Names
-setting1name = (
-    str(round(setting1freq, 2)) + " Hz / " + str(round(setting1amp, 2)) + "% Amplitude"
-)
-setting2name = (
-    str(round(setting2freq, 2)) + " Hz / " + str(round(setting2amp, 2)) + "% Amplitude"
-)
-setting3name = (
-    str(round(setting3freq, 2)) + " Hz / " + str(round(setting3amp, 2)) + "% Amplitude"
-)
-setting4name = (
-    str(round(setting4freq, 2)) + " Hz / " + str(round(setting4amp, 2)) + "% Amplitude"
-)
-setting5name = (
-    str(round(setting5freq, 2)) + " Hz / " + str(round(setting5amp, 2)) + "% Amplitude"
-)
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        flag = sys.argv[1]
+        if flag == "-true" or flag == "-t":
+            startwithuserinput = True
+            print("Starting With User Input Flag: True")
+        if flag == "-false" or flag == "-f":
+            startwithuserinput = False
+            print("Starting With User Input Flag: False")
+    if len(sys.argv) != 2 and len(sys.argv) != 1:
+        print("Incorrect Arguments Passed!!!")
+        exit(5)
 
-setting1name2 = (
-    str(round(setting1freq2, 2))
-    + " Hz / "
-    + str(round(setting1amp2, 2))
-    + "% Amplitude"
-)
-setting2name2 = (
-    str(round(setting2freq2, 2))
-    + " Hz / "
-    + str(round(setting2amp2, 2))
-    + "% Amplitude"
-)
-setting3name2 = (
-    str(round(setting3freq2, 2))
-    + " Hz / "
-    + str(round(setting3amp2, 2))
-    + "% Amplitude"
-)
-setting4name2 = (
-    str(round(setting4freq2, 2))
-    + " Hz / "
-    + str(round(setting4amp2, 2))
-    + "% Amplitude"
-)
-setting5name2 = (
-    str(round(setting5freq2, 2))
-    + " Hz / "
-    + str(round(setting5amp2, 2))
-    + "% Amplitude"
-)
+if (startwithuserinput):
+    # Stores Custom Frequencies and Amplitudes to Lists for Checks
+    frequencies = [
+        startupfreq1,
+        startupfreq2,
+        setting1freq,
+        setting2freq,
+        setting3freq,
+        setting4freq,
+        setting5freq,
+        setting1freq2,
+        setting2freq2,
+        setting3freq2,
+        setting4freq2,
+        setting5freq2,
+        freq1sliderlow,
+        freq1sliderhigh,
+        freq2sliderlow,
+        freq2sliderhigh,
+    ]
+    amplitudes = [
+        startupamp1,
+        startupamp2,
+        setting1amp,
+        setting2amp,
+        setting3amp,
+        setting4amp,
+        setting5amp,
+        setting1amp2,
+        setting2amp2,
+        setting3amp2,
+        setting4amp2,
+        setting5amp2,
+        freq1buttonpreset,
+        freq2buttonpreset,
+    ]
+
+    if startupfreq1 == 0:
+        startupfreq1 = 1
+
+    if startupfreq2 == 0:
+        startupfreq2 = 1
+        i = 0
+    # Checks to Ensure Custom Frequencies are Within Valid Ranges
+    while i < len(frequencies):
+        try:
+            if frequencies[i] > 20000 or frequencies[i] < 0:
+                exitcode = 10
+                name = [k for k, v in globals().items() if id(v) == id(frequencies[i])][0]
+                print("Error In Variable:" + name)
+                print(f"{frequencies[i]}" + " Is Out Of Bounds For Frequency")
+                print("Process Exited With Exit Code:" + f"{exitcode}")
+                sys.exit(exitcode)
+        except Exception:
+            exitcode = 11
+            name = [k for k, v in globals().items() if id(v) == id(frequencies[i])][0]
+            print("Error in Variable:" + name)
+            print("Non Numerical Inputs Not Acceptable for Type Float")
+            print("Process Exited With Exit Code:" + f"{exitcode}")
+            sys.exit(exitcode)
+        i += 1
+
+    i = 0
+    # Checks to Ensure Custom Amplitudes are Within Valid Ranges
+    while i < len(amplitudes):
+        try:
+            if amplitudes[i] > 100 or amplitudes[i] < 0:
+                exitcode = 12
+                name = [k for k, v in globals().items() if id(v) == id(amplitudes[i])][0]
+                print("Error In Variable:" + name)
+                print(f"{amplitudes[i]}" + " Is Out Of Bounds For Amplitude")
+                print("Process Exited With Exit Code:" + f"{exitcode}")
+                sys.exit(exitcode)
+        except Exception:
+            exitcode = 13
+            name = [k for k, v in globals().items() if id(v) == id(amplitudes[i])][0]
+            print("Error in Variable:" + name)
+            print("Non Numerical Inputs Not Acceptable for Type Float")
+            print("Process Exited With Exit Code:" + f"{exitcode}")
+            sys.exit(exitcode)
+        i += 1
+
+    # Establish Setting Names
+    setting1name = (
+        str(round(setting1freq, 2)) + " Hz / " + str(round(setting1amp, 2)) + "% Amplitude"
+    )
+    setting2name = (
+        str(round(setting2freq, 2)) + " Hz / " + str(round(setting2amp, 2)) + "% Amplitude"
+    )
+    setting3name = (
+        str(round(setting3freq, 2)) + " Hz / " + str(round(setting3amp, 2)) + "% Amplitude"
+    )
+    setting4name = (
+        str(round(setting4freq, 2)) + " Hz / " + str(round(setting4amp, 2)) + "% Amplitude"
+    )
+    setting5name = (
+        str(round(setting5freq, 2)) + " Hz / " + str(round(setting5amp, 2)) + "% Amplitude"
+    )
+
+    setting1name2 = (
+        str(round(setting1freq2, 2))
+        + " Hz / "
+        + str(round(setting1amp2, 2))
+        + "% Amplitude"
+    )
+    setting2name2 = (
+        str(round(setting2freq2, 2))
+        + " Hz / "
+        + str(round(setting2amp2, 2))
+        + "% Amplitude"
+    )
+    setting3name2 = (
+        str(round(setting3freq2, 2))
+        + " Hz / "
+        + str(round(setting3amp2, 2))
+        + "% Amplitude"
+    )
+    setting4name2 = (
+        str(round(setting4freq2, 2))
+        + " Hz / "
+        + str(round(setting4amp2, 2))
+        + "% Amplitude"
+    )
+    setting5name2 = (
+        str(round(setting5freq2, 2))
+        + " Hz / "
+        + str(round(setting5amp2, 2))
+        + "% Amplitude"
+    )
 
 
 # GUI Global Settings
@@ -720,417 +739,420 @@ if platform == "Linux":
 root.title("Frequency Generator " + version)
 root.configure(background=backgroundcolor)
 root.resizable(False, False)
-sliderhasrun = False
 
 # Create SineWave Objects
 sinewave1 = SineWave()
 sinewave2 = SineWave()
-
-# Define Custom Frequencies
-customfrequency = DoubleVar()
-customamplitude = DoubleVar()
-customfrequency2 = DoubleVar()
-customamplitude2 = DoubleVar()
-sliderfrequency1 = DoubleVar()
-sliderfrequency2 = DoubleVar()
-sweepfreq1 = BooleanVar(value=False)
-sweepfreq2 = BooleanVar(value=False)
-freqsweepistrue1 = True
-freqsweepistrue2 = True
-sweeprate1 = fastsweeprate1
-sweeprate2 = fastsweeprate2
-
-hasstopped1 = True
-hasstopped2 = True
-
-# Create Logo Block
-image = Image.open("ICElogo.png")
-newsize = (425, 334)
-resizedimage = image.resize(newsize)
-logo = ImageTk.PhotoImage(resizedimage)
-logolabel = Label(root, image=logo, border=0)
-# Place Logo Block
-logolabel.grid(column=5, row=2, rowspan=8)
-
-# Create Selection Buttons
-presets = Radiobutton(root)
-selectionnumber = IntVar()
-R11 = Radiobutton(
-    root,
-    text=setting1name,
-    variable=selectionnumber,
-    value=1,
-    command=radiochangefreq1,
-    font=("font", smallfontsize),
-    background=backgroundcolor,
-    fg=textcolor,
-    selectcolor=backgroundcolor,
-)
-R21 = Radiobutton(
-    root,
-    text=setting2name,
-    variable=selectionnumber,
-    value=2,
-    command=radiochangefreq1,
-    font=("font", smallfontsize),
-    background=backgroundcolor,
-    fg=textcolor,
-    selectcolor=backgroundcolor,
-)
-R31 = Radiobutton(
-    root,
-    text=setting3name,
-    variable=selectionnumber,
-    value=3,
-    command=radiochangefreq1,
-    font=("font", smallfontsize),
-    background=backgroundcolor,
-    fg=textcolor,
-    selectcolor=backgroundcolor,
-)
-R41 = Radiobutton(
-    root,
-    text=setting4name,
-    variable=selectionnumber,
-    value=4,
-    command=radiochangefreq1,
-    font=("font", smallfontsize),
-    background=backgroundcolor,
-    fg=textcolor,
-    selectcolor=backgroundcolor,
-)
-R51 = Radiobutton(
-    root,
-    text=setting5name,
-    variable=selectionnumber,
-    value=5,
-    command=radiochangefreq1,
-    font=("font", smallfontsize),
-    background=backgroundcolor,
-    fg=textcolor,
-    selectcolor=backgroundcolor,
-)
-DeselectButton = Radiobutton(
-    root,
-    variable=selectionnumber,
-    value=0,
-)
-
-presets2 = Radiobutton(root)
-selectionnumber2 = IntVar()
-R12 = Radiobutton(
-    root,
-    text=setting1name2,
-    variable=selectionnumber2,
-    value=1,
-    command=radiochangefreq2,
-    font=("font", smallfontsize),
-    background=backgroundcolor,
-    fg=textcolor,
-    selectcolor=backgroundcolor,
-)
-R22 = Radiobutton(
-    root,
-    text=setting2name2,
-    variable=selectionnumber2,
-    value=2,
-    command=radiochangefreq2,
-    font=("font", smallfontsize),
-    background=backgroundcolor,
-    fg=textcolor,
-    selectcolor=backgroundcolor,
-)
-R32 = Radiobutton(
-    root,
-    text=setting3name2,
-    variable=selectionnumber2,
-    value=3,
-    command=radiochangefreq2,
-    font=("font", smallfontsize),
-    background=backgroundcolor,
-    fg=textcolor,
-    selectcolor=backgroundcolor,
-)
-R42 = Radiobutton(
-    root,
-    text=setting4name2,
-    variable=selectionnumber2,
-    value=4,
-    command=radiochangefreq2,
-    font=("font", smallfontsize),
-    background=backgroundcolor,
-    fg=textcolor,
-    selectcolor=backgroundcolor,
-)
-R52 = Radiobutton(
-    root,
-    text=setting5name2,
-    variable=selectionnumber2,
-    value=5,
-    command=radiochangefreq2,
-    font=("font", smallfontsize),
-    background=backgroundcolor,
-    fg=textcolor,
-    selectcolor=backgroundcolor,
-)
-DeselectButton2 = Radiobutton(
-    root,
-    variable=selectionnumber2,
-    value=0,
-)
+if (startwithuserinput):
+    sliderhasrun = False
 
 
-# Place Selection Buttons
-R11.grid(column=0, row=2)
-R21.grid(column=0, row=3)
-R31.grid(column=0, row=4)
-R41.grid(column=0, row=5)
-R51.grid(column=0, row=6)
-R12.grid(column=10, row=2)
-R22.grid(column=10, row=3)
-R32.grid(column=10, row=4)
-R42.grid(column=10, row=5)
-R52.grid(column=10, row=6)
 
-# Create Labels / Entries
-labeltitle = Label(
-    root,
-    text="Frequency Generator",
-    font=("font", titlefontsize),
-    background=backgroundcolor,
-    fg=titletextcolor,
-)
-labeltitle.config(anchor=CENTER)
-freq1label = Label(
-    root,
-    text="Set Frequency 1",
-    font=("font", smallfontsize),
-    background=backgroundcolor,
-    fg=titletextcolor,
-)
-freq2label = Label(
-    root,
-    text="Set Frequency 2",
-    font=("font", smallfontsize),
-    background=backgroundcolor,
-    fg=titletextcolor,
-)
-dispfreqlabel1 = Label(
-    root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
-)
-dispamplabel1 = Label(
-    root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
-)
-dispfreqlabel2 = Label(
-    root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
-)
-dispamplabel2 = Label(
-    root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
-)
-customtitlelabel = Label(
-    root,
-    text="Set a Custom Frequency",
-    font=("font", smallfontsize),
-    background=backgroundcolor,
-    fg=textcolor,
-)
-customtitlelabel2 = Label(
-    root,
-    text="Set a Custom Frequency",
-    font=("font", smallfontsize),
-    background=backgroundcolor,
-    fg=textcolor,
-)
-customfreqlabel = Label(
-    root,
-    text="Hz",
-    font=("font", smallfontsize),
-    background=backgroundcolor,
-    fg=textcolor,
-)
-customfreqlabel2 = Label(
-    root,
-    text="Hz",
-    font=("font", smallfontsize),
-    background=backgroundcolor,
-    fg=textcolor,
-)
-customamplabel = Label(
-    root,
-    text="%",
-    font=("font", smallfontsize),
-    background=backgroundcolor,
-    fg=textcolor,
-)
-customamplabel2 = Label(
-    root,
-    text="%",
-    font=("font", smallfontsize),
-    background=backgroundcolor,
-    fg=textcolor,
-)
-cfrequencyentry = Entry(
-    root,
-    textvariable=customfrequency,
-    font=("font", smallfontsize),
-    background=backgroundcolor,
-    insertbackground=textcolor,
-    justify="right",
-    fg=textcolor,
-    borderwidth=0,
-    highlightcolor=textcolor,
-    highlightthickness=2,
-)
-cfrequencyentry2 = Entry(
-    root,
-    textvariable=customfrequency2,
-    font=("font", smallfontsize),
-    background=backgroundcolor,
-    insertbackground=textcolor,
-    justify="right",
-    fg=textcolor,
-    borderwidth=0,
-    highlightcolor=textcolor,
-    highlightthickness=2,
-)
-camplitudeentry = Entry(
-    root,
-    textvariable=customamplitude,
-    font=("font", smallfontsize),
-    background=backgroundcolor,
-    insertbackground=textcolor,
-    justify="right",
-    fg=textcolor,
-    borderwidth=0,
-    highlightcolor=textcolor,
-    highlightthickness=2,
-)
-camplitudeentry2 = Entry(
-    root,
-    textvariable=customamplitude2,
-    font=("font", smallfontsize),
-    background=backgroundcolor,
-    insertbackground=textcolor,
-    justify="right",
-    fg=textcolor,
-    borderwidth=0,
-    highlightcolor=textcolor,
-    highlightthickness=2,
-)
-submitbutton = Button(
-    root,
-    command=applycustom1,
-    text="Apply Custom Frequency",
-    font=("font", smallfontsize),
-    background=backgroundcolor,
-    fg=textcolor,
-)
-submitbutton2 = Button(
-    root,
-    command=applycustom2,
-    text="Apply Custom Frequency",
-    font=("font", smallfontsize),
-    background=backgroundcolor,
-    fg=textcolor,
-)
-stopallbutton = Button(
-    root,
-    text="Stop Both Frequencies",
-    font=("font", smallfontsize),
-    command=stopall,
-    background=backgroundcolor,
-    fg=textcolor,
-)
-sweepcheck1 = Checkbutton(
-    root,
-    text="Sweep",
-    variable=sweepfreq1,
-    command=togglesweeprate1,
-    foreground=textcolor,
-    background=backgroundcolor,
-    selectcolor=backgroundcolor,
-    font=("font", tinyfontsize),
-)
-sweepcheck2 = Checkbutton(
-    root,
-    text="Sweep",
-    variable=sweepfreq2,
-    command=togglesweeprate2,
-    foreground=textcolor,
-    background=backgroundcolor,
-    selectcolor=backgroundcolor,
-    font=("font", tinyfontsize),
-)
+    # Define Custom Frequencies
+    customfrequency = DoubleVar()
+    customamplitude = DoubleVar()
+    customfrequency2 = DoubleVar()
+    customamplitude2 = DoubleVar()
+    sliderfrequency1 = DoubleVar()
+    sliderfrequency2 = DoubleVar()
+    sweepfreq1 = BooleanVar(value=False)
+    sweepfreq2 = BooleanVar(value=False)
+    freqsweepistrue1 = True
+    freqsweepistrue2 = True
+    sweeprate1 = fastsweeprate1
+    sweeprate2 = fastsweeprate2
 
-slidermenubutton = Button(
-    command=slidermenu,
-    text="Open Slider Menu",
-    font=("font", smallfontsize),
-    background=backgroundcolor,
-    fg=textcolor,
-)
+    hasstopped1 = True
+    hasstopped2 = True
 
-responsetosubmitlabel = Label(
-    root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
-)
-responsetosubmitlabel2 = Label(
-    root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
-)
-responsetosubmitlabel3 = Label(
-    root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
-)
-responsetosubmitlabel4 = Label(
-    root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
-)
-responsetoslidermenu = Label(
-    root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
-)
+    # Create Logo Block
+    image = Image.open("ICElogo.png")
+    newsize = (425, 334)
+    resizedimage = image.resize(newsize)
+    logo = ImageTk.PhotoImage(resizedimage)
+    logolabel = Label(root, image=logo, border=0)
+    # Place Logo Block
+    logolabel.grid(column=5, row=2, rowspan=8)
 
-# Create Spacing Elements
-px40frame = Frame(root, width=40, height=40, background=backgroundcolor)
+    # Create Selection Buttons
+    presets = Radiobutton(root)
+    selectionnumber = IntVar()
+    R11 = Radiobutton(
+        root,
+        text=setting1name,
+        variable=selectionnumber,
+        value=1,
+        command=radiochangefreq1,
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
+        selectcolor=backgroundcolor,
+    )
+    R21 = Radiobutton(
+        root,
+        text=setting2name,
+        variable=selectionnumber,
+        value=2,
+        command=radiochangefreq1,
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
+        selectcolor=backgroundcolor,
+    )
+    R31 = Radiobutton(
+        root,
+        text=setting3name,
+        variable=selectionnumber,
+        value=3,
+        command=radiochangefreq1,
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
+        selectcolor=backgroundcolor,
+    )
+    R41 = Radiobutton(
+        root,
+        text=setting4name,
+        variable=selectionnumber,
+        value=4,
+        command=radiochangefreq1,
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
+        selectcolor=backgroundcolor,
+    )
+    R51 = Radiobutton(
+        root,
+        text=setting5name,
+        variable=selectionnumber,
+        value=5,
+        command=radiochangefreq1,
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
+        selectcolor=backgroundcolor,
+    )
+    DeselectButton = Radiobutton(
+        root,
+        variable=selectionnumber,
+        value=0,
+    )
 
-# Place Above Label, Entries, Spacing Elements
-labeltitle.grid(column=5, row=0)
-freq1label.grid(column=0, row=1)
-freq2label.grid(column=10, row=1)
-dispfreqlabel1.grid(column=0, row=8)
-dispamplabel1.grid(column=0, row=9)
-dispfreqlabel2.grid(column=10, row=8)
-dispamplabel2.grid(column=10, row=9)
-stopallbutton.grid(column=5, row=11)
-customtitlelabel.grid(column=0, row=11)
-px40frame.grid(column=10, row=10)
-customtitlelabel2.grid(column=10, row=11)
-cfrequencyentry.grid(column=0, row=13)
-cfrequencyentry2.grid(column=10, row=13)
-customfreqlabel.grid(column=1, row=13)
-customfreqlabel2.grid(column=11, row=13)
-customamplabel.grid(column=0, row=15)
-customamplabel2.grid(column=10, row=15)
-camplitudeentry.grid(column=0, row=16)
-camplitudeentry2.grid(column=10, row=16)
-customamplabel.grid(column=1, row=16)
-customamplabel2.grid(column=11, row=16)
-sweepcheck1.grid(column=0, row=18)
-sweepcheck2.grid(column=10, row=18)
-submitbutton.grid(column=0, row=20)
-submitbutton2.grid(column=10, row=20)
-responsetosubmitlabel.grid(column=0, row=22, pady=3)
-responsetosubmitlabel2.grid(column=0, row=23, pady=3)
-responsetosubmitlabel3.grid(column=10, row=22, pady=3)
-responsetosubmitlabel4.grid(column=10, row=23, pady=3)
-slidermenubutton.grid(column=5, row=20)
-responsetoslidermenu.grid(column=5, row=22)
+    presets2 = Radiobutton(root)
+    selectionnumber2 = IntVar()
+    R12 = Radiobutton(
+        root,
+        text=setting1name2,
+        variable=selectionnumber2,
+        value=1,
+        command=radiochangefreq2,
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
+        selectcolor=backgroundcolor,
+    )
+    R22 = Radiobutton(
+        root,
+        text=setting2name2,
+        variable=selectionnumber2,
+        value=2,
+        command=radiochangefreq2,
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
+        selectcolor=backgroundcolor,
+    )
+    R32 = Radiobutton(
+        root,
+        text=setting3name2,
+        variable=selectionnumber2,
+        value=3,
+        command=radiochangefreq2,
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
+        selectcolor=backgroundcolor,
+    )
+    R42 = Radiobutton(
+        root,
+        text=setting4name2,
+        variable=selectionnumber2,
+        value=4,
+        command=radiochangefreq2,
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
+        selectcolor=backgroundcolor,
+    )
+    R52 = Radiobutton(
+        root,
+        text=setting5name2,
+        variable=selectionnumber2,
+        value=5,
+        command=radiochangefreq2,
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
+        selectcolor=backgroundcolor,
+    )
+    DeselectButton2 = Radiobutton(
+        root,
+        variable=selectionnumber2,
+        value=0,
+    )
 
-warnings.filterwarnings("ignore", category=RuntimeWarning)
 
-# Set Initial Frequencies
-activefrequency1 = startupfreq1
-activeamplitude1 = startupamp1
-activefrequency2 = startupfreq2
-activeamplitude2 = startupamp2
-updatefrequency1()
-updatefrequency2()
+    # Place Selection Buttons
+    R11.grid(column=0, row=2)
+    R21.grid(column=0, row=3)
+    R31.grid(column=0, row=4)
+    R41.grid(column=0, row=5)
+    R51.grid(column=0, row=6)
+    R12.grid(column=10, row=2)
+    R22.grid(column=10, row=3)
+    R32.grid(column=10, row=4)
+    R42.grid(column=10, row=5)
+    R52.grid(column=10, row=6)
+
+    # Create Labels / Entries
+    labeltitle = Label(
+        root,
+        text="Frequency Generator",
+        font=("font", titlefontsize),
+        background=backgroundcolor,
+        fg=titletextcolor,
+    )
+    labeltitle.config(anchor=CENTER)
+    freq1label = Label(
+        root,
+        text="Set Frequency 1",
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=titletextcolor,
+    )
+    freq2label = Label(
+        root,
+        text="Set Frequency 2",
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=titletextcolor,
+    )
+    dispfreqlabel1 = Label(
+        root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
+    )
+    dispamplabel1 = Label(
+        root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
+    )
+    dispfreqlabel2 = Label(
+        root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
+    )
+    dispamplabel2 = Label(
+        root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
+    )
+    customtitlelabel = Label(
+        root,
+        text="Set a Custom Frequency",
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
+    )
+    customtitlelabel2 = Label(
+        root,
+        text="Set a Custom Frequency",
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
+    )
+    customfreqlabel = Label(
+        root,
+        text="Hz",
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
+    )
+    customfreqlabel2 = Label(
+        root,
+        text="Hz",
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
+    )
+    customamplabel = Label(
+        root,
+        text="%",
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
+    )
+    customamplabel2 = Label(
+        root,
+        text="%",
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
+    )
+    cfrequencyentry = Entry(
+        root,
+        textvariable=customfrequency,
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        insertbackground=textcolor,
+        justify="right",
+        fg=textcolor,
+        borderwidth=0,
+        highlightcolor=textcolor,
+        highlightthickness=2,
+    )
+    cfrequencyentry2 = Entry(
+        root,
+        textvariable=customfrequency2,
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        insertbackground=textcolor,
+        justify="right",
+        fg=textcolor,
+        borderwidth=0,
+        highlightcolor=textcolor,
+        highlightthickness=2,
+    )
+    camplitudeentry = Entry(
+        root,
+        textvariable=customamplitude,
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        insertbackground=textcolor,
+        justify="right",
+        fg=textcolor,
+        borderwidth=0,
+        highlightcolor=textcolor,
+        highlightthickness=2,
+    )
+    camplitudeentry2 = Entry(
+        root,
+        textvariable=customamplitude2,
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        insertbackground=textcolor,
+        justify="right",
+        fg=textcolor,
+        borderwidth=0,
+        highlightcolor=textcolor,
+        highlightthickness=2,
+    )
+    submitbutton = Button(
+        root,
+        command=applycustom1,
+        text="Apply Custom Frequency",
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
+    )
+    submitbutton2 = Button(
+        root,
+        command=applycustom2,
+        text="Apply Custom Frequency",
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
+    )
+    stopallbutton = Button(
+        root,
+        text="Stop Both Frequencies",
+        font=("font", smallfontsize),
+        command=stopall,
+        background=backgroundcolor,
+        fg=textcolor,
+    )
+    sweepcheck1 = Checkbutton(
+        root,
+        text="Sweep",
+        variable=sweepfreq1,
+        command=togglesweeprate1,
+        foreground=textcolor,
+        background=backgroundcolor,
+        selectcolor=backgroundcolor,
+        font=("font", tinyfontsize),
+    )
+    sweepcheck2 = Checkbutton(
+        root,
+        text="Sweep",
+        variable=sweepfreq2,
+        command=togglesweeprate2,
+        foreground=textcolor,
+        background=backgroundcolor,
+        selectcolor=backgroundcolor,
+        font=("font", tinyfontsize),
+    )
+
+    slidermenubutton = Button(
+        command=slidermenu,
+        text="Open Slider Menu",
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
+    )
+
+    responsetosubmitlabel = Label(
+        root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
+    )
+    responsetosubmitlabel2 = Label(
+        root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
+    )
+    responsetosubmitlabel3 = Label(
+        root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
+    )
+    responsetosubmitlabel4 = Label(
+        root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
+    )
+    responsetoslidermenu = Label(
+        root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
+    )
+
+    # Create Spacing Elements
+    px40frame = Frame(root, width=40, height=40, background=backgroundcolor)
+
+    # Place Above Label, Entries, Spacing Elements
+    labeltitle.grid(column=5, row=0)
+    freq1label.grid(column=0, row=1)
+    freq2label.grid(column=10, row=1)
+    dispfreqlabel1.grid(column=0, row=8)
+    dispamplabel1.grid(column=0, row=9)
+    dispfreqlabel2.grid(column=10, row=8)
+    dispamplabel2.grid(column=10, row=9)
+    stopallbutton.grid(column=5, row=11)
+    customtitlelabel.grid(column=0, row=11)
+    px40frame.grid(column=10, row=10)
+    customtitlelabel2.grid(column=10, row=11)
+    cfrequencyentry.grid(column=0, row=13)
+    cfrequencyentry2.grid(column=10, row=13)
+    customfreqlabel.grid(column=1, row=13)
+    customfreqlabel2.grid(column=11, row=13)
+    customamplabel.grid(column=0, row=15)
+    customamplabel2.grid(column=10, row=15)
+    camplitudeentry.grid(column=0, row=16)
+    camplitudeentry2.grid(column=10, row=16)
+    customamplabel.grid(column=1, row=16)
+    customamplabel2.grid(column=11, row=16)
+    sweepcheck1.grid(column=0, row=18)
+    sweepcheck2.grid(column=10, row=18)
+    submitbutton.grid(column=0, row=20)
+    submitbutton2.grid(column=10, row=20)
+    responsetosubmitlabel.grid(column=0, row=22, pady=3)
+    responsetosubmitlabel2.grid(column=0, row=23, pady=3)
+    responsetosubmitlabel3.grid(column=10, row=22, pady=3)
+    responsetosubmitlabel4.grid(column=10, row=23, pady=3)
+    slidermenubutton.grid(column=5, row=20)
+    responsetoslidermenu.grid(column=5, row=22)
+
+    warnings.filterwarnings("ignore", category=RuntimeWarning)
+
+    # Set Initial Frequencies
+    activefrequency1 = startupfreq1
+    activeamplitude1 = startupamp1
+    activefrequency2 = startupfreq2
+    activeamplitude2 = startupamp2
+    updatefrequency1()
+    updatefrequency2()
 
 # Begin GUI Loop
 root.mainloop()
