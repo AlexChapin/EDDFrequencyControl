@@ -55,13 +55,13 @@ setting5amp2 = 100
 
 # Slider Settings
 freq1sliderlow = 1
-freq1sliderhigh = 1000
+freq1sliderhigh = 100
 
 freq2sliderlow = 1
-freq2sliderhigh = 1000
+freq2sliderhigh = 100
 
 # Smallest Unit That The Slider Can Change By
-scaleresolution = 0.5
+scaleresolution = 0.1
 
 freq1buttonpreset = 100
 freq2buttonpreset = 100
@@ -74,8 +74,23 @@ fastsweeprate2 = 1000000000
 slowsweeprate1 = 2
 slowsweeprate2 = 2
 
+# Auto Settings
+autofreqsweeprate = 100  # Hz / Second
+
+autoampsweeprate = 5  # Decibles / Second
+
+autofreq1 = 300  # Hz
+autoamp1 = 100  # Percent
+autotime1 = 4  # Seconds
+
+autofreq2 = 400  # Hz
+autoamp2 = 100  # Percent
+autotime2 = 7  # Seconds
+
+
 # Version Number:
 version = "v1.0.3"
+
 
 def checkstartupflags():
     global startwithuserinput
@@ -90,7 +105,9 @@ def checkstartupflags():
                 startwithuserinput = False
                 print("Starting With User Input Flag: False")
                 return
-            print("Invalid Flags!!! Use '-true' or '-false' to start with or without user input")
+            print(
+                "Invalid Flags!!! Use '-true' or '-false' to start with or without user input"
+            )
             exit(6)
             return
         if len(sys.argv) != 2 and len(sys.argv) != 1:
@@ -98,9 +115,10 @@ def checkstartupflags():
             exit(5)
             return
 
+
 checkstartupflags()
 
-if (startwithuserinput):
+if startwithuserinput:
     # Stores Custom Frequencies and Amplitudes to Lists for Checks
     frequencies = [
         startupfreq1,
@@ -148,7 +166,9 @@ if (startwithuserinput):
         try:
             if frequencies[i] > 20000 or frequencies[i] < 0:
                 exitcode = 10
-                name = [k for k, v in globals().items() if id(v) == id(frequencies[i])][0]
+                name = [k for k, v in globals().items() if id(v) == id(frequencies[i])][
+                    0
+                ]
                 print("Error In Variable:" + name)
                 print(f"{frequencies[i]}" + " Is Out Of Bounds For Frequency")
                 print("Process Exited With Exit Code:" + f"{exitcode}")
@@ -168,7 +188,9 @@ if (startwithuserinput):
         try:
             if amplitudes[i] > 100 or amplitudes[i] < 0:
                 exitcode = 12
-                name = [k for k, v in globals().items() if id(v) == id(amplitudes[i])][0]
+                name = [k for k, v in globals().items() if id(v) == id(amplitudes[i])][
+                    0
+                ]
                 print("Error In Variable:" + name)
                 print(f"{amplitudes[i]}" + " Is Out Of Bounds For Amplitude")
                 print("Process Exited With Exit Code:" + f"{exitcode}")
@@ -184,19 +206,34 @@ if (startwithuserinput):
 
     # Establish Setting Names
     setting1name = (
-        str(round(setting1freq, 2)) + " Hz / " + str(round(setting1amp, 2)) + "% Amplitude"
+        str(round(setting1freq, 2))
+        + " Hz / "
+        + str(round(setting1amp, 2))
+        + "% Amplitude"
     )
     setting2name = (
-        str(round(setting2freq, 2)) + " Hz / " + str(round(setting2amp, 2)) + "% Amplitude"
+        str(round(setting2freq, 2))
+        + " Hz / "
+        + str(round(setting2amp, 2))
+        + "% Amplitude"
     )
     setting3name = (
-        str(round(setting3freq, 2)) + " Hz / " + str(round(setting3amp, 2)) + "% Amplitude"
+        str(round(setting3freq, 2))
+        + " Hz / "
+        + str(round(setting3amp, 2))
+        + "% Amplitude"
     )
     setting4name = (
-        str(round(setting4freq, 2)) + " Hz / " + str(round(setting4amp, 2)) + "% Amplitude"
+        str(round(setting4freq, 2))
+        + " Hz / "
+        + str(round(setting4amp, 2))
+        + "% Amplitude"
     )
     setting5name = (
-        str(round(setting5freq, 2)) + " Hz / " + str(round(setting5amp, 2)) + "% Amplitude"
+        str(round(setting5freq, 2))
+        + " Hz / "
+        + str(round(setting5amp, 2))
+        + "% Amplitude"
     )
 
     setting1name2 = (
@@ -562,9 +599,7 @@ def slidermenu():
         sliderhasrun = True
         return
     if hasattr(slidermenuwindow, "winfo_exists") and slidermenuwindow.winfo_exists():
-        responsetoslidermenu.config(
-            text="Window Already Open!", background="Yellow", foreground="Black"
-        )
+        slidermenuwindow.focus_force()
         return
     else:
         createslidermenu()
@@ -737,12 +772,31 @@ def setamplitude2topreset():
     dispamplabel2.config(text="Amplitude: " + str(round(activeamplitude2, 3)) + "%")
 
 
+def automatic():
+    global autostate
+    if autostate == 1:
+        sinewave1.set_frequency(autofreq1)
+        sinewave1.set_volume(10 * np.log2(autoamp1 / 100))
+        autostate = 2
+        root.after(autotime1 * 1000, automatic)
+        return
+    if autostate == 2:
+        sinewave1.set_frequency(autofreq2)
+        sinewave1.set_volume(10 * np.log2(autoamp2 / 100))
+        autostate = 1
+        root.after(autotime2 * 1000, automatic)
+        return
+
+
 # Create Root GUI
 platform = platform.system()
 root = Tk()
 if platform == "Windows":
     root.iconbitmap("ICERootLogo.ico")
-    root.geometry("1220x800")
+    if startwithuserinput:
+        root.geometry("1220x800")
+    else:
+        root.geometry("1000x600")
 if platform == "Linux":
     root.iconphoto(True, PhotoImage("ICERootLogoLinux.png"))
     root.geometry("1350x800")
@@ -753,10 +807,10 @@ root.resizable(False, False)
 # Create SineWave Objects
 sinewave1 = SineWave()
 sinewave2 = SineWave()
-if (startwithuserinput):
+
+
+if startwithuserinput:
     sliderhasrun = False
-
-
 
     # Define Custom Frequencies
     customfrequency = DoubleVar()
@@ -910,7 +964,6 @@ if (startwithuserinput):
         variable=selectionnumber2,
         value=0,
     )
-
 
     # Place Selection Buttons
     R11.grid(column=0, row=2)
@@ -1163,6 +1216,41 @@ if (startwithuserinput):
     activeamplitude2 = startupamp2
     updatefrequency1()
     updatefrequency2()
+
+else:
+    
+    sinewave1 = SineWave(
+        pitch_per_second=autofreqsweeprate,
+        decibels_per_second=autoampsweeprate,
+        decibels=0,
+        pitch=0,
+    )
+    sinewave1.play()
+    autostate = 1
+    titlelable = Label(
+        root,
+        font=("font", titlefontsize),
+        background=backgroundcolor,
+        fg=titletextcolor,
+        text="Running Automatic Program",
+    )
+    freqsweeratelabel = Label(
+        root,
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
+        text="Frequency Transition Rate: " + str(autofreqsweeprate),
+    )
+    image = Image.open("ICElogo.png")
+    newsize = (425, 334)
+    resizedimage = image.resize(newsize)
+    logo = ImageTk.PhotoImage(resizedimage)
+    logolabel = Label(root, image=logo, border=0)
+
+    titlelable.grid(column=2, row=3, padx=200, columnspan=7)
+    logolabel.grid(column=5, row=4)
+
+    automatic()
 
 # Begin GUI Loop
 root.mainloop()
