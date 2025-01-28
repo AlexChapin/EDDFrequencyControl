@@ -76,8 +76,7 @@ slowsweeprate2 = 2
 
 # Auto Settings
 autofreqsweeprate = 100  # Hz / Second
-
-autoampsweeprate = 5  # Decibles / Second
+autoampsweeprate = 10  # Percent / Second
 
 autofreq1 = 300  # Hz
 autoamp1 = 100  # Percent
@@ -1218,10 +1217,9 @@ if startwithuserinput:
     updatefrequency2()
 
 else:
-    
     sinewave1 = SineWave(
-        pitch_per_second=autofreqsweeprate,
-        decibels_per_second=autoampsweeprate,
+        pitch_per_second=np.abs(12 * np.log2(autofreqsweeprate/ 440)),
+        decibels_per_second=np.abs(10 * np.log2(autoampsweeprate / 100)),
         decibels=0,
         pitch=0,
     )
@@ -1240,6 +1238,13 @@ else:
         background=backgroundcolor,
         fg=textcolor,
         text="Frequency Transition Rate: " + str(autofreqsweeprate),
+    )
+    freqsweeratelabel = Label(
+        root,
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
+        text="Amplitude Transition Rate: " + str(autoampsweeprate),
     )
     image = Image.open("ICElogo.png")
     newsize = (425, 334)
