@@ -76,15 +76,15 @@ slowsweeprate1 = 2  # Pitch / Second
 slowsweeprate2 = 2  # Pitch / Second
 
 # Auto Settings
-autofreqsweeprate = 1000  # Pitch / Second
-autoampsweeprate = 1000  # Percent / Second
+autofreqsweeprate = 10  # Pitch / Second
+autoampsweeprate = 10  # Percent / Second
 
 dospecifictimer = False
 
 #ADJUST PLEASE
 
-autofreq1 = 16.5  # Hz
-autoamp1 = 80  # Percent
+autofreq1 = 243  # Hz
+autoamp1 = 100  # Percent
 autotime1 = 18  # Seconds
 
 autofreq2 = 14  # Hz
@@ -806,7 +806,7 @@ def automatic():
     global scheduledauto
     if autostate == 1:
         sinewave1.set_frequency(autofreq1)
-        sinewave1.set_volume(10 * np.log2(autoamp1 / 100))          
+        sinewave1.set_volume(20 * np.log10(autoamp1 / 100))          
         autostate = 2
         currentfreqlabel.config(text="Active Frequency: " + str(autofreq1) + " Hz")
         currentamplabel.config(text="Active Amplitude: " + str(autoamp1) + " %")
