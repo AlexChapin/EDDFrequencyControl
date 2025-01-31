@@ -79,13 +79,23 @@ slowsweeprate2 = 2  # Pitch / Second
 autofreqsweeprate = 10  # Pitch / Second
 autoampsweeprate = 10  # Percent / Second
 
-autofreq1 = 300  # Hz
-autoamp1 = 100  # Percent
-autotime1 = 4  # Seconds
+dospecifictimer = False
 
-autofreq2 = 400  # Hz
-autoamp2 = 100  # Percent
-autotime2 = 7  # Seconds
+autofreq1 = 18  # Hz
+autoamp1 = 34  # Percent
+autotime1 = 12  # Seconds
+
+autofreq2 = 16  # Hz
+autoamp2 = 38  # Percent
+autotime2 = 10  # Seconds
+
+autofreq3 = 18  # Hz
+autoamp3 = 28  # Percent
+autotime3 = 18  # Seconds
+
+autofreq4 = 35  # Hz
+autoamp4 = 100  # Percent
+autotime4 = 10  # Seconds
 
 
 # Version Number:
@@ -794,44 +804,95 @@ def automatic():
     global scheduledauto
     if autostate == 1:
         sinewave1.set_frequency(autofreq1)
-        sinewave1.set_volume(10 * np.log2(autoamp1 / 100))
+        sinewave1.set_volume(20 * np.log10(autoamp2))          
         autostate = 2
         currentfreqlabel.config(text="Active Frequency: " + str(autofreq1) + " Hz")
-        currentamplabel.config(text="Active Amplitude: " + str(autoamp1) + " Percent")
+        currentamplabel.config(text="Active Amplitude: " + str(autoamp1) + " %")
         scheduledauto = root.after(autotime1 * 1000, automatic)
         return
     if autostate == 2:
         sinewave1.set_frequency(autofreq2)
-        sinewave1.set_volume(10 * np.log2(autoamp2 / 100))
-        autostate = 1
+        sinewave1.set_volume(20 * np.log10(autoamp2))
+        autostate = 3
         currentfreqlabel.config(text="Active Frequency: " + str(autofreq2) + " Hz")
-        currentamplabel.config(text="Active Amplitude: " + str(autoamp2) + " Percent")
+        currentamplabel.config(text="Active Amplitude: " + str(autoamp2) + " %")
         scheduledauto = root.after(autotime2 * 1000, automatic)
+        return
+    if autostate == 3:
+        sinewave1.set_frequency(autofreq3)
+        sinewave1.set_volume(20 * np.log10(autoamp2))
+        autostate = 4
+        currentfreqlabel.config(text="Active Frequency: " + str(autofreq3) + " Hz")
+        currentamplabel.config(text="Active Amplitude: " + str(autoamp3) + " %")
+        scheduledauto = root.after(autotime3 * 1000, automatic)
+        return
+    if autostate == 4:
+        sinewave1.set_frequency(autofreq4)
+        sinewave1.set_volume(20 * np.log10(autoamp2))
+        autostate = 1
+        currentfreqlabel.config(text="Active Frequency: " + str(autofreq4) + " Hz")
+        currentamplabel.config(text="Active Amplitude: " + str(autoamp4) + " %")
+        scheduledauto = root.after(autotime4 * 1000, automatic)
         return
 
 
 def automatictimer():
+    global ms
     global seconds
     global minutes
+    global dospecifictimer
     global scheduledtimer
-    seconds += 1
-    if seconds == 60:
-        seconds = 0
-        minutes += 1
-    if seconds < 10 and minutes < 10:
-        timerlabel.config(text="Time Running: 0" + str(minutes) + ":0" + str(seconds))
+    if not dospecifictimer:
+        seconds += 1
+        if seconds == 60:
+            seconds = 0
+            minutes += 1
+        if minutes < 10:
+            dispminutes = "0" + str(minutes)
+        else:
+            dispminutes = str(minutes)
+        if seconds < 10:
+            dispseconds = "0" + str(seconds)
+        else:
+            dispseconds = str(seconds)
+        timerlabel.config(text="Time Running: " + dispminutes + ":" + dispseconds)
         scheduledtimer = root.after(1000, automatictimer)
         return
-    if minutes < 10:
-        timerlabel.config(text="Time Running: 0" + str(minutes) + ":" + str(seconds))
-        scheduledtimer = root.after(1000, automatictimer)
+    else:
+        ms +=1
+        if ms == 1000:
+            seconds +=1
+            ms = 0 
+        if seconds == 60:
+            seconds = 0
+            minutes += 1
+        if minutes < 10:
+            dispminutes = "0" + str(minutes)
+        else:
+            dispminutes = str(minutes)
+        if seconds < 10:
+            dispseconds = "0" + str(seconds)
+        else: 
+            dispseconds = str(seconds)
+        if ms < 100 and ms >= 10:
+            dispms = "0" + str(ms)
+            timerlabel.config(text="Time Running: " + str(dispminutes) + ":" + str(dispseconds)+ "." + str(dispms))
+            scheduledtimer = root.after(1, automatictimer)
+            return
+        if ms < 10 and ms >= 1:
+            dispms = "00" + str(ms)
+            timerlabel.config(text="Time Running: " + str(dispminutes) + ":" + str(dispseconds)+ "." + str(dispms))
+            scheduledtimer = root.after(1, automatictimer)
+            return
+        if ms == 0:
+            dispms = "000"
+            timerlabel.config(text="Time Running: " + str(dispminutes) + ":" + str(dispseconds)+ "." + str(dispms))
+            scheduledtimer = root.after(1, automatictimer)
+            return
+        timerlabel.config(text="Time Running: " + str(dispminutes) + ":" + str(dispseconds)+ "." + str(ms))
+        scheduledtimer = root.after(1, automatictimer)
         return
-    if seconds < 10:
-        timerlabel.config(text="Time Running: " + str(minutes) + ":0" + str(seconds))
-        scheduledtimer = root.after(1000, automatictimer)
-        return
-    timerlabel.config(text="Time Running: " + str(minutes) + ":" + str(seconds))
-    scheduledtimer = root.after(1000, automatictimer)
+    
 
 
 def pauseauto():
@@ -1294,7 +1355,7 @@ else:
         pitch_per_second=autofreqsweeprate,
         decibels_per_second=np.abs(10 * np.log2(autoampsweeprate / 100)),
         decibels=0,
-        pitch=0,
+        pitch = 12 * np.log2(autofreq1 / 440) + 9,
     )
     sinewave1.play()
     autostate = 1
@@ -1363,6 +1424,7 @@ else:
     pauseautobutton.grid(column=5, row=10)
 
     scheduledtimer = None
+    ms=0
     seconds = 0
     minutes = 0
     autopaused = False
