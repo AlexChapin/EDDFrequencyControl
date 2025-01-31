@@ -804,7 +804,7 @@ def automatic():
     global scheduledauto
     if autostate == 1:
         sinewave1.set_frequency(autofreq1)
-        sinewave1.set_volume(20 * np.log10(autoamp2))          
+        sinewave1.set_volume(10 * np.log2(autoamp1 / 100))          
         autostate = 2
         currentfreqlabel.config(text="Active Frequency: " + str(autofreq1) + " Hz")
         currentamplabel.config(text="Active Amplitude: " + str(autoamp1) + " %")
@@ -812,7 +812,7 @@ def automatic():
         return
     if autostate == 2:
         sinewave1.set_frequency(autofreq2)
-        sinewave1.set_volume(20 * np.log10(autoamp2))
+        sinewave1.set_volume(10 * np.log2(autoamp2 / 100))
         autostate = 3
         currentfreqlabel.config(text="Active Frequency: " + str(autofreq2) + " Hz")
         currentamplabel.config(text="Active Amplitude: " + str(autoamp2) + " %")
@@ -820,7 +820,7 @@ def automatic():
         return
     if autostate == 3:
         sinewave1.set_frequency(autofreq3)
-        sinewave1.set_volume(20 * np.log10(autoamp2))
+        sinewave1.set_volume(10 * np.log2(autoamp3 / 100))
         autostate = 4
         currentfreqlabel.config(text="Active Frequency: " + str(autofreq3) + " Hz")
         currentamplabel.config(text="Active Amplitude: " + str(autoamp3) + " %")
@@ -828,7 +828,7 @@ def automatic():
         return
     if autostate == 4:
         sinewave1.set_frequency(autofreq4)
-        sinewave1.set_volume(20 * np.log10(autoamp2))
+        sinewave1.set_volume(10 * np.log2(autoamp4 / 100))
         autostate = 1
         currentfreqlabel.config(text="Active Frequency: " + str(autofreq4) + " Hz")
         currentamplabel.config(text="Active Amplitude: " + str(autoamp4) + " %")
