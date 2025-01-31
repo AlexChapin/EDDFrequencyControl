@@ -70,7 +70,6 @@ Alex Chapin
     * Added Startup Flags
     * Created Auto GUI
     * Added OS Checking
-
 * 1.0.3
     * Added Sweep Mode
     * Added Frequency Sliders

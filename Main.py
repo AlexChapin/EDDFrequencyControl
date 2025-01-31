@@ -13,7 +13,7 @@ from pysinewave import SineWave
 # True Means Enable User Inputs
 # False Means Run Preprogramed Routine
 # This Value Will Be Overwritten by Any Startup Flags
-startwithuserinput = True
+runautomatic = True
 
 # Default Frequency On Startup
 startupfreq1 = 0  # Hz
@@ -81,9 +81,9 @@ autoampsweeprate = 10  # Percent / Second
 
 dospecifictimer = False
 
-#ADJUST PLEASE
+# ADJUST PLEASE
 
-autofreq1 = 243  # Hz
+autofreq1 = 16.5  # Hz
 autoamp1 = 100  # Percent
 autotime1 = 18  # Seconds
 
@@ -114,17 +114,17 @@ titletextcolor = "#5C87CB"
 
 
 def checkstartupflags():
-    global startwithuserinput
+    global runautomatic
     global sinewave1
     if __name__ == "__main__":
         if len(sys.argv) == 2:
             flag = sys.argv[1]
             if flag == "-manual" or flag == "-m" or flag == "-man":
-                startwithuserinput = True
+                runautomatic = True
                 print("Starting With Flag: Manual")
                 return
             if flag == "-auto" or flag == "-automatic" or flag == "-a":
-                startwithuserinput = False
+                runautomatic = False
                 print("Starting With Flag: Automatic")
                 return
             if flag == "elise":
@@ -137,8 +137,8 @@ def checkstartupflags():
                 sinewave1.play()
                 for pitch in song:
                     sinewave1.set_pitch(pitch)
-                    time.sleep(1/4)
-                startwithuserinput = True
+                    time.sleep(1 / 4)
+                runautomatic = True
                 sinewave1.stop()
                 return
             print(
@@ -156,8 +156,9 @@ def checkstartupflags():
 
 
 checkstartupflags()
+warnings.filterwarnings("ignore", category=RuntimeWarning)
 
-if startwithuserinput:
+if runautomatic:
     # Stores Custom Frequencies and Amplitudes to Lists for Checks
     frequencies = [
         startupfreq1,
@@ -193,55 +194,57 @@ if startwithuserinput:
         freq1buttonpreset,
         freq2buttonpreset,
     ]
+else:
+    frequencies = [autofreq1, autofreq2, autofreq3, autofreq4]
+    amplitudes = [autoamp1, autoamp2, autoamp3, autoamp4]
 
+# Checks to Ensure Custom Frequencies are Within Valid Ranges
+i = 0
+while i < len(frequencies):
+    try:
+        if frequencies[i] > 20000 or frequencies[i] < 0:
+            exitcode = 10
+            name = [k for k, v in globals().items() if id(v) == id(frequencies[i])][0]
+            print("Error In Variable:" + name)
+            print(f"{frequencies[i]}" + " Is Out Of Bounds For Frequency")
+            print("Process Exited With Exit Code:" + f"{exitcode}")
+            sys.exit(exitcode)
+    except Exception:
+        exitcode = 11
+        name = [k for k, v in globals().items() if id(v) == id(frequencies[i])][0]
+        print("Error in Variable:" + name)
+        print("Non Numerical Inputs Not Acceptable for Type Float")
+        print("Process Exited With Exit Code:" + f"{exitcode}")
+        sys.exit(exitcode)
+    i += 1
+
+i = 0
+# Checks to Ensure Custom Amplitudes are Within Valid Ranges
+while i < len(amplitudes):
+    try:
+        if amplitudes[i] > 100 or amplitudes[i] < 0:
+            exitcode = 12
+            name = [k for k, v in globals().items() if id(v) == id(amplitudes[i])][0]
+            print("Error In Variable:" + name)
+            print(f"{amplitudes[i]}" + " Is Out Of Bounds For Amplitude")
+            print("Process Exited With Exit Code:" + f"{exitcode}")
+            sys.exit(exitcode)
+    except Exception:
+        exitcode = 13
+        name = [k for k, v in globals().items() if id(v) == id(amplitudes[i])][0]
+        print("Error in Variable:" + name)
+        print("Non Numerical Inputs Not Acceptable for Type Float")
+        print("Process Exited With Exit Code:" + f"{exitcode}")
+        sys.exit(exitcode)
+    i += 1
+    
+if runautomatic:
     if startupfreq1 == 0:
         startupfreq1 = 1
 
     if startupfreq2 == 0:
         startupfreq2 = 1
         i = 0
-    # Checks to Ensure Custom Frequencies are Within Valid Ranges
-    while i < len(frequencies):
-        try:
-            if frequencies[i] > 20000 or frequencies[i] < 0:
-                exitcode = 10
-                name = [k for k, v in globals().items() if id(v) == id(frequencies[i])][
-                    0
-                ]
-                print("Error In Variable:" + name)
-                print(f"{frequencies[i]}" + " Is Out Of Bounds For Frequency")
-                print("Process Exited With Exit Code:" + f"{exitcode}")
-                sys.exit(exitcode)
-        except Exception:
-            exitcode = 11
-            name = [k for k, v in globals().items() if id(v) == id(frequencies[i])][0]
-            print("Error in Variable:" + name)
-            print("Non Numerical Inputs Not Acceptable for Type Float")
-            print("Process Exited With Exit Code:" + f"{exitcode}")
-            sys.exit(exitcode)
-        i += 1
-
-    i = 0
-    # Checks to Ensure Custom Amplitudes are Within Valid Ranges
-    while i < len(amplitudes):
-        try:
-            if amplitudes[i] > 100 or amplitudes[i] < 0:
-                exitcode = 12
-                name = [k for k, v in globals().items() if id(v) == id(amplitudes[i])][
-                    0
-                ]
-                print("Error In Variable:" + name)
-                print(f"{amplitudes[i]}" + " Is Out Of Bounds For Amplitude")
-                print("Process Exited With Exit Code:" + f"{exitcode}")
-                sys.exit(exitcode)
-        except Exception:
-            exitcode = 13
-            name = [k for k, v in globals().items() if id(v) == id(amplitudes[i])][0]
-            print("Error in Variable:" + name)
-            print("Non Numerical Inputs Not Acceptable for Type Float")
-            print("Process Exited With Exit Code:" + f"{exitcode}")
-            sys.exit(exitcode)
-        i += 1
 
     # Establish Setting Names
     setting1name = (
@@ -317,9 +320,9 @@ def updatefrequency1():
     global freqsweepistrue1
     global hasstopped1
     if activeamplitude1 == 0:
-        decibles = -100
+        decibles = -10000
     else:
-        decibles = 10 * np.log2(activeamplitude1 / 100)
+        decibles = 20 * np.log10(activeamplitude1 / 100)
     if sweepfreq1.get():
         if not freqsweepistrue1 or hasstopped1:
             sinewave1.stop()
@@ -364,7 +367,7 @@ def updatefrequency2():
     if activeamplitude2 == 0:
         decibles = -100
     else:
-        decibles = 10 * np.log2(activeamplitude2 / 100)
+        decibles = 20 * np.log10(activeamplitude2 / 100)
     if sweepfreq2.get():
         if not freqsweepistrue2 or hasstopped2:
             sinewave2.stop()
@@ -420,8 +423,8 @@ def stopall():
     activefrequency2 = 0
     activeamplitude1 = 0
     activeamplitude2 = 0
-    sinewave1.set_volume(-100)
-    sinewave2.set_volume(-100)
+    sinewave1.set_volume(-10000)
+    sinewave2.set_volume(-10000)
     sinewave1.set_frequency(0)
     sinewave2.set_frequency(0)
     dispfreqlabel2.config(text="Frequency: " + str(round(activefrequency2, 5)) + " Hz")
@@ -784,7 +787,7 @@ def setamplitude1topreset():
     if activeamplitude1 == 0:
         decibles = -100
     else:
-        decibles = 10 * np.log2(activeamplitude1 / 100)
+        decibles = 20 * np.log10(activeamplitude1 / 100)
     sinewave1.set_volume(decibles)
     dispamplabel1.config(text="Amplitude: " + str(round(activeamplitude1, 3)) + "%")
 
@@ -796,7 +799,7 @@ def setamplitude2topreset():
     if activeamplitude2 == 0:
         decibles = -100
     else:
-        decibles = 10 * np.log2(activeamplitude2 / 100)
+        decibles = 20 * np.log10(activeamplitude2 / 100)
     sinewave2.set_volume(decibles)
     dispamplabel2.config(text="Amplitude: " + str(round(activeamplitude2, 3)) + "%")
 
@@ -806,7 +809,7 @@ def automatic():
     global scheduledauto
     if autostate == 1:
         sinewave1.set_frequency(autofreq1)
-        sinewave1.set_volume(20 * np.log10(autoamp1 / 100))          
+        sinewave1.set_volume(20 * np.log10(autoamp1 / 100))
         autostate = 2
         currentfreqlabel.config(text="Active Frequency: " + str(autofreq1) + " Hz")
         currentamplabel.config(text="Active Amplitude: " + str(autoamp1) + " %")
@@ -814,7 +817,7 @@ def automatic():
         return
     if autostate == 2:
         sinewave1.set_frequency(autofreq2)
-        sinewave1.set_volume(10 * np.log2(autoamp2 / 100))
+        sinewave1.set_volume(20 * np.log10(autoamp2 / 100))
         autostate = 3
         currentfreqlabel.config(text="Active Frequency: " + str(autofreq2) + " Hz")
         currentamplabel.config(text="Active Amplitude: " + str(autoamp2) + " %")
@@ -822,7 +825,7 @@ def automatic():
         return
     if autostate == 3:
         sinewave1.set_frequency(autofreq3)
-        sinewave1.set_volume(10 * np.log2(autoamp3 / 100))
+        sinewave1.set_volume(20 * np.log10(autoamp3 / 100))
         autostate = 4
         currentfreqlabel.config(text="Active Frequency: " + str(autofreq3) + " Hz")
         currentamplabel.config(text="Active Amplitude: " + str(autoamp3) + " %")
@@ -830,7 +833,7 @@ def automatic():
         return
     if autostate == 4:
         sinewave1.set_frequency(autofreq4)
-        sinewave1.set_volume(10 * np.log2(autoamp4 / 100))
+        sinewave1.set_volume(20 * np.log10(autoamp4 / 100))
         autostate = 1
         currentfreqlabel.config(text="Active Frequency: " + str(autofreq4) + " Hz")
         currentamplabel.config(text="Active Amplitude: " + str(autoamp4) + " %")
@@ -861,10 +864,10 @@ def automatictimer():
         scheduledtimer = root.after(1000, automatictimer)
         return
     else:
-        ms +=1
+        ms += 1
         if ms == 1000:
-            seconds +=1
-            ms = 0 
+            seconds += 1
+            ms = 0
         if seconds == 60:
             seconds = 0
             minutes += 1
@@ -874,27 +877,54 @@ def automatictimer():
             dispminutes = str(minutes)
         if seconds < 10:
             dispseconds = "0" + str(seconds)
-        else: 
+        else:
             dispseconds = str(seconds)
         if ms < 100 and ms >= 10:
             dispms = "0" + str(ms)
-            timerlabel.config(text="Time Running: " + str(dispminutes) + ":" + str(dispseconds)+ "." + str(dispms))
+            timerlabel.config(
+                text="Time Running: "
+                + str(dispminutes)
+                + ":"
+                + str(dispseconds)
+                + "."
+                + str(dispms)
+            )
             scheduledtimer = root.after(1, automatictimer)
             return
         if ms < 10 and ms >= 1:
             dispms = "00" + str(ms)
-            timerlabel.config(text="Time Running: " + str(dispminutes) + ":" + str(dispseconds)+ "." + str(dispms))
+            timerlabel.config(
+                text="Time Running: "
+                + str(dispminutes)
+                + ":"
+                + str(dispseconds)
+                + "."
+                + str(dispms)
+            )
             scheduledtimer = root.after(1, automatictimer)
             return
         if ms == 0:
             dispms = "000"
-            timerlabel.config(text="Time Running: " + str(dispminutes) + ":" + str(dispseconds)+ "." + str(dispms))
+            timerlabel.config(
+                text="Time Running: "
+                + str(dispminutes)
+                + ":"
+                + str(dispseconds)
+                + "."
+                + str(dispms)
+            )
             scheduledtimer = root.after(1, automatictimer)
             return
-        timerlabel.config(text="Time Running: " + str(dispminutes) + ":" + str(dispseconds)+ "." + str(ms))
+        timerlabel.config(
+            text="Time Running: "
+            + str(dispminutes)
+            + ":"
+            + str(dispseconds)
+            + "."
+            + str(ms)
+        )
         scheduledtimer = root.after(1, automatictimer)
         return
-    
 
 
 def pauseauto():
@@ -923,17 +953,17 @@ platform = platform.system()
 root = Tk()
 if platform == "Windows":
     root.iconbitmap("ICERootLogo.ico")
-    if startwithuserinput:
+    if runautomatic:
         root.geometry("1220x800")
     else:
         root.geometry("1000x650")
 if platform == "Linux":
     root.iconphoto(True, PhotoImage("ICERootLogoLinux.png"))
-    if startwithuserinput:
+    if runautomatic:
         root.geometry("1350x800")
     else:
         root.geometry("1000x600")
-if not startwithuserinput:
+if not runautomatic:
     root.title("Frequency Generator " + version + " (Automatic)")
 else:
     root.title("Frequency Generator " + version)
@@ -946,7 +976,7 @@ sinewave1 = SineWave()
 sinewave2 = SineWave()
 
 
-if startwithuserinput:
+if runautomatic:
     sliderhasrun = False
 
     # Define Custom Frequencies
@@ -1355,9 +1385,9 @@ if startwithuserinput:
 else:
     sinewave1 = SineWave(
         pitch_per_second=autofreqsweeprate,
-        decibels_per_second=np.abs(10 * np.log2(autoampsweeprate / 100)),
+        decibels_per_second=np.abs(20 * np.log10(autoampsweeprate / 100)),
         decibels=0,
-        pitch = 12 * np.log2(autofreq1 / 440) + 9,
+        pitch=12 * np.log2(autofreq1 / 440) + 9,
     )
     sinewave1.play()
     autostate = 1
@@ -1426,14 +1456,12 @@ else:
     pauseautobutton.grid(column=5, row=10)
 
     scheduledtimer = None
-    ms=0
+    ms = 0
     seconds = 0
     minutes = 0
     autopaused = False
     automatic()
     automatictimer()
-
-warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 # Begin GUI Loop
 root.mainloop()
