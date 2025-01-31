@@ -1,3 +1,4 @@
+import time
 import numpy as np
 import warnings
 import sys
@@ -15,67 +16,67 @@ from pysinewave import SineWave
 startwithuserinput = True
 
 # Default Frequency On Startup
-startupfreq1 = 0
-startupamp1 = 0
+startupfreq1 = 0  # Hz
+startupamp1 = 0  # Percent
 
-startupfreq2 = 0
-startupamp2 = 0
+startupfreq2 = 0  # Hz
+startupamp2 = 0  # Percent
 
 # Frequency 1 Settings
-setting1freq = 100
-setting1amp = 100
+setting1freq = 100  # Hz
+setting1amp = 100  # Percent
 
-setting2freq = 200
-setting2amp = 100
+setting2freq = 200  # Hz
+setting2amp = 100  # Percent
 
-setting3freq = 300
-setting3amp = 100
+setting3freq = 300  # Hz
+setting3amp = 100  # Percent
 
-setting4freq = 400
-setting4amp = 100
+setting4freq = 400  # Hz
+setting4amp = 100  # Percent
 
-setting5freq = 500
-setting5amp = 100
+setting5freq = 500  # Hz
+setting5amp = 100  # Percent
 
 # Frequency 2 Settings
-setting1freq2 = 100
-setting1amp2 = 100
+setting1freq2 = 100  # Hz
+setting1amp2 = 100  # Percent
 
-setting2freq2 = 200
-setting2amp2 = 100
+setting2freq2 = 200  # Hz
+setting2amp2 = 100  # Percent
 
-setting3freq2 = 300
-setting3amp2 = 100
+setting3freq2 = 300  # Hz
+setting3amp2 = 100  # Percent
 
-setting4freq2 = 400
-setting4amp2 = 100
+setting4freq2 = 400  # Hz
+setting4amp2 = 100  # Percent
 
-setting5freq2 = 500
-setting5amp2 = 100
+setting5freq2 = 500  # Hz
+setting5amp2 = 100  # Percent
 
 # Slider Settings
-freq1sliderlow = 1
-freq1sliderhigh = 100
+freq1sliderlow = 1  # Hz
+freq1sliderhigh = 100  # Hz
 
-freq2sliderlow = 1
-freq2sliderhigh = 100
+freq2sliderlow = 1  # Hz
+freq2sliderhigh = 100  # Hz
 
 # Smallest Unit That The Slider Can Change By
-scaleresolution = 0.1
+scaleresolution = 0.1  # Hz
 
-freq1buttonpreset = 100
-freq2buttonpreset = 100
+freq1buttonpreset = 100  # Percent
+freq2buttonpreset = 100  # Percent
 
 # Sweep Rates
 # Fast Sweep Rates are Default
-fastsweeprate1 = 1000000000
-fastsweeprate2 = 1000000000
+fastsweeprate1 = 1000000000  # Pitch / Second
+fastsweeprate2 = 1000000000  # Pitch / Second
 
-slowsweeprate1 = 2
-slowsweeprate2 = 2
+slowsweeprate1 = 2  # Pitch / Second
+slowsweeprate2 = 2  # Pitch / Second
 
 # Auto Settings
-autofreqsweeprate = 100  # Hz / Second
+autofreqsweeprate = 10  # Pitch / Second
 autoampsweeprate = 10  # Percent / Second
 
 autofreq1 = 300  # Hz
@@ -93,24 +94,36 @@ version = "v1.0.3"
 
 def checkstartupflags():
     global startwithuserinput
+    global sinewave1
     if __name__ == "__main__":
         if len(sys.argv) == 2:
             flag = sys.argv[1]
-            if flag == "-true" or flag == "-t":
+            if flag == "-manual" or flag == "-m" or flag == "-man":
                 startwithuserinput = True
-                print("Starting With User Input Flag: True")
+                print("Starting With Flag: Manual")
                 return
-            if flag == "-false" or flag == "-f":
+            if flag == "-auto" or flag == "-automatic" or flag == "-a":
                 startwithuserinput = False
-                print("Starting With User Input Flag: False")
+                print("Starting With Flag: Automatic")
+                return
+            if flag == "elise":
+                song = [12,11,12,11,12,7,10,8,5,5,5,-3,0,5,7,7,7,0,4,7,8,8,8,0,12,11,12,11,12,7,10,8,5,5,5,-3,0,5,7,7,7,0,8,7,5,5,5,5]
+                sinewave1 = SineWave(song[0],24)
+                sinewave1.play()
+                for pitch in song:
+                    sinewave1.set_pitch(pitch)
+                    time.sleep(1/4)
                 return
             print(
-                "Invalid Flags!!! Use '-true' or '-false' to start with or without user input"
+                "Invalid Flags!!! Use '-manual' or '-automatic' to start the program in either manual control or automatic control mode!"
             )
             exit(6)
             return
         if len(sys.argv) != 2 and len(sys.argv) != 1:
             print("Incorrect Arguments Passed!!!")
+            print(
+                "Use '-manual' or '-automatic' to start the program in either manual control or automatic control mode!"
+            )
             exit(5)
             return
 
@@ -777,12 +790,16 @@ def automatic():
         sinewave1.set_frequency(autofreq1)
         sinewave1.set_volume(10 * np.log2(autoamp1 / 100))
         autostate = 2
+        currentfreqlabel.config(text="Active Frequency: " + str(autofreq1) + " Hz")
+        currentamplabel.config(text="Active Amplitude: " + str(autoamp1) + " Percent")
         root.after(autotime1 * 1000, automatic)
         return
     if autostate == 2:
         sinewave1.set_frequency(autofreq2)
         sinewave1.set_volume(10 * np.log2(autoamp2 / 100))
         autostate = 1
+        currentfreqlabel.config(text="Active Frequency: " + str(autofreq2) + " Hz")
+        currentamplabel.config(text="Active Amplitude: " + str(autoamp2) + " Percent")
         root.after(autotime2 * 1000, automatic)
         return
 
@@ -1206,8 +1223,6 @@ if startwithuserinput:
     slidermenubutton.grid(column=5, row=20)
     responsetoslidermenu.grid(column=5, row=22)
 
-    warnings.filterwarnings("ignore", category=RuntimeWarning)
-
     # Set Initial Frequencies
     activefrequency1 = startupfreq1
     activeamplitude1 = startupamp1
@@ -1218,7 +1233,7 @@ if startwithuserinput:
 
 else:
     sinewave1 = SineWave(
-        pitch_per_second=np.abs(12 * np.log2(autofreqsweeprate/ 440)),
+        pitch_per_second=autofreqsweeprate,
         decibels_per_second=np.abs(10 * np.log2(autoampsweeprate / 100)),
         decibels=0,
         pitch=0,
@@ -1232,19 +1247,31 @@ else:
         fg=titletextcolor,
         text="Running Automatic Program",
     )
-    freqsweeratelabel = Label(
+    freqsweepratelabel = Label(
         root,
         font=("font", smallfontsize),
         background=backgroundcolor,
         fg=textcolor,
-        text="Frequency Transition Rate: " + str(autofreqsweeprate),
+        text="Frequency Transition Rate: " + str(autofreqsweeprate) + " Hz",
     )
-    freqsweeratelabel = Label(
+    ampsweepratelabel = Label(
         root,
         font=("font", smallfontsize),
         background=backgroundcolor,
         fg=textcolor,
-        text="Amplitude Transition Rate: " + str(autoampsweeprate),
+        text="Amplitude Transition Rate: " + str(autoampsweeprate) + " Percent",
+    )
+    currentfreqlabel = Label(
+        root,
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
+    )
+    currentamplabel = Label(
+        root,
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
     )
     image = Image.open("ICElogo.png")
     newsize = (425, 334)
@@ -1254,8 +1281,14 @@ else:
 
     titlelable.grid(column=2, row=3, padx=200, columnspan=7)
     logolabel.grid(column=5, row=4)
+    freqsweepratelabel.grid(column=5, row=5)
+    ampsweepratelabel.grid(column=5, row=6)
+    currentfreqlabel.grid(column=5, row=7)
+    currentamplabel.grid(column=5, row=8)
 
     automatic()
+
+warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 # Begin GUI Loop
 root.mainloop()
