@@ -125,7 +125,9 @@ def checkstartupflags():
                 sinewave1.play()
                 for pitch in song:
                     sinewave1.set_pitch(pitch)
-                    time.sleep(1 / 4)
+                    time.sleep(1/4)
+                startwithuserinput = True
+                sinewave1.stop()
                 return
             print(
                 "Invalid Flags!!! Use '-manual' or '-automatic' to start the program in either manual control or automatic control mode!"
