@@ -116,56 +116,11 @@ def checkstartupflags():
                 print("Starting With Flag: Automatic")
                 return
             if flag == "elise":
-                song = [
-                    12,
-                    11,
-                    12,
-                    11,
-                    12,
-                    7,
-                    10,
-                    8,
-                    5,
-                    5,
-                    5,
-                    -3,
-                    0,
-                    5,
-                    7,
-                    7,
-                    7,
-                    0,
-                    4,
-                    7,
-                    8,
-                    8,
-                    8,
-                    0,
-                    12,
-                    11,
-                    12,
-                    11,
-                    12,
-                    7,
-                    10,
-                    8,
-                    5,
-                    5,
-                    5,
-                    -3,
-                    0,
-                    5,
-                    7,
-                    7,
-                    7,
-                    0,
-                    8,
-                    7,
-                    5,
-                    5,
-                    5,
-                    5,
-                ]
+                songfile = open("Elise.txt", "r")
+                song = []
+                for line in songfile:
+                    for num_str in line.split():
+                        song.append(int(num_str))
                 sinewave1 = SineWave(song[0], 24)
                 sinewave1.play()
                 for pitch in song:
@@ -841,7 +796,7 @@ def automatic():
         autostate = 2
         currentfreqlabel.config(text="Active Frequency: " + str(autofreq1) + " Hz")
         currentamplabel.config(text="Active Amplitude: " + str(autoamp1) + " Percent")
-        scheduledauto == root.after(autotime1 * 1000, automatic)
+        scheduledauto = root.after(autotime1 * 1000, automatic)
         return
     if autostate == 2:
         sinewave1.set_frequency(autofreq2)
@@ -849,7 +804,7 @@ def automatic():
         autostate = 1
         currentfreqlabel.config(text="Active Frequency: " + str(autofreq2) + " Hz")
         currentamplabel.config(text="Active Amplitude: " + str(autoamp2) + " Percent")
-        scheduledauto == root.after(autotime2 * 1000, automatic)
+        scheduledauto = root.after(autotime2 * 1000, automatic)
         return
 
 
@@ -863,26 +818,29 @@ def automatictimer():
         minutes += 1
     if seconds < 10 and minutes < 10:
         timerlabel.config(text="Time Running: 0" + str(minutes) + ":0" + str(seconds))
-        scheduledtimer == root.after(1000, automatictimer)
+        scheduledtimer = root.after(1000, automatictimer)
         return
     if minutes < 10:
         timerlabel.config(text="Time Running: 0" + str(minutes) + ":" + str(seconds))
-        scheduledtimer== root.after(1000, automatictimer)
+        scheduledtimer = root.after(1000, automatictimer)
         return
     if seconds < 10:
         timerlabel.config(text="Time Running: " + str(minutes) + ":0" + str(seconds))
-        scheduledtimer == root.after(1000, automatictimer)
+        scheduledtimer = root.after(1000, automatictimer)
         return
     timerlabel.config(text="Time Running: " + str(minutes) + ":" + str(seconds))
-    scheduledtimer == root.after(1000, automatictimer)
+    scheduledtimer = root.after(1000, automatictimer)
+
 
 def pauseauto():
     global autopaused
     global scheduledauto
     global scheduledtimer
+    global sinewave1
     if autopaused:
         autopaused = False
         pauseautobutton.config(text="Pause Automatic")
+        sinewave1.play()
         automatic()
         automatictimer()
     else:
@@ -890,6 +848,10 @@ def pauseauto():
         pauseautobutton.config(text="Resume Automatic")
         root.after_cancel(scheduledtimer)
         root.after_cancel(scheduledauto)
+        sinewave1.stop()
+        scheduledauto = None
+        scheduledtimer = None
+
 
 # Create Root GUI
 platform = platform.system()
@@ -1398,9 +1360,7 @@ else:
     timerlabel.grid(column=5, row=9)
     pauseautobutton.grid(column=5, row=10)
 
-
     scheduledtimer = None
-    scheduledauto = None
     seconds = 0
     minutes = 0
     autopaused = False
