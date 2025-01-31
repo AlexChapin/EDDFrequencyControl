@@ -89,7 +89,16 @@ autotime2 = 7  # Seconds
 
 
 # Version Number:
-version = "v1.0.3"
+version = "v1.0.4"
+
+# GUI Global Settings
+font = "Century"
+tinyfontsize = 15
+smallfontsize = 20
+titlefontsize = 35
+backgroundcolor = "#09142B"
+textcolor = "#E4F4F5"
+titletextcolor = "#5C87CB"
 
 
 def checkstartupflags():
@@ -107,24 +116,73 @@ def checkstartupflags():
                 print("Starting With Flag: Automatic")
                 return
             if flag == "elise":
-                song = [12,11,12,11,12,7,10,8,5,5,5,-3,0,5,7,7,7,0,4,7,8,8,8,0,12,11,12,11,12,7,10,8,5,5,5,-3,0,5,7,7,7,0,8,7,5,5,5,5]
-                sinewave1 = SineWave(song[0],24)
+                song = [
+                    12,
+                    11,
+                    12,
+                    11,
+                    12,
+                    7,
+                    10,
+                    8,
+                    5,
+                    5,
+                    5,
+                    -3,
+                    0,
+                    5,
+                    7,
+                    7,
+                    7,
+                    0,
+                    4,
+                    7,
+                    8,
+                    8,
+                    8,
+                    0,
+                    12,
+                    11,
+                    12,
+                    11,
+                    12,
+                    7,
+                    10,
+                    8,
+                    5,
+                    5,
+                    5,
+                    -3,
+                    0,
+                    5,
+                    7,
+                    7,
+                    7,
+                    0,
+                    8,
+                    7,
+                    5,
+                    5,
+                    5,
+                    5,
+                ]
+                sinewave1 = SineWave(song[0], 24)
                 sinewave1.play()
                 for pitch in song:
                     sinewave1.set_pitch(pitch)
-                    time.sleep(1/4)
+                    time.sleep(1 / 4)
                 return
             print(
                 "Invalid Flags!!! Use '-manual' or '-automatic' to start the program in either manual control or automatic control mode!"
             )
-            exit(6)
+            sys.exit(6)
             return
         if len(sys.argv) != 2 and len(sys.argv) != 1:
             print("Incorrect Arguments Passed!!!")
             print(
                 "Use '-manual' or '-automatic' to start the program in either manual control or automatic control mode!"
             )
-            exit(5)
+            sys.exit(5)
             return
 
 
@@ -278,16 +336,6 @@ if startwithuserinput:
         + str(round(setting5amp2, 2))
         + "% Amplitude"
     )
-
-
-# GUI Global Settings
-font = "Century"
-tinyfontsize = 15
-smallfontsize = 20
-titlefontsize = 35
-backgroundcolor = "#09142B"
-textcolor = "#E4F4F5"
-titletextcolor = "#5C87CB"
 
 
 # Updates Frequency To Active Frequency / Amplitude
@@ -786,13 +834,14 @@ def setamplitude2topreset():
 
 def automatic():
     global autostate
+    global scheduledauto
     if autostate == 1:
         sinewave1.set_frequency(autofreq1)
         sinewave1.set_volume(10 * np.log2(autoamp1 / 100))
         autostate = 2
         currentfreqlabel.config(text="Active Frequency: " + str(autofreq1) + " Hz")
         currentamplabel.config(text="Active Amplitude: " + str(autoamp1) + " Percent")
-        root.after(autotime1 * 1000, automatic)
+        scheduledauto == root.after(autotime1 * 1000, automatic)
         return
     if autostate == 2:
         sinewave1.set_frequency(autofreq2)
@@ -800,9 +849,47 @@ def automatic():
         autostate = 1
         currentfreqlabel.config(text="Active Frequency: " + str(autofreq2) + " Hz")
         currentamplabel.config(text="Active Amplitude: " + str(autoamp2) + " Percent")
-        root.after(autotime2 * 1000, automatic)
+        scheduledauto == root.after(autotime2 * 1000, automatic)
         return
 
+
+def automatictimer():
+    global seconds
+    global minutes
+    global scheduledtimer
+    seconds += 1
+    if seconds == 60:
+        seconds = 0
+        minutes += 1
+    if seconds < 10 and minutes < 10:
+        timerlabel.config(text="Time Running: 0" + str(minutes) + ":0" + str(seconds))
+        scheduledtimer == root.after(1000, automatictimer)
+        return
+    if minutes < 10:
+        timerlabel.config(text="Time Running: 0" + str(minutes) + ":" + str(seconds))
+        scheduledtimer== root.after(1000, automatictimer)
+        return
+    if seconds < 10:
+        timerlabel.config(text="Time Running: " + str(minutes) + ":0" + str(seconds))
+        scheduledtimer == root.after(1000, automatictimer)
+        return
+    timerlabel.config(text="Time Running: " + str(minutes) + ":" + str(seconds))
+    scheduledtimer == root.after(1000, automatictimer)
+
+def pauseauto():
+    global autopaused
+    global scheduledauto
+    global scheduledtimer
+    if autopaused:
+        autopaused = False
+        pauseautobutton.config(text="Pause Automatic")
+        automatic()
+        automatictimer()
+    else:
+        autopaused = True
+        pauseautobutton.config(text="Resume Automatic")
+        root.after_cancel(scheduledtimer)
+        root.after_cancel(scheduledauto)
 
 # Create Root GUI
 platform = platform.system()
@@ -812,11 +899,18 @@ if platform == "Windows":
     if startwithuserinput:
         root.geometry("1220x800")
     else:
-        root.geometry("1000x600")
+        root.geometry("1000x650")
 if platform == "Linux":
     root.iconphoto(True, PhotoImage("ICERootLogoLinux.png"))
-    root.geometry("1350x800")
-root.title("Frequency Generator " + version)
+    if startwithuserinput:
+        root.geometry("1350x800")
+    else:
+        root.geometry("1000x600")
+if not startwithuserinput:
+    root.title("Frequency Generator " + version + " (Automatic)")
+else:
+    root.title("Frequency Generator " + version)
+
 root.configure(background=backgroundcolor)
 root.resizable(False, False)
 
@@ -1252,14 +1346,16 @@ else:
         font=("font", smallfontsize),
         background=backgroundcolor,
         fg=textcolor,
-        text="Frequency Transition Rate: " + str(autofreqsweeprate) + " Hz",
+        text="Frequency Transition Rate: " + str(autofreqsweeprate) + " Pitch / Second",
     )
     ampsweepratelabel = Label(
         root,
         font=("font", smallfontsize),
         background=backgroundcolor,
         fg=textcolor,
-        text="Amplitude Transition Rate: " + str(autoampsweeprate) + " Percent",
+        text="Amplitude Transition Rate: "
+        + str(autoampsweeprate)
+        + " Percent / Second",
     )
     currentfreqlabel = Label(
         root,
@@ -1270,6 +1366,20 @@ else:
     currentamplabel = Label(
         root,
         font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
+    )
+    timerlabel = Label(
+        root,
+        font=("font", smallfontsize),
+        background=backgroundcolor,
+        fg=textcolor,
+    )
+    pauseautobutton = Button(
+        root,
+        text="Pause Auto",
+        font=("font", smallfontsize),
+        command=pauseauto,
         background=backgroundcolor,
         fg=textcolor,
     )
@@ -1285,8 +1395,17 @@ else:
     ampsweepratelabel.grid(column=5, row=6)
     currentfreqlabel.grid(column=5, row=7)
     currentamplabel.grid(column=5, row=8)
+    timerlabel.grid(column=5, row=9)
+    pauseautobutton.grid(column=5, row=10)
 
+
+    scheduledtimer = None
+    scheduledauto = None
+    seconds = 0
+    minutes = 0
+    autopaused = False
     automatic()
+    automatictimer()
 
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 

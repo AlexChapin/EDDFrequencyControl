@@ -44,6 +44,10 @@ If the program will not run check the console for errors due to setting presets 
 
 Exit Codes:
 
+5 -> Too Many Flags Passed
+
+6 -> Invalid Flags Passed
+
 10 -> Preset Frequency Set Incorrectly
 
 11 -> Preset Frequency Set To Non-Numerical Value
@@ -58,6 +62,14 @@ Alex Chapin
 [@AlexChapin](https://github.com/AlexChapin)
 
 ## Version History
+
+* 1.0.4
+    * Added Automatic Operation Mode
+    * Modified Frequency Changes
+    * Reduced Required CPU Load
+    * Added Startup Flags
+    * Created Auto GUI
+    * Added OS Checking
 
 * 1.0.3
     * Added Sweep Mode
