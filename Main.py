@@ -13,7 +13,7 @@ from pysinewave import SineWave
 # True Means Enable User Inputs
 # False Means Run Preprogramed Routine
 # This Value Will Be Overwritten by Any Startup Flags
-runautomatic = True
+runmanual = True
 
 # Default Frequency On Startup
 startupfreq1 = 0  # Hz
@@ -114,17 +114,17 @@ titletextcolor = "#5C87CB"
 
 
 def checkstartupflags():
-    global runautomatic
+    global runmanual
     global sinewave1
     if __name__ == "__main__":
         if len(sys.argv) == 2:
             flag = sys.argv[1]
             if flag == "-manual" or flag == "-m" or flag == "-man":
-                runautomatic = True
+                runmanual = True
                 print("Starting With Flag: Manual")
                 return
             if flag == "-auto" or flag == "-automatic" or flag == "-a":
-                runautomatic = False
+                runmanual = False
                 print("Starting With Flag: Automatic")
                 return
             if flag == "elise":
@@ -138,7 +138,7 @@ def checkstartupflags():
                 for pitch in song:
                     sinewave1.set_pitch(pitch)
                     time.sleep(1 / 4)
-                runautomatic = True
+                runmanual = True
                 sinewave1.stop()
                 return
             print(
@@ -158,7 +158,7 @@ def checkstartupflags():
 checkstartupflags()
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 
-if runautomatic:
+if runmanual:
     # Stores Custom Frequencies and Amplitudes to Lists for Checks
     frequencies = [
         startupfreq1,
@@ -238,7 +238,7 @@ while i < len(amplitudes):
         sys.exit(exitcode)
     i += 1
     
-if runautomatic:
+if runmanual:
     if startupfreq1 == 0:
         startupfreq1 = 1
 
@@ -953,17 +953,17 @@ platform = platform.system()
 root = Tk()
 if platform == "Windows":
     root.iconbitmap("ICERootLogo.ico")
-    if runautomatic:
+    if runmanual:
         root.geometry("1220x800")
     else:
         root.geometry("1000x650")
 if platform == "Linux":
     root.iconphoto(True, PhotoImage("ICERootLogoLinux.png"))
-    if runautomatic:
+    if runmanual:
         root.geometry("1350x800")
     else:
         root.geometry("1000x600")
-if not runautomatic:
+if not runmanual:
     root.title("Frequency Generator " + version + " (Automatic)")
 else:
     root.title("Frequency Generator " + version)
@@ -976,7 +976,7 @@ sinewave1 = SineWave()
 sinewave2 = SineWave()
 
 
-if runautomatic:
+if runmanual:
     sliderhasrun = False
 
     # Define Custom Frequencies
