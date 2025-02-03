@@ -76,28 +76,28 @@ slowsweeprate1 = 2  # Pitch / Second
 slowsweeprate2 = 2  # Pitch / Second
 
 # Auto Settings
-autofreqsweeprate = 10  # Pitch / Second
-autoampsweeprate = 10  # Percent / Second
+autofreqsweeprate = 10000  # Pitch / Second
+autoampsweeprate = 10000  # Percent / Second
 
 dospecifictimer = False
 
 # ADJUST PLEASE
 
-autofreq1 = 16.5  # Hz
-autoamp1 = 100  # Percent
-autotime1 = 18  # Seconds
+autofreq1 = 18  # Hz
+autoamp1 = 18  # Percent
+autotime1 = 20  # Seconds
 
-autofreq2 = 14  # Hz
-autoamp2 = 100  # Percent
-autotime2 = 10  # Seconds
+autofreq2 = 20  # Hz
+autoamp2 = 12  # Percent
+autotime2 = 15  # Seconds
 
-autofreq3 = 17  # Hz
-autoamp3 = 100  # Percent
-autotime3 = 10  # Seconds
+autofreq3 = 12  # Hz
+autoamp3 = 10  # Percent
+autotime3 = 5  # Seconds
 
-autofreq4 = 40  # Hz
-autoamp4 = 100  # Percent
-autotime4 = 5  # Seconds
+autofreq4 = 18  # Hz
+autoamp4 = 18  # Percent
+autotime4 = 10  # Seconds
 
 
 # Version Number:
