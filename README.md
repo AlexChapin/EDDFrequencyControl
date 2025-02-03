@@ -65,6 +65,8 @@ Alex Chapin
 
 * 1.0.4
     * Added Automatic Operation Mode
+    * 4 Preset Modes in Automatic
+    * Changed Amplitude Calculation to Base10
     * Modified Frequency Changes
     * Reduced Required CPU Load
     * Added Startup Flags

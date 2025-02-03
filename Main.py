@@ -23,35 +23,35 @@ startupfreq2 = 0  # Hz
 startupamp2 = 0  # Percent
 
 # Frequency 1 Settings
-setting1freq = 100  # Hz
-setting1amp = 100  # Percent
+setting1freq = 15  # Hz
+setting1amp = 75  # Percent
 
-setting2freq = 200  # Hz
-setting2amp = 100  # Percent
+setting2freq = 16.5  # Hz
+setting2amp = 45  # Percent
 
-setting3freq = 300  # Hz
-setting3amp = 100  # Percent
+setting3freq = 17.5  # Hz
+setting3amp = 50  # Percent
 
-setting4freq = 400  # Hz
-setting4amp = 100  # Percent
+setting4freq = 19  # Hz
+setting4amp = 70  # Percent
 
-setting5freq = 500  # Hz
+setting5freq = 45  # Hz
 setting5amp = 100  # Percent
 
 # Frequency 2 Settings
-setting1freq2 = 100  # Hz
-setting1amp2 = 100  # Percent
+setting1freq2 = 10  # Hz
+setting1amp2 = 75  # Percent
 
-setting2freq2 = 200  # Hz
-setting2amp2 = 100  # Percent
+setting2freq2 = 25  # Hz
+setting2amp2 = 25  # Percent
 
-setting3freq2 = 300  # Hz
-setting3amp2 = 100  # Percent
+setting3freq2 = 100  # Hz
+setting3amp2 = 65  # Percent
 
-setting4freq2 = 400  # Hz
-setting4amp2 = 100  # Percent
+setting4freq2 = 35  # Hz
+setting4amp2 = 70  # Percent
 
-setting5freq2 = 500  # Hz
+setting5freq2 = 5  # Hz
 setting5amp2 = 100  # Percent
 
 # Slider Settings
@@ -80,8 +80,6 @@ autofreqsweeprate = 10000  # Pitch / Second
 autoampsweeprate = 10000  # Percent / Second
 
 dospecifictimer = False
-
-# ADJUST PLEASE
 
 autofreq1 = 18  # Hz
 autoamp1 = 18  # Percent
@@ -144,13 +142,17 @@ def checkstartupflags():
             print(
                 "Invalid Flags!!! Use '-manual' or '-automatic' to start the program in either manual control or automatic control mode!"
             )
+            exitcode = 6
+            print("Process Exited With Exit Code:" + f"{exitcode}")
             sys.exit(6)
             return
         if len(sys.argv) != 2 and len(sys.argv) != 1:
+            exitcode = 5
             print("Incorrect Arguments Passed!!!")
             print(
                 "Use '-manual' or '-automatic' to start the program in either manual control or automatic control mode!"
             )
+            print("Process Exited With Exit Code:" + f"{exitcode}")
             sys.exit(5)
             return
 
