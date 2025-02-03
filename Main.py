@@ -39,20 +39,20 @@ setting5freq = 45  # Hz
 setting5amp = 100  # Percent
 
 # Frequency 2 Settings
-setting1freq2 = 10  # Hz
-setting1amp2 = 75  # Percent
+setting1freq2 = 5  # Hz
+setting1amp2 = 100  # Percent
 
-setting2freq2 = 25  # Hz
-setting2amp2 = 25  # Percent
+setting2freq2 = 15  # Hz
+setting2amp2 = 75  # Percent
 
-setting3freq2 = 100  # Hz
-setting3amp2 = 65  # Percent
+setting3freq2 = 35  # Hz
+setting3amp2 = 75  # Percent
 
-setting4freq2 = 35  # Hz
-setting4amp2 = 70  # Percent
+setting4freq2 = 65  # Hz
+setting4amp2 = 50  # Percent
 
-setting5freq2 = 5  # Hz
-setting5amp2 = 100  # Percent
+setting5freq2 = 100  # Hz
+setting5amp2 = 20  # Percent
 
 # Slider Settings
 freq1sliderlow = 1  # Hz
