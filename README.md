@@ -32,7 +32,7 @@ Pip install requirements.txt
 
 * To run the programmed set of frequencies run Main.py with the -a flag or change the value "runmanual" in Main.py 
 
-https://github.com/AlexChapin/EDDFrequencyControl/actions/workflows/pythoncompile.yml/badge.svg
+https://github.com/AlexChapin/EDDFrequencyControl/actions/workflows/pythoncompile/badge.svg
 
 Windows:
 ```
