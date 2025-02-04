@@ -1,9 +1,9 @@
 import time
-import numpy as np
 import warnings
 import sys
-import tkinter as tk
 import platform
+import numpy as np
+import tkinter as tk
 from tkinter import *
 from PIL import ImageTk, Image
 from pysinewave import SineWave
