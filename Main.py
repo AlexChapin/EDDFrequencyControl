@@ -97,6 +97,13 @@ autofreq4 = 18  # Hz
 autoamp4 = 18  # Percent
 autotime4 = 10  # Seconds
 
+autofreq5 = 18  # Hz
+autoamp5 = 18  # Percent
+autotime5 = 10  # Seconds
+
+autofreq6 = 18  # Hz
+autoamp6 = 18  # Percent
+autotime6 = 10  # Seconds
 
 # Version Number:
 version = "v1.0.4"
@@ -836,10 +843,26 @@ def automatic():
     if autostate == 4:
         sinewave1.set_frequency(autofreq4)
         sinewave1.set_volume(20 * np.log10(autoamp4 / 100))
-        autostate = 1
+        autostate = 5
         currentfreqlabel.config(text="Active Frequency: " + str(autofreq4) + " Hz")
         currentamplabel.config(text="Active Amplitude: " + str(autoamp4) + " %")
         scheduledauto = root.after(autotime4 * 1000, automatic)
+        return
+    if autostate == 5:
+        sinewave1.set_frequency(autofreq5)
+        sinewave1.set_volume(20 * np.log10(autoamp5 / 100))
+        autostate = 6
+        currentfreqlabel.config(text="Active Frequency: " + str(autofreq5) + " Hz")
+        currentamplabel.config(text="Active Amplitude: " + str(autoamp5) + " %")
+        scheduledauto = root.after(autotime5 * 1000, automatic)
+        return
+    if autostate == 6:
+        sinewave1.set_frequency(autofreq6)
+        sinewave1.set_volume(20 * np.log10(autoamp6 / 100))
+        autostate = 1
+        currentfreqlabel.config(text="Active Frequency: " + str(autofreq6) + " Hz")
+        currentamplabel.config(text="Active Amplitude: " + str(autoamp6) + " %")
+        scheduledauto = root.after(autotime6 * 1000, automatic)
         return
 
 

@@ -25,7 +25,7 @@ Navigate to Program Location
 Use Pip to Install Dependencies
 
 ```
-Pip install requirements.txt
+Pip install -r requirements.txt
 ```
 
 ### Executing program
