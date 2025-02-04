@@ -1,5 +1,7 @@
 # EDD Frequency Control
 
+![Python Compile](https://github.com/AlexChapin/EDDFrequencyControl/actions/workflows/pythoncompile.yml/badge.svg)
+
 Simple application to create a tone and play it from system speakers.
 
 ## Description
@@ -31,8 +33,6 @@ Pip install requirements.txt
 * To execute the program simply run Main.py
 
 * To run the programmed set of frequencies run Main.py with the -a flag or change the value "runmanual" in Main.py 
-
-![Python Compile](https://github.com/AlexChapin/EDDFrequencyControl/actions/workflows/pythoncompile.yml/badge.svg)
 
 Windows:
 ```
