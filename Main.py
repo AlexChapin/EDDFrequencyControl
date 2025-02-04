@@ -1411,7 +1411,7 @@ else:
     sinewave1 = SineWave(
         pitch_per_second=autofreqsweeprate,
         decibels_per_second=np.abs(20 * np.log10(autoampsweeprate / 100)),
-        decibels=0,
+        decibels=(20 * np.log10(autoamp1 / 100)),
         pitch=12 * np.log2(autofreq1 / 440) + 9,
     )
     sinewave1.play()
