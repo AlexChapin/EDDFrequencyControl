@@ -81,29 +81,31 @@ autoampsweeprate = 10000  # Percent / Second
 
 dospecifictimer = False
 
-autofreq1 = 18  # Hz
-autoamp1 = 18  # Percent
+# ADJUST PLEASE
+
+autofreq1 = 22  # Hz
+autoamp1 = 7  # Percent
 autotime1 = 20  # Seconds
 
-autofreq2 = 20  # Hz
-autoamp2 = 12  # Percent
+autofreq2 = 17.5  # Hz
+autoamp2 = 3 # Percent
 autotime2 = 15  # Seconds
 
-autofreq3 = 12  # Hz
-autoamp3 = 10  # Percent
-autotime3 = 5  # Seconds
+autofreq3 = 22  # Hz
+autoamp3 = 7 # Percent
+autotime3 = 20  # Seconds
 
-autofreq4 = 18  # Hz
-autoamp4 = 18  # Percent
-autotime4 = 10  # Seconds
+autofreq4 = 17.5  # Hz
+autoamp4 = 3  # Percent
+autotime4 = 20  # Seconds
 
-autofreq5 = 18  # Hz
-autoamp5 = 18  # Percent
-autotime5 = 10  # Seconds
+autofreq5 = 16  # Hz
+autoamp5 = 10 # Percent
+autotime5 = 5  # Seconds
 
-autofreq6 = 18  # Hz
-autoamp6 = 18  # Percent
-autotime6 = 10  # Seconds
+autofreq6 = 40  # Hz
+autoamp6 = 50  # Percent
+autotime6 = 20  # Seconds
 
 # Version Number:
 version = "v1.0.4"
@@ -1354,6 +1356,7 @@ if runmanual:
         root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
     )
     responsetosubmitlabel3 = Label(
+     
         root, font=("font", smallfontsize), background=backgroundcolor, fg=textcolor
     )
     responsetosubmitlabel4 = Label(
