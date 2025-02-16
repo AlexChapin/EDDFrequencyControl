@@ -37,7 +37,7 @@ def checkstartupflags():
                 print("Starting With Flag: Automatic")
                 return
             if flag == "elise":
-                songfile = open("Elise.txt", "r")
+                songfile = open("Assets/Elise.txt", "r")
                 song = []
                 for line in songfile:
                     for num_str in line.split():
@@ -881,13 +881,13 @@ def pauseauto():
 platform = platform.system()
 root = Tk()
 if platform == "Windows":
-    root.iconbitmap("ICERootLogo.ico")
+    root.iconbitmap("Assets/ICERootLogo.ico")
     if runmanual:
         root.geometry("1220x800")
     else:
         root.geometry("1000x650")
 if platform == "Linux":
-    root.iconphoto(True, PhotoImage("ICERootLogoLinux.png"))
+    root.iconphoto(True, PhotoImage("Assets/ICERootLogoLinux.png"))
     if runmanual:
         root.geometry("1350x800")
     else:
@@ -926,7 +926,7 @@ if runmanual:
     hasstopped2 = True
 
     # Create Logo Block
-    image = Image.open("ICElogo.png")
+    image = Image.open("Assets/ICElogo.png")
     newsize = (425, 334)
     resizedimage = image.resize(newsize)
     logo = ImageTk.PhotoImage(resizedimage)
