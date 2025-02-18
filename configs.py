@@ -69,30 +69,44 @@ slowsweeprate2 = 2  # Pitch / Second
 autofreqsweeprate = 10000  # Pitch / Second
 autoampsweeprate = 10000  # Percent / Second
 
+# Include ms in Timer
 dospecifictimer = False
 
-# ADJUST PLEASE
-
+# Settings for State 1
 autofreq1 = 22  # Hz
 autoamp1 = 7  # Percent
 autotime1 = 20  # Seconds
 
+# Settings for State 2
 autofreq2 = 17.5  # Hz
 autoamp2 = 3 # Percent
 autotime2 = 15  # Seconds
 
+# Settings for State 3
 autofreq3 = 22  # Hz
 autoamp3 = 7 # Percent
 autotime3 = 20  # Seconds
 
+# Settings for State 4
 autofreq4 = 17.5  # Hz
 autoamp4 = 3  # Percent
 autotime4 = 20  # Seconds
 
+# Settings for State 5
 autofreq5 = 16  # Hz
 autoamp5 = 10 # Percent
 autotime5 = 5  # Seconds
 
+# Settings for State 6
 autofreq6 = 40  # Hz
 autoamp6 = 50  # Percent
 autotime6 = 20  # Seconds
+
+
+
+if __name__ == "__main__":
+    import sys
+    exitcode = 3
+    print("Please Run main.py Instead of configs.py!!!")
+    print("Process Exited With Exit Code:" + f"{exitcode}")
+    sys.exit(6)

@@ -53,19 +53,17 @@ def checkstartupflags():
             print(
                 "Invalid Flags!!! Use '-manual' or '-automatic' to start the program in either manual control or automatic control mode!"
             )
-            exitcode = 6
+            exitcode = 2
             print("Process Exited With Exit Code:" + f"{exitcode}")
             sys.exit(6)
-            return
         if len(sys.argv) != 2 and len(sys.argv) != 1:
-            exitcode = 5
+            exitcode = 1
             print("Incorrect Arguments Passed!!!")
             print(
                 "Use '-manual' or '-automatic' to start the program in either manual control or automatic control mode!"
             )
             print("Process Exited With Exit Code:" + f"{exitcode}")
             sys.exit(5)
-            return
 
 
 checkstartupflags()
@@ -116,14 +114,14 @@ i = 0
 while i < len(frequencies):
     try:
         if frequencies[i] > 20000 or frequencies[i] < 0:
-            exitcode = 10
+            exitcode = 4
             name = [k for k, v in globals().items() if id(v) == id(frequencies[i])][0]
             print("Error In Variable:" + name)
             print(f"{frequencies[i]}" + " Is Out Of Bounds For Frequency")
             print("Process Exited With Exit Code:" + f"{exitcode}")
             sys.exit(exitcode)
     except Exception:
-        exitcode = 11
+        exitcode = 5
         name = [k for k, v in globals().items() if id(v) == id(frequencies[i])][0]
         print("Error in Variable:" + name)
         print("Non Numerical Inputs Not Acceptable for Type Float")
@@ -136,14 +134,14 @@ i = 0
 while i < len(amplitudes):
     try:
         if amplitudes[i] > 100 or amplitudes[i] < 0:
-            exitcode = 12
+            exitcode = 6
             name = [k for k, v in globals().items() if id(v) == id(amplitudes[i])][0]
             print("Error In Variable:" + name)
             print(f"{amplitudes[i]}" + " Is Out Of Bounds For Amplitude")
             print("Process Exited With Exit Code:" + f"{exitcode}")
             sys.exit(exitcode)
     except Exception:
-        exitcode = 13
+        exitcode = 7
         name = [k for k, v in globals().items() if id(v) == id(amplitudes[i])][0]
         print("Error in Variable:" + name)
         print("Non Numerical Inputs Not Acceptable for Type Float")
