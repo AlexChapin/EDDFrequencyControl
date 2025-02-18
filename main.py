@@ -556,10 +556,10 @@ def createslidermenu():
     global activefreqlabel2
     slidermenuwindow = tk.Toplevel(root)
     if platform == "Windows":
-        slidermenuwindow.iconbitmap("ICERootLogo.ico")
+        slidermenuwindow.iconbitmap("Assets/ICERootLogo.ico")
         slidermenuwindow.geometry("800x550")
     if platform == "Linux":
-        slidermenuwindow.iconphoto(True, PhotoImage(file="ICERootLogoLinux.png"))
+        slidermenuwindow.iconphoto(True, PhotoImage(file="Assets/ICERootLogoLinux.png"))
         slidermenuwindow.geometry("800x550")
     slidermenuwindow.title("Frequency Sliders")
     slidermenuwindow.configure(background=backgroundcolor)
