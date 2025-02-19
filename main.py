@@ -889,7 +889,7 @@ if platform == "Linux":
     if runmanual:
         root.geometry("1350x800")
     else:
-        root.geometry("1000x600")
+        root.geometry("1000x650")
 if not runmanual:
     root.title("Frequency Generator " + version + " (Automatic)")
 else:
@@ -1368,7 +1368,7 @@ else:
         background=backgroundcolor,
         fg=textcolor,
     )
-    image = Image.open("ICElogo.png")
+    image = Image.open("Assets/ICElogo.png")
     newsize = (425, 334)
     resizedimage = image.resize(newsize)
     logo = ImageTk.PhotoImage(resizedimage)
