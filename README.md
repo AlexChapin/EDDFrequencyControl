@@ -48,17 +48,19 @@ If the program will not run check the console for errors due to setting presets 
 
 Exit Codes:
 
-5 -> Too Many Flags Passed
+1 -> Too Many Flags Passed
 
-6 -> Invalid Flags Passed
+2 -> Invalid Flags Passed
 
-10 -> Preset Frequency Set Incorrectly
+3 -> Tried to Run Configs.py
 
-11 -> Preset Frequency Set To Non-Numerical Value
+4 -> Preset Frequency Set Incorrectly
 
-12 -> Preset Amplitude Set Incorrectly
+5 -> Preset Frequency Set To Non-Numerical Value
 
-13 -> Preset Amplitude Set To Non-Numerical Value
+6 -> Preset Amplitude Set Incorrectly
+
+7 -> Preset Amplitude Set To Non-Numerical Value
 
 ## Authors
 
