@@ -4,7 +4,6 @@ import sys
 import platform
 import numpy as np
 import tkinter as tk
-from gpiozero import Servo
 from tkinter import *
 from PIL import ImageTk, Image
 from pysinewave import SineWave
