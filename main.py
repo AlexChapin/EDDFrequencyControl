@@ -4,13 +4,14 @@ import sys
 import platform
 import numpy as np
 import tkinter as tk
+from gpiozero import Servo
 from tkinter import *
 from PIL import ImageTk, Image
 from pysinewave import SineWave
 from configs import *
 
 # Version Number:
-version = "v1.0.4"
+version = "v1.0.5"
 
 # GUI Global Settings
 font = "Century"
@@ -37,6 +38,7 @@ def checkstartupflags():
                 print("Starting With Flag: Automatic")
                 return
             if flag == "elise":
+                print("Playing for Elise")
                 songfile = open("Assets/Elise.txt", "r")
                 song = []
                 for line in songfile:
@@ -719,6 +721,7 @@ def automatic():
     global autostate
     global scheduledauto
     if autostate == 1:
+        servo.setvalue(servopos1)
         sinewave1.set_frequency(autofreq1)
         sinewave1.set_volume(20 * np.log10(autoamp1 / 100))
         autostate = 2
@@ -727,6 +730,7 @@ def automatic():
         scheduledauto = root.after(autotime1 * 1000, automatic)
         return
     if autostate == 2:
+        servo.setvalue(servopos1)
         sinewave1.set_frequency(autofreq2)
         sinewave1.set_volume(20 * np.log10(autoamp2 / 100))
         autostate = 3
@@ -735,6 +739,7 @@ def automatic():
         scheduledauto = root.after(autotime2 * 1000, automatic)
         return
     if autostate == 3:
+        servo.setvalue(servopos1)
         sinewave1.set_frequency(autofreq3)
         sinewave1.set_volume(20 * np.log10(autoamp3 / 100))
         autostate = 4
@@ -743,6 +748,7 @@ def automatic():
         scheduledauto = root.after(autotime3 * 1000, automatic)
         return
     if autostate == 4:
+        servo.setvalue(servopos1)
         sinewave1.set_frequency(autofreq4)
         sinewave1.set_volume(20 * np.log10(autoamp4 / 100))
         autostate = 5
@@ -751,6 +757,7 @@ def automatic():
         scheduledauto = root.after(autotime4 * 1000, automatic)
         return
     if autostate == 5:
+        servo.setvalue(servopos1)
         sinewave1.set_frequency(autofreq5)
         sinewave1.set_volume(20 * np.log10(autoamp5 / 100))
         autostate = 6
@@ -759,6 +766,7 @@ def automatic():
         scheduledauto = root.after(autotime5 * 1000, automatic)
         return
     if autostate == 6:
+        servo.setvalue(servopos2)
         sinewave1.set_frequency(autofreq6)
         sinewave1.set_volume(20 * np.log10(autoamp6 / 100))
         autostate = 1
@@ -1311,6 +1319,8 @@ if runmanual:
     updatefrequency2()
 
 else:
+    servo = Servo(14)
+    servo.value = 0
     sinewave1 = SineWave(
         pitch_per_second=autofreqsweeprate,
         decibels_per_second=np.abs(20 * np.log10(autoampsweeprate / 100)),

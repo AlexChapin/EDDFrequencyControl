@@ -72,6 +72,11 @@ autoampsweeprate = 10000  # Percent / Second
 # Include ms in Timer
 dospecifictimer = False
 
+# Servo Settings
+servopos1 = -1
+servopos2 = 0
+servopos3 =1
+
 # Settings for State 1
 autofreq1 = 22  # Hz
 autoamp1 = 7  # Percent
