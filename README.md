@@ -70,7 +70,19 @@ Exit Codes:
 7 -> Preset Amplitude Set To Non-Numerical Value
 
 ## Raspberry Pi Audio Issues
-If a crackling sound is present in the audio stream when running on a raspberry pi 
+If a crackling sound is present in the audio stream when running on a raspberry pi modify the line
+```
+self.output_stream = sd.OutputStream(channels=channels, callback= lambda *args: self._callback(*args), 
+         samplerate=samplerate)
+```
+in Lib/site-packages/pysinewave/sinewave.py to read
+```
+self.output_stream = sd.OutputStream(blocksize=2048, channels=channels, callback= lambda *args: self._callback(*args), 
+         samplerate=samplerate)
+```
+
+If the issue persists increase the block rate further to 4096 or larger.
+*Make sure the value is a multiple of 2
 
 ## Authors
 
@@ -79,6 +91,8 @@ Alex Chapin
 
 ## Version History
 
+* 1.0.5
+    * 
 * 1.0.4
     * Added Automatic Operation Mode
     * 4 Preset Modes in Automatic
