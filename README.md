@@ -12,16 +12,23 @@ Plays two frequencies concurrently through system speakers. Allows setting of 5 
 
 Requires Packages:
 cffi
+colorzero
+gpiozero
 numpy
+pigpio
 pillow
 pycparser
 pysinewave
+setuptools
 sounddevice
 
 ### Installing
 
 Install Python 12 or 13
 Navigate to Program Location
+```
+cd /path/to/EDDFrequencyControl
+```
 Use Pip to Install Dependencies
 
 ```
@@ -61,6 +68,9 @@ Exit Codes:
 6 -> Preset Amplitude Set Incorrectly
 
 7 -> Preset Amplitude Set To Non-Numerical Value
+
+## Raspberry Pi Audio Issues
+If a crackling sound is present in the audio stream when running on a raspberry pi 
 
 ## Authors
 
