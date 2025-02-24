@@ -776,15 +776,64 @@ def automatic():
         return
     if autostate == 6:
         if runningonrasppi:
-            pi.set_servo_pulsewidth(12, servopos2)
+            pi.set_servo_pulsewidth(12, servopos1)
         sinewave1.set_frequency(autofreq6)
         sinewave1.set_volume(20 * np.log10(autoamp6 / 100))
-        autostate = 1
+        autostate = 7
         currentfreqlabel.config(text="Active Frequency: " + str(autofreq6) + " Hz")
         currentamplabel.config(text="Active Amplitude: " + str(autoamp6) + " %")
         scheduledauto = root.after(autotime6 * 1000, automatic)
         return
-
+    if autostate == 7:
+        if runningonrasppi:
+            pi.set_servo_pulsewidth(12, servopos1)
+        sinewave1.set_frequency(autofreq7)
+        sinewave1.set_volume(20 * np.log10(autoamp7 / 100))
+        autostate = 8
+        currentfreqlabel.config(text="Active Frequency: " + str(autofreq7) + " Hz")
+        currentamplabel.config(text="Active Amplitude: " + str(autoamp7) + " %")
+        scheduledauto = root.after(autotime7 * 1000, automatic)
+        return
+    if autostate == 8:
+        if runningonrasppi:
+            pi.set_servo_pulsewidth(12, servopos1)
+        sinewave1.set_frequency(autofreq8)
+        sinewave1.set_volume(20 * np.log10(autoamp8 / 100))
+        autostate = 9
+        currentfreqlabel.config(text="Active Frequency: " + str(autofreq8) + " Hz")
+        currentamplabel.config(text="Active Amplitude: " + str(autoamp8) + " %")
+        scheduledauto = root.after(autotime8 * 1000, automatic)
+        return
+    if autostate == 9:
+        if runningonrasppi:
+            pi.set_servo_pulsewidth(12, servopos1)
+        sinewave1.set_frequency(autofreq9)
+        sinewave1.set_volume(20 * np.log10(autoamp9 / 100))
+        autostate = 10
+        currentfreqlabel.config(text="Active Frequency: " + str(autofreq9) + " Hz")
+        currentamplabel.config(text="Active Amplitude: " + str(autoamp9) + " %")
+        scheduledauto = root.after(autotime9 * 1000, automatic)
+        return
+    if autostate == 10:
+        if runningonrasppi:
+            pi.set_servo_pulsewidth(12, servopos1)
+        sinewave1.set_frequency(autofreq10)
+        sinewave1.set_volume(20 * np.log10(autoamp10 / 100))
+        autostate = 11
+        currentfreqlabel.config(text="Active Frequency: " + str(autofreq10) + " Hz")
+        currentamplabel.config(text="Active Amplitude: " + str(autoamp10) + " %")
+        scheduledauto = root.after(autotime10 * 1000, automatic)
+        return
+    if autostate == 11:
+        if runningonrasppi:
+            pi.set_servo_pulsewidth(12, servopos2)
+        sinewave1.set_frequency(autofreq11)
+        sinewave1.set_volume(20 * np.log10(autoamp11 / 100))
+        autostate = 1
+        currentfreqlabel.config(text="Active Frequency: " + str(autofreq11) + " Hz")
+        currentamplabel.config(text="Active Amplitude: " + str(autoamp11) + " %")
+        scheduledauto = root.after(autotime11 * 1000, automatic)
+        return
 
 def automatictimer():
     global ms

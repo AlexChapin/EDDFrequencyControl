@@ -75,38 +75,61 @@ dospecifictimer = False
 # Servo Settings
 servopos1 = 1000
 servopos2 = 1250
-servopos3 = 1750
 
 # Settings for State 1
 autofreq1 = 22  # Hz
-autoamp1 = 7  # Percent
-autotime1 = 20  # Seconds
+autoamp1 = 3.5  # Percent
+autotime1 = 5  # Seconds
 
 # Settings for State 2
 autofreq2 = 17.5  # Hz
-autoamp2 = 3 # Percent
-autotime2 = 15  # Seconds
+autoamp2 = 2 # Percent
+autotime2 = 5  # Seconds
 
 # Settings for State 3
-autofreq3 = 22  # Hz
-autoamp3 = 7 # Percent
-autotime3 = 20  # Seconds
+autofreq3 = 16  # Hz
+autoamp3 = 2 # Percent
+autotime3 = 5  # Seconds
 
 # Settings for State 4
-autofreq4 = 17.5  # Hz
-autoamp4 = 3  # Percent
-autotime4 = 20  # Seconds
+autofreq4 = 22  # Hz
+autoamp4 = 3.5  # Percent
+autotime4 = 5  # Seconds
 
 # Settings for State 5
-autofreq5 = 16  # Hz
-autoamp5 = 10 # Percent
+autofreq5 = 17.5  # Hz
+autoamp5 = 2 # Percent
 autotime5 = 5  # Seconds
 
 # Settings for State 6
-autofreq6 = 40  # Hz
-autoamp6 = 50  # Percent
-autotime6 = 20  # Seconds
+autofreq6 = 22  # Hz
+autoamp6 = 3.5  # Percent
+autotime6 = 5  # Seconds
 
+# Settings for State 7
+autofreq7 = 16  # Hz
+autoamp7 = 2 # Percent
+autotime7 = 5  # Seconds
+
+# Settings for State 8
+autofreq8 = 22  # Hz
+autoamp8 = 3.5  # Percent
+autotime8 = 5  # Seconds
+
+# Settings for State 9
+autofreq9 = 17.5  # Hz
+autoamp9 = 2 # Percent
+autotime9 = 5  # Seconds
+
+# Settings for State 10
+autofreq10 = 22  # Hz
+autoamp10 = 3.5  # Percent
+autotime10 = 5  # Seconds
+
+# Settings for State 11
+autofreq11 = 40  # Hz
+autoamp11 = 25  # Percent
+autotime11 = 5  # Seconds
 
 
 if __name__ == "__main__":
