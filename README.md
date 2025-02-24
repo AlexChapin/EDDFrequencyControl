@@ -24,13 +24,30 @@ sounddevice
 
 ### Installing
 
-Install Python 12 or 13
+Install Python 11, 12 or 13
 Navigate to Program Location
+Use Git or Download Latest Release
+Navigate to Where the Software is Located
 ```
 cd /path/to/EDDFrequencyControl
 ```
-Use Pip to Install Dependencies
 
+Create a venv Environment
+```
+python -m venv /path/to/EDDFrequencyControl
+```
+
+Activate venv Environment
+Linux:
+```
+source bin/activate
+```
+Windows:
+```
+.\venv\Scripts\activate.bat
+```
+
+Use Pip to Install Dependencies
 ```
 Pip install -r requirements.txt
 ```
@@ -39,12 +56,25 @@ Pip install -r requirements.txt
 
 * To execute the program simply run Main.py
 
-* To run the programmed set of frequencies run Main.py with the -a flag or change the value "runmanual" in Main.py 
+* To run the programmed set of frequencies run Main.py with the -auto flag or change the value "runmanual" in Main.py
 
 Windows:
 ```
 & 'Path To Python Interpreter' 'Path to Main.py'
 ```
+
+Linux: (With Venv Activated)
+```
+python main.py
+```
+
+## Accepted Startup Flags
+
+* -a, -auto, -automatic -> Runs the Program in Automatic Mode
+
+* -m, -man, -manual -> Runs the Program in Manual Mode
+
+* elise -> Plays a little song for Elise
 
 ## Help
 
@@ -81,8 +111,8 @@ self.output_stream = sd.OutputStream(blocksize=2048, channels=channels, callback
          samplerate=samplerate)
 ```
 
-If the issue persists increase the block rate further to 4096 or larger.
-*Make sure the value is a multiple of 2
+If the issue persists increase the block size further to 4096 or larger.
+It is not recomended to increase the block size past 8192
 
 ## Authors
 
@@ -92,7 +122,13 @@ Alex Chapin
 ## Version History
 
 * 1.0.5
-    * 
+    * Added Servo Control
+    * Added 11 Automatic Phases
+    * Reduced CPU Load Averages
+    * Improved Timing Accuracy
+    * Moved Configs to configs.py
+    * Moved Assets to Assets Folder
+    * GUI Customization
 * 1.0.4
     * Added Automatic Operation Mode
     * 4 Preset Modes in Automatic
@@ -123,4 +159,7 @@ Alex Chapin
 * 1.0.0
     * Initial Release
     * Intial Frequency Functionality
-
+    * Configure Initial GUI
+    * Custom Inputs
+    * 2 Frequencies
+    * 5 Presets / Frequency
