@@ -137,4 +137,4 @@ if __name__ == "__main__":
     exitcode = 3
     print("Please Run main.py Instead of configs.py!!!")
     print("Process Exited With Exit Code:" + f"{exitcode}")
-    sys.exit(6)
+    sys.exit(exitcode)
