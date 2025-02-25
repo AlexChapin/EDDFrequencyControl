@@ -65,9 +65,17 @@ fastsweeprate2 = 1000000000  # Pitch / Second
 slowsweeprate1 = 2  # Pitch / Second
 slowsweeprate2 = 2  # Pitch / Second
 
+
+
+
+
 # Auto Settings
 autofreqsweeprate = 10000  # Pitch / Second
 autoampsweeprate = 10000  # Percent / Second
+
+# GPIO Pin to Run ServoPWM
+# Acceptable Pins: 12, 13, 18, 19
+gpioservopin = 12
 
 # Include ms in Timer
 dospecifictimer = False

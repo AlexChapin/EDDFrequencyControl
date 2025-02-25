@@ -91,13 +91,15 @@ Exit Codes:
 
 3 -> Tried to Run Configs.py
 
-4 -> Preset Frequency Set Incorrectly
+4 -> Tried to Set PWM Pin on Servo to an Invalid Pin Number
 
-5 -> Preset Frequency Set To Non-Numerical Value
+5 -> Preset Frequency Set Incorrectly
 
-6 -> Preset Amplitude Set Incorrectly
+6 -> Preset Frequency Set To Non-Numerical Value
 
-7 -> Preset Amplitude Set To Non-Numerical Value
+7 -> Preset Amplitude Set Incorrectly
+
+8 -> Preset Amplitude Set To Non-Numerical Value
 
 ## Raspberry Pi Audio Issues
 If a crackling sound is present in the audio stream when running on a raspberry pi modify the line
@@ -121,6 +123,11 @@ Alex Chapin
 
 ## Version History
 
+* 1.1.0
+    * Rutgers Release
+    * Tested / Demonstrated at HUNCH CDR (2/26/25)
+    * Allowed Setting of PWM Servo Pin
+    * 
 * 1.0.5
     * Added Servo Control
     * Added 11 Automatic Phases

@@ -33,10 +33,14 @@ def checkstartupflags():
         if len(sys.argv) == 2:
             flag = sys.argv[1]
             if flag == "-manual" or flag == "-m" or flag == "-man":
+                if runmanual:
+                    return
                 runmanual = True
                 print("Starting With Flag: Manual")
                 return
             if flag == "-auto" or flag == "-automatic" or flag == "-a":
+                if not runmanual:
+                    return
                 runmanual = False
                 print("Starting With Flag: Automatic")
                 return
@@ -119,14 +123,14 @@ i = 0
 while i < len(frequencies):
     try:
         if frequencies[i] > 20000 or frequencies[i] < 0:
-            exitcode = 4
+            exitcode = 5
             name = [k for k, v in globals().items() if id(v) == id(frequencies[i])][0]
             print("Error In Variable:" + name)
             print(f"{frequencies[i]}" + " Is Out Of Bounds For Frequency")
             print("Process Exited With Exit Code:" + f"{exitcode}")
             sys.exit(exitcode)
     except Exception:
-        exitcode = 5
+        exitcode = 6
         name = [k for k, v in globals().items() if id(v) == id(frequencies[i])][0]
         print("Error in Variable:" + name)
         print("Non Numerical Inputs Not Acceptable for Type Float")
@@ -139,14 +143,14 @@ i = 0
 while i < len(amplitudes):
     try:
         if amplitudes[i] > 100 or amplitudes[i] < 0:
-            exitcode = 6
+            exitcode = 7
             name = [k for k, v in globals().items() if id(v) == id(amplitudes[i])][0]
             print("Error In Variable:" + name)
             print(f"{amplitudes[i]}" + " Is Out Of Bounds For Amplitude")
             print("Process Exited With Exit Code:" + f"{exitcode}")
             sys.exit(exitcode)
     except Exception:
-        exitcode = 7
+        exitcode = 8
         name = [k for k, v in globals().items() if id(v) == id(amplitudes[i])][0]
         print("Error in Variable:" + name)
         print("Non Numerical Inputs Not Acceptable for Type Float")
@@ -1379,15 +1383,18 @@ if runmanual:
 
 else:
     if platform == "Linux":
-        if os.uname()[4][:3] == 'arm':
-            gpiozero.Device.pin_factory = PiGPIOFactory('127.0.0.1')
-            pi = pigpio.pi()
-            runningonrasppi = True
-        else:
-            runningonrasppi = False
+        gpiozero.Device.pin_factory = PiGPIOFactory('127.0.0.1')
+        pi = pigpio.pi()
+        runningonrasppi = True
     else:
         runningonrasppi = False
-    
+
+    if runningonrasppi and gpioservopin not in [12, 13, 18, 19]:
+        exitcode = 4
+        print("Error in Variable: gpioservopin")
+        print("Value Must Be 12, 13, 18, or 19")
+        print("Process Exited With Exit Code:" + f"{exitcode}")
+        sys.exit(exitcode)
     sinewave1 = SineWave(
         pitch_per_second=autofreqsweeprate,
         decibels_per_second=np.abs(20 * np.log10(autoampsweeprate / 100)),
