@@ -930,6 +930,7 @@ def pauseauto():
     global scheduledauto
     global scheduledtimer
     global sinewave1
+    global autostate
     if autopaused:
         autopaused = False
         pauseautobutton.config(text="Pause Automatic")
@@ -937,6 +938,10 @@ def pauseauto():
         automatic()
         automatictimer()
     else:
+        if autostate >= 2:
+            autostate = autostate - 1
+        else:
+            autostate = numberofautostates
         autopaused = True
         pauseautobutton.config(text="Resume Automatic")
         root.after_cancel(scheduledtimer)
@@ -944,6 +949,27 @@ def pauseauto():
         sinewave1.stop()
         scheduledauto = None
         scheduledtimer = None
+
+def restartauto():
+    global ms
+    global seconds
+    global minutes
+    global autopaused
+    global autostate
+    ms = 0
+    seconds = 0 
+    minutes = 0
+    waspaused = autopaused
+    if not autopaused:
+        root.after_cancel(scheduledtimer)
+        root.after_cancel(scheduledauto)
+    autopaused = True
+    autostate = 1
+    pauseauto()
+    if waspaused:
+        pauseauto()
+
+    
 
 
 # Create Root GUI
@@ -954,13 +980,13 @@ if platform == "Windows":
     if runmanual:
         root.geometry("1220x800")
     else:
-        root.geometry("1000x650")
+        root.geometry("1000x700")
 if platform == "Linux":
     root.iconphoto(True, PhotoImage("Assets/ICERootLogoLinux.png"))
     if runmanual:
         root.geometry("1350x800")
     else:
-        root.geometry("1000x650")
+        root.geometry("1000x700")
 if not runmanual:
     root.title("Frequency Generator " + version + " (Automatic)")
 else:
@@ -1446,9 +1472,17 @@ else:
     )
     pauseautobutton = Button(
         root,
-        text="Pause Auto",
+        text="Pause Automatic",
         font=("font", smallfontsize),
         command=pauseauto,
+        background=backgroundcolor,
+        fg=textcolor,
+    )
+    restartautobutton = Button(
+        root,
+        text="Restart Automatic",
+        font=("font", smallfontsize),
+        command=restartauto,
         background=backgroundcolor,
         fg=textcolor,
     )
@@ -1466,6 +1500,7 @@ else:
     currentamplabel.grid(column=5, row=8)
     timerlabel.grid(column=5, row=9)
     pauseautobutton.grid(column=5, row=10)
+    restartautobutton.grid(column=5, row=11)
 
     scheduledtimer = None
     ms = 0

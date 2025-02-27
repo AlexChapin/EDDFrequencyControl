@@ -84,6 +84,9 @@ dospecifictimer = False
 servopos1 = 1300
 servopos2 = 1850
 
+# Number of Auto States
+numberofautostates = 11
+
 # Settings for State 1
 autofreq1 = 22  # Hz
 autoamp1 = 3.5  # Percent
