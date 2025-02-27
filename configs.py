@@ -81,8 +81,8 @@ gpioservopin = 12
 dospecifictimer = False
 
 # Servo Settings
-servopos1 = 1000
-servopos2 = 1250
+servopos1 = 1300
+servopos2 = 1850
 
 # Settings for State 1
 autofreq1 = 22  # Hz

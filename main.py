@@ -51,7 +51,7 @@ def checkstartupflags():
                 for line in songfile:
                     for num_str in line.split():
                         song.append(int(num_str))
-                sinewave1 = SineWave(song[0], 24)
+                sinewave1 = SineWave(song[0], pitch_per_second=1000, decibels_per_second=1000)
                 sinewave1.play()
                 for pitch in song:
                     sinewave1.set_pitch(pitch)
