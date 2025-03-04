@@ -956,18 +956,25 @@ def restartauto():
     global minutes
     global autopaused
     global autostate
-    ms = 0
-    seconds = 0 
-    minutes = 0
     waspaused = autopaused
     if not autopaused:
         root.after_cancel(scheduledtimer)
         root.after_cancel(scheduledauto)
     autopaused = True
     autostate = 1
+    ms = 0
+    seconds = 0 
+    minutes = 0
     pauseauto()
+    ms = 0
+    seconds = 0
     if waspaused:
         pauseauto()
+    if dospecifictimer:
+        timerlabel.config(text="Time Running: 00:00.000")
+    else:
+        timerlabel.config(text="Time Running: 00:00")
+    
 
     
 
@@ -980,13 +987,13 @@ if platform == "Windows":
     if runmanual:
         root.geometry("1220x800")
     else:
-        root.geometry("1000x700")
+        root.geometry("1000x720")
 if platform == "Linux":
     root.iconphoto(True, PhotoImage("Assets/ICERootLogoLinux.png"))
     if runmanual:
         root.geometry("1350x800")
     else:
-        root.geometry("1000x700")
+        root.geometry("1000x720")
 if not runmanual:
     root.title("Frequency Generator " + version + " (Automatic)")
 else:
@@ -1500,7 +1507,7 @@ else:
     currentamplabel.grid(column=5, row=8)
     timerlabel.grid(column=5, row=9)
     pauseautobutton.grid(column=5, row=10)
-    restartautobutton.grid(column=5, row=11)
+    restartautobutton.grid(column=5, row=11, pady=10)
 
     scheduledtimer = None
     ms = 0
