@@ -125,16 +125,16 @@ while i < len(frequencies):
         if frequencies[i] > 20000 or frequencies[i] < 0:
             exitcode = 5
             name = [k for k, v in globals().items() if id(v) == id(frequencies[i])][0]
-            print("Error In Variable:" + name)
+            print("Error In Variable: " + name)
             print(f"{frequencies[i]}" + " Is Out Of Bounds For Frequency")
-            print("Process Exited With Exit Code:" + f"{exitcode}")
+            print("Process Exited With Exit Code: " + f"{exitcode}")
             sys.exit(exitcode)
     except Exception:
         exitcode = 6
         name = [k for k, v in globals().items() if id(v) == id(frequencies[i])][0]
-        print("Error in Variable:" + name)
+        print("Error in Variable: " + name)
         print("Non Numerical Inputs Not Acceptable for Type Float")
-        print("Process Exited With Exit Code:" + f"{exitcode}")
+        print("Process Exited With Exit Code: " + f"{exitcode}")
         sys.exit(exitcode)
     i += 1
 
@@ -145,16 +145,16 @@ while i < len(amplitudes):
         if amplitudes[i] > 100 or amplitudes[i] < 0:
             exitcode = 7
             name = [k for k, v in globals().items() if id(v) == id(amplitudes[i])][0]
-            print("Error In Variable:" + name)
+            print("Error In Variable: " + name)
             print(f"{amplitudes[i]}" + " Is Out Of Bounds For Amplitude")
-            print("Process Exited With Exit Code:" + f"{exitcode}")
+            print("Process Exited With Exit Code: " + f"{exitcode}")
             sys.exit(exitcode)
     except Exception:
         exitcode = 8
         name = [k for k, v in globals().items() if id(v) == id(amplitudes[i])][0]
-        print("Error in Variable:" + name)
+        print("Error in Variable: " + name)
         print("Non Numerical Inputs Not Acceptable for Type Float")
-        print("Process Exited With Exit Code:" + f"{exitcode}")
+        print("Process Exited With Exit Code: " + f"{exitcode}")
         sys.exit(exitcode)
     i += 1
     
