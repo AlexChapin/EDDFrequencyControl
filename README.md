@@ -127,7 +127,8 @@ Alex Chapin
     * Rutgers Release
     * Tested / Demonstrated at HUNCH CDR (2/26/25)
     * Allowed Setting of PWM Servo Pin
-    * 
+    * Ensured Accurate Servo Pin Setting
+    * Slight Logic Changes
 * 1.0.5
     * Added Servo Control
     * Added 11 Automatic Phases
