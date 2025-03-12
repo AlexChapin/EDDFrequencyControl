@@ -13,7 +13,7 @@ from configs import *
 from gpiozero.pins.pigpio import PiGPIOFactory
 
 # Version Number:
-version = "v1.0.5"
+version = "v1.1.0"
 
 # GUI Global Settings
 font = "Century"
