@@ -129,6 +129,7 @@ Alex Chapin
     * Allowed Setting of PWM Servo Pin
     * Ensured Accurate Servo Pin Setting
     * Slight Logic Changes
+    * Fixed Timer Issues
 * 1.0.5
     * Added Servo Control
     * Added 11 Automatic Phases
