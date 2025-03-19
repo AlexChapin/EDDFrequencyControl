@@ -5,6 +5,9 @@ import platform
 import numpy as np
 import tkinter as tk
 from tkinter import *
+import pigpio
+import gpiozero
+from gpiozero.pins.pigpio import PiGPIOFactory
 from PIL import ImageTk, Image
 from pysinewave import SineWave
 from configs import *
@@ -1412,9 +1415,6 @@ if runmanual:
 
 else:
     if platform == "Linux":
-        import pigpio
-        import gpiozero
-        from gpiozero.pins.pigpio import PiGPIOFactory
         gpiozero.Device.pin_factory = PiGPIOFactory('127.0.0.1')
         pi = pigpio.pi()
         runningonrasppi = True

@@ -145,5 +145,4 @@ autotime11 = 5  # Seconds
 
 if __name__ == "__main__":
     print("INFO: configs not meant to be run, executing main instead.")
-    import subprocess
-    subprocess.run(["python", "main.py"])
+    exec(open("main.py").read())
