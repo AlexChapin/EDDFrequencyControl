@@ -144,8 +144,6 @@ autotime11 = 5  # Seconds
 
 
 if __name__ == "__main__":
-    import sys
-    exitcode = 3
-    print("Please Run main.py Instead of configs.py!!!")
-    print("Process Exited With Exit Code:" + f"{exitcode}")
-    sys.exit(exitcode)
+    print("INFO: configs not meant to be run, executing main instead.")
+    import subprocess
+    subprocess.run(["python", "main.py"])
