@@ -4,13 +4,10 @@ import sys
 import platform
 import numpy as np
 import tkinter as tk
-import pigpio
-import gpiozero
 from tkinter import *
 from PIL import ImageTk, Image
 from pysinewave import SineWave
 from configs import *
-from gpiozero.pins.pigpio import PiGPIOFactory
 
 # Version Number:
 version = "v1.1.0"
@@ -35,16 +32,16 @@ def checkstartupflags():
                 if runmanual:
                     return
                 runmanual = True
-                print("Starting With Flag: Manual")
+                print("INFO: Starting With Flag: Manual")
                 return
             if flag == "-auto" or flag == "-automatic" or flag == "-a":
                 if not runmanual:
                     return
                 runmanual = False
-                print("Starting With Flag: Automatic")
+                print("INFO: Starting With Flag: Automatic")
                 return
             if flag == "elise":
-                print("Playing for Elise")
+                print("INFO: Playing for Elise")
                 songfile = open("Assets/Elise.txt", "r")
                 song = []
                 for line in songfile:
@@ -59,14 +56,14 @@ def checkstartupflags():
                 sinewave1.stop()
                 return
             print(
-                "Invalid Flags!!! Use '-manual' or '-automatic' to start the program in either manual control or automatic control mode!"
+                "WARNING: Invalid Flags!!! Use '-manual' or '-automatic' to start the program in either manual control or automatic control mode!"
             )
             exitcode = 2
             print("Process Exited With Exit Code:" + f"{exitcode}")
             sys.exit(6)
         if len(sys.argv) != 2 and len(sys.argv) != 1:
             exitcode = 1
-            print("Incorrect Arguments Passed!!!")
+            print("WARNING: Incorrect Arguments Passed!!!")
             print(
                 "Use '-manual' or '-automatic' to start the program in either manual control or automatic control mode!"
             )
@@ -124,15 +121,15 @@ while i < len(frequencies):
         if frequencies[i] > 20000 or frequencies[i] < 0:
             exitcode = 4
             name = [k for k, v in globals().items() if id(v) == id(frequencies[i])][0]
-            print("Error In Variable: " + name)
-            print(f"{frequencies[i]}" + " Is Out Of Bounds For Frequency")
+            print("WARNING: Error In Variable: " + name)
+            print(f"WARNING: {frequencies[i]}" + " Is Out Of Bounds For Frequency")
             print("Process Exited With Exit Code: " + f"{exitcode}")
             sys.exit(exitcode)
     except Exception:
         exitcode = 5
         name = [k for k, v in globals().items() if id(v) == id(frequencies[i])][0]
-        print("Error in Variable: " + name)
-        print("Non Numerical Inputs Not Acceptable for Type Float")
+        print("WARNING: Error in Variable: " + name)
+        print("WARNING: Non Numerical Inputs Not Acceptable for Type Float")
         print("Process Exited With Exit Code: " + f"{exitcode}")
         sys.exit(exitcode)
     i += 1
@@ -144,15 +141,15 @@ while i < len(amplitudes):
         if amplitudes[i] > 100 or amplitudes[i] < 0:
             exitcode = 6
             name = [k for k, v in globals().items() if id(v) == id(amplitudes[i])][0]
-            print("Error In Variable: " + name)
-            print(f"{amplitudes[i]}" + " Is Out Of Bounds For Amplitude")
+            print("WARNING: Error In Variable: " + name)
+            print(f"WARNING: {amplitudes[i]}" + " Is Out Of Bounds For Amplitude")
             print("Process Exited With Exit Code: " + f"{exitcode}")
             sys.exit(exitcode)
     except Exception:
         exitcode = 7
         name = [k for k, v in globals().items() if id(v) == id(amplitudes[i])][0]
-        print("Error in Variable: " + name)
-        print("Non Numerical Inputs Not Acceptable for Type Float")
+        print("WARNING: Error in Variable: " + name)
+        print("WARNING: Non Numerical Inputs Not Acceptable for Type Float")
         print("Process Exited With Exit Code: " + f"{exitcode}")
         sys.exit(exitcode)
     i += 1
@@ -403,7 +400,7 @@ def applycustom1():
         responsetosubmitlabel.config(
             text="Invalid Entry!", background="Yellow", foreground="Black"
         )
-        print("SET FREQ1 STRING ERROR")
+        print("WARNING: Using Non Numerical Inputs Are Not Acceptable for Frequency or Amplitude")
         return
 
     if private1.get() < 0:
@@ -450,7 +447,7 @@ def applycustom2():
         responsetosubmitlabel3.config(
             text="Invalid Entry!", background="Yellow", foreground="Black"
         )
-        print("SET FREQ2 STRING ERROR")
+        print("WARNING: Using Non Numerical Inputs Are Not Acceptable for Frequency or Amplitude")
         return
     if private1.get() < 0:
         responsetosubmitlabel3.config(text="Frequency Too Low!")
@@ -1415,6 +1412,9 @@ if runmanual:
 
 else:
     if platform == "Linux":
+        import pigpio
+        import gpiozero
+        from gpiozero.pins.pigpio import PiGPIOFactory
         gpiozero.Device.pin_factory = PiGPIOFactory('127.0.0.1')
         pi = pigpio.pi()
         runningonrasppi = True
@@ -1423,8 +1423,8 @@ else:
 
     if runningonrasppi and gpioservopin not in [12, 13, 18, 19]:
         exitcode = 3
-        print("Error in Variable: gpioservopin")
-        print("Value Must Be 12, 13, 18, or 19")
+        print("WARNING: Error in Variable: gpioservopin")
+        print("WARNING: Value Must Be 12, 13, 18, or 19")
         print("Process Exited With Exit Code:" + f"{exitcode}")
         sys.exit(exitcode)
     sinewave1 = SineWave(
