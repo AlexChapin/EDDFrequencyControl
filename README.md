@@ -89,17 +89,15 @@ Exit Codes:
 
 2 -> Invalid Flags Passed
 
-3 -> Tried to Run Configs.py
+3 -> Tried to Set PWM Pin on Servo to an Invalid Pin Number
 
-4 -> Tried to Set PWM Pin on Servo to an Invalid Pin Number
+4 -> Preset Frequency Set Incorrectly
 
-5 -> Preset Frequency Set Incorrectly
+5 -> Preset Frequency Set To Non-Numerical Value
 
-6 -> Preset Frequency Set To Non-Numerical Value
+6 -> Preset Amplitude Set Incorrectly
 
-7 -> Preset Amplitude Set Incorrectly
-
-8 -> Preset Amplitude Set To Non-Numerical Value
+7 -> Preset Amplitude Set To Non-Numerical Value
 
 ## Raspberry Pi Audio Issues
 If a crackling sound is present in the audio stream when running on a raspberry pi modify the line

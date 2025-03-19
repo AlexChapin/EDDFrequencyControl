@@ -122,14 +122,14 @@ i = 0
 while i < len(frequencies):
     try:
         if frequencies[i] > 20000 or frequencies[i] < 0:
-            exitcode = 5
+            exitcode = 4
             name = [k for k, v in globals().items() if id(v) == id(frequencies[i])][0]
             print("Error In Variable: " + name)
             print(f"{frequencies[i]}" + " Is Out Of Bounds For Frequency")
             print("Process Exited With Exit Code: " + f"{exitcode}")
             sys.exit(exitcode)
     except Exception:
-        exitcode = 6
+        exitcode = 5
         name = [k for k, v in globals().items() if id(v) == id(frequencies[i])][0]
         print("Error in Variable: " + name)
         print("Non Numerical Inputs Not Acceptable for Type Float")
@@ -142,14 +142,14 @@ i = 0
 while i < len(amplitudes):
     try:
         if amplitudes[i] > 100 or amplitudes[i] < 0:
-            exitcode = 7
+            exitcode = 6
             name = [k for k, v in globals().items() if id(v) == id(amplitudes[i])][0]
             print("Error In Variable: " + name)
             print(f"{amplitudes[i]}" + " Is Out Of Bounds For Amplitude")
             print("Process Exited With Exit Code: " + f"{exitcode}")
             sys.exit(exitcode)
     except Exception:
-        exitcode = 8
+        exitcode = 7
         name = [k for k, v in globals().items() if id(v) == id(amplitudes[i])][0]
         print("Error in Variable: " + name)
         print("Non Numerical Inputs Not Acceptable for Type Float")
@@ -1422,7 +1422,7 @@ else:
         runningonrasppi = False
 
     if runningonrasppi and gpioservopin not in [12, 13, 18, 19]:
-        exitcode = 4
+        exitcode = 3
         print("Error in Variable: gpioservopin")
         print("Value Must Be 12, 13, 18, or 19")
         print("Process Exited With Exit Code:" + f"{exitcode}")
